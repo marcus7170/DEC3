@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Operacional - Cálculos de Bobina</title>
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* VARIÁVEIS DE TEMA CLARO E ESCURO... */
+        :root {
+            --primary: #0056b3;
+            --secondary: #007bff;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            
+            --bg-color: #f0f2f5;
+            --card-bg: #ffffff;
+            --text-main: #1f2937;
+            --text-muted: #6b7280;
+            --border-color: #d1d5db;
+            --input-bg: #ffffff;
+            --input-disabled: #e5e7eb;
+            --card-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        [data-theme="dark"] {
+            --primary: #3b82f6;
+            --secondary: #60a5fa;
+            --bg-color: #0f172a; 
+            --card-bg: #1e293b; 
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border-color: #334155;
+            --input-bg: #0f172a;
+            --input-disabled: #1e293b;
+            --card-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            text-transform: uppercase; 
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            padding-bottom: 40px;
+        }
+
+        header {
+            position: relative;
+            text-align: center;
+            padding: 60px 20px;
+            margin-bottom: 40px;
+            background-image: linear-gradient(to bottom, rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 1)), url('https://www.revistadoaco.com.br/wp-content/uploads/2020/03/PatiodeBobinas_IanLopes_Divulg.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: white;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            border-bottom: 4px solid var(--primary);
+        }
+
+        header h1 {
+            font-size: 2.2rem;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+            margin-bottom: 10px;
+        }
+
+        header p {
+            font-size: 1.1rem;
+            color: #cbd5e1;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+        }
+
+        .theme-toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-transform: none;
+        }
+        .theme-toggle:hover { background: rgba(255, 255, 255, 0.2); transform: scale(1.05); }
+
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+
+        .home-selector {
+            background-color: var(--card-bg);
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 25px;
+            text-align: center;
+            border-top: 4px solid var(--primary);
+        }
+
+        .home-selector select {
+            padding: 15px;
+            font-size: 1.1rem;
+            width: 100%;
+            max-width: 500px;
+            margin-top: 15px;
+            font-weight: bold;
+            border-radius: 8px;
+            background-color: var(--input-bg);
+            color: var(--text-main);
+            border: 2px solid var(--border-color);
+            cursor: pointer;
+        }
+
+        .calc-section {
+            display: none; 
+            background-color: var(--card-bg);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 20px;
+        }
+
+        .calc-section.active { display: block; animation: slideUp 0.5s ease; }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        .calc-section h2 {
+            font-size: 1.4rem;
+            color: var(--primary);
+            margin-bottom: 25px;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 10px;
+        }
+
+        .row { display: flex; gap: 20px; flex-wrap: wrap; align-items: flex-end; }
+        .form-group { margin-bottom: 20px; flex: 1; min-width: 200px; }
+
+        .form-group label {
+            display: block;
+            font-weight: 800;
+            font-size: 0.85rem;
+            margin-bottom: 8px;
+            color: var(--text-muted);
+            letter-spacing: 1px;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            background-color: var(--input-bg);
+            color: var(--text-main);
+            outline: none;
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.2);
+        }
+        
+        .form-group input[readonly] {
+            background-color: var(--input-disabled);
+            color: var(--text-muted);
+            cursor: not-allowed;
+            border-style: dashed;
+        }
+
+        .toggle-msg-container {
+            margin-top: 25px; 
+            padding: 15px 20px; 
+            background: var(--primary); 
+            border-radius: 8px; 
+            display: flex;
+            align-items: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .toggle-msg-container label {
+            font-weight: 800; 
+            cursor: pointer; 
+            font-size: 1.2rem; 
+            color: white; 
+            margin-left: 15px;
+            letter-spacing: 1px;
+        }
+
+        .toggle-msg-container input {
+            transform: scale(1.8); 
+            cursor: pointer;
+            accent-color: var(--success);
+        }
+
+        .message-generator {
+            display: none; 
+            margin-top: 25px;
+            padding: 25px;
+            background-color: rgba(0, 0, 0, 0.03);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            animation: fadeIn 0.4s ease;
+        }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        [data-theme="dark"] .message-generator {
+            background-color: rgba(255, 255, 255, 0.02);
+        }
+
+        .btn {
+            background-color: var(--primary);
+            color: white;
+            padding: 14px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            width: 100%;
+            margin-top: 10px;
+            font-size: 1rem;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .btn:hover { background-color: var(--secondary); transform: translateY(-2px); box-shadow: 0 6px 12px rgba(0,0,0,0.2); }
+        .btn:active { transform: translateY(0); }
+
+        .btn-refresh {
+            background-color: var(--success);
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            height: 50px; 
+            font-weight: bold;
+        }
+        .btn-refresh:hover { opacity: 0.8; }
+
+        .message-card {
+            background-color: var(--input-bg);
+            border-left: 6px solid var(--warning);
+            padding: 20px;
+            margin-top: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            border-top: 1px solid var(--border-color);
+            border-right: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+        }
+        .message-card.li-msg { border-left-color: var(--danger); }
+        
+        .message-content {
+            font-family: 'Consolas', monospace;
+            background: var(--bg-color);
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 6px;
+            white-space: pre-wrap;
+            font-weight: bold;
+            font-size: 1.15rem;
+            text-transform: none; 
+            color: var(--text-main);
+            border: 1px solid var(--border-color);
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 60px;
+            padding: 30px;
+            color: var(--text-muted);
+            border-top: 1px solid var(--border-color);
+        }
+
+        footer p {
+            font-family: 'Rajdhani', sans-serif;
+            text-transform: none;
+            font-size: 1.2rem;
+            font-weight: 500;
+            margin-bottom: 5px;
+            letter-spacing: 0.5px;
+        }
+        footer p.sub { font-size: 1rem; opacity: 0.8; }
+
+    </style>
+</head>
+<body data-theme="dark">
+
+    <datalist id="lista-defeitos">
+        <option value="GB - ABERTURA GUARDA BOBINADORA"></option>
+        <option value="AT - AGUARD RESUL TESTE MECANICO"></option>
+        <option value="AP - AJUSTE DE PROPRIEDADE MECÂNICA"></option>
+        <option value="A0 - ALONGAMENTO IRREGULAR"></option>
+        <option value="AD - ALTERAÇÃO DE DIÂMETRO 610MM"></option>
+        <option value="L6 - AM0ST ANÁLISE RESÍDUO CARBONOS"></option>
+        <option value="A1 - AMASSAMENTO"></option>
+        <option value="A3 - AMOSTRAGEM DE MATERIAL"></option>
+        <option value="A4 - APARA DE PROCESSO"></option>
+        <option value="D3 - APARA POR REAPLICACAO"></option>
+        <option value="H2 - AVARIA NO TRANSPORTE EXTERNO"></option>
+        <option value="H1 - AVARIA NO TRANSPORTE INTERNO"></option>
+        <option value="J0 - BI SOLDA NATURAL"></option>
+        <option value="AA - BI TIPO A C/ ALTURA 0 A 30MM"></option>
+        <option value="AB - BI TIPO A C/ ALTURA 31 A 50MM"></option>
+        <option value="AC - BI TIPO A C/ ALTURA > 50MM"></option>
+        <option value="BA - BI TIPO B C/ ALTURA 0 A 30MM"></option>
+        <option value="BB - BI TIPO B C/ ALTURA 31 A 50MM"></option>
+        <option value="BC - BI TIPO B C/ ALTURA > 50MM"></option>
+        <option value="CA - BI TIPO C C/ ALTURA 0 A 30MM"></option>
+        <option value="CB - BI TIPO C C/ ALTURA 31 A 50MM"></option>
+        <option value="CC - BI TIPO C C/ ALTURA > 50MM"></option>
+        <option value="DA - BI TIPO D C/ ALTURA 0 A 30MM"></option>
+        <option value="DB - BI TIPO D C/ ALTURA 31 A 50MM"></option>
+        <option value="DC - BI TIPO D C/ ALTURA > 50MM"></option>
+        <option value="F3 - BOLHA"></option>
+        <option value="A5 - CALOMBO"></option>
+        <option value="F5 - CAREPA COBRE"></option>
+        <option value="CS - CAREPA SILICIOSA"></option>
+        <option value="R5 - CARGA DE EXCEÇÃO"></option>
+        <option value="A6 - CASCA DE LARANJA"></option>
+        <option value="F6 - CAVIDADE"></option>
+        <option value="D9 - CAVIDADE DE CAREPA DE ALTA TEM"></option>
+        <option value="D0 - CAVIDADE DE CAREPA EM FAIXA"></option>
+        <option value="D7 - CAVIDADE DE CAREPA EM PONTO"></option>
+        <option value="CP - CAVIDADE DE PÓ"></option>
+        <option value="L8 - CICLO DE RECOZIMENTO IRREGULAR"></option>
+        <option value="T5 - CILINDRO CROMADO"></option>
+        <option value="T4 - CILINDRO NORMAL"></option>
+        <option value="F9 - CINTAMENTO"></option>
+        <option value="D8 - COLAMENTO DE BORDA"></option>
+        <option value="CI - COMPOSIÇÃO QUIMICA IRREGULAR"></option>
+        <option value="A7 - CORRUGADO"></option>
+        <option value="A8 - COSTELETA"></option>
+        <option value="H9 - DEFEITO CAMBER DO LTQ"></option>
+        <option value="A9 - DEPOSITO DE CARBONO"></option>
+        <option value="1L - DESCARTE ETIQUETA DE PRODUTO"></option>
+        <option value="P4 - DESCARTE FORA DO PADRÃO"></option>
+        <option value="L1 - DESCARTE INEXISTENTE"></option>
+        <option value="PA - DESCARTE PADRÃO DE AMOSTRAGEM"></option>
+        <option value="P5 - DESCARTE PADRÃO INSUFICIENTE"></option>
+        <option value="1K - DESCARTE PARA SOLDA BGD"></option>
+        <option value="P6 - DESCARTE PREVISTO"></option>
+        <option value="T0 - DESCARTE TECNOLÓGICO LI"></option>
+        <option value="H3 - DEVOLUÇÃO ESTOQUE"></option>
+        <option value="1B - DIAMETRO 580-690 BOB IRREG"></option>
+        <option value="1A - DIAMETRO 580-690 BOB REGULAR"></option>
+        <option value="2C - DIAMETRO < 580mm"></option>
+        <option value="1C - DIAMETRO > 610mm"></option>
+        <option value="1F - DIAMETRO EXTERNO MAIOR"></option>
+        <option value="1G - DIAMETRO INTERNO IRREGULAR"></option>
+        <option value="L5 - DIGITO INCORRETO"></option>
+        <option value="DP - DIVERGÊNCIA DE PESO BALANÇA"></option>
+        <option value="DV - DIVISÃO DE PRODUTO FINAL NO TQ"></option>
+        <option value="P3 - DIVISÃO PUXADA DECAPAGEM 3"></option>
+        <option value="L2 - DUREZA HETEROGÊNEA"></option>
+        <option value="B0 - ENSAIOS"></option>
+        <option value="F4 - ENTALHE"></option>
+        <option value="H8 - ERRO DE GERAÇÃO DESCARTE NO N1"></option>
+        <option value="Z5 - ERRO OPERACIONAL DECAPAGENS"></option>
+        <option value="EM - ESFOLIACAO MECÂNICA"></option>
+        <option value="F1 - ESTUDO"></option>
+        <option value="B2 - FERRUGEM"></option>
+        <option value="B1 - FERRUGEM AR"></option>
+        <option value="J7 - FERRUGEM REC"></option>
+        <option value="Z1 - FINAL DE GRUPO"></option>
+        <option value="P0 - FORA DE BITOLA SOLDA"></option>
+        <option value="B3 - FORA DE DUREZA"></option>
+        <option value="TI - FORA DE TEMP INTERMEDIÁRIA"></option>
+        <option value="T8 - FORA ROTA LINHA DE INSPEÇÃO 1"></option>
+        <option value="X5 - GOTA FRIA (TL)"></option>
+        <option value="X4 - GOTA FRIA FACAO"></option>
+        <option value="Z2 - GRUPO COM 01 BQ"></option>
+        <option value="Z3 - GRUPO IMPAR"></option>
+        <option value="Z6 - GRUPO INCOMPLETO"></option>
+        <option value="H0 - HETEROGENEIDADE DE MICROESTRUT"></option>
+        <option value="B4 - INCLUSOES"></option>
+        <option value="T7 - INSPEÇÃO DE PRODUTO"></option>
+        <option value="IF - INVERSÃO DE FACE"></option>
+        <option value="L9 - JUNÇÃO DE GRUPO INDEVIDO"></option>
+        <option value="P9 - LE BAIXO (RL DE BAIXA TON)"></option>
+        <option value="B5 - LINHA DE DISTENSAO"></option>
+        <option value="G1 - MANCHA AZULADA"></option>
+        <option value="ME - MANCHA ESCURA"></option>
+        <option value="B7 - MARCA ATRITO ESCURO"></option>
+        <option value="B6 - MARCA DE ATRITO"></option>
+        <option value="B8 - MARCA DE COLAMENTO"></option>
+        <option value="B9 - MARCA DE ELEVADOR"></option>
+        <option value="C0 - MARCA DE PNEU"></option>
+        <option value="P8 - MARCA DE PONTA NO BOBINAMENTO"></option>
+        <option value="C1 - MARCA DE PREGO"></option>
+        <option value="C2 - MARCA DE RAMPA"></option>
+        <option value="F2 - MARCA DE SELA"></option>
+        <option value="G6 - MARCA DE SELO"></option>
+        <option value="MS - MARCA DE SUJEIRA"></option>
+        <option value="C3 - MARCA DE SUJEIRA FAIXA"></option>
+        <option value="C4 - MARCA DE SUJEIRA FULIGEM"></option>
+        <option value="C5 - MARCA DE SUJEIRA GRAXA"></option>
+        <option value="C6 - MARCA DE SUJEIRA OLEO"></option>
+        <option value="C9 - MARCA DE SUJEIRA PONTA INICIAL"></option>
+        <option value="F8 - MARCA DESLIZAMENTO TRANS"></option>
+        <option value="DT - MARCA DESLIZAMENTO TRANSVERSAL"></option>
+        <option value="J1 - MARCA EM FAIXA SINUOSA"></option>
+        <option value="G0 - MARCA SUJEIRA BORRACHA"></option>
+        <option value="G2 - MARCA SUPERFICIAL"></option>
+        <option value="FE - MATERIAL FORA DE ESPECIFICACAO"></option>
+        <option value="MP - MATERIAL PULANDO NAS MESAS"></option>
+        <option value="MV - MATERIAL VENCIDO NO PA"></option>
+        <option value="L7 - MC DESPRENDIMENTO DE CROMO"></option>
+        <option value="J2 - MOLHAMENTO"></option>
+        <option value="C7 - OLEO QUEIMADO CRAQUEADO"></option>
+        <option value="Z4 - OUTROS DECAPAGEM"></option>
+        <option value="L3 - OXIDAÇÃO EM PONTOS"></option>
+        <option value="C8 - OXIDO BRANCO"></option>
+        <option value="A2 - PASSAGEM DE AGUA"></option>
+        <option value="P2 - PASSAGEM DE SOLUÇÃO"></option>
+        <option value="PL - PENDENTE LTF"></option>
+        <option value="G7 - PESO A MAIS"></option>
+        <option value="1E - PESO A MAIS"></option>
+        <option value="1D - PESO A MENOS"></option>
+        <option value="PT - PESO TEÓRICO"></option>
+        <option value="L4 - PLANICIDADE IRREGULAR"></option>
+        <option value="P1 - PONTA NÃO ENCRUADA"></option>
+        <option value="AG - PONTAS AGR"></option>
+        <option value="AE - PONTAS AUTOMATICA POR FB"></option>
+        <option value="X3 - PONTAS FURO"></option>
+        <option value="1H - PREPARAÇÃO DE SOLDA"></option>
+        <option value="ZE - PROD 05 EMBALADO NO LA"></option>
+        <option value="P7 - PROJETO DE QUALIDADE"></option>
+        <option value="PM - PROPRIEDADE MECÂNICA"></option>
+        <option value="D1 - QUEBRA DE BORDA"></option>
+        <option value="D2 - QUEBRA DE BORDA PERFIL"></option>
+        <option value="D4 - QUEBRA DE COLAMENTO"></option>
+        <option value="D5 - QUEBRA DE SUPERFICIE RUGA"></option>
+        <option value="Z7 - RABADA"></option>
+        <option value="F7 - RABO DE PEIXE"></option>
+        <option value="H5 - REAMOSTRA FORA DE POSICAO"></option>
+        <option value="H4 - REAMOSTRA HOMOLOGACAO"></option>
+        <option value="H6 - REAMOSTRA TAMANHO INCORRETO"></option>
+        <option value="E1 - REAMOSTRAGEM"></option>
+        <option value="RM - REAPLICAÇÃO DE MATERIAL"></option>
+        <option value="D6 - RECOZIMENTO AZUL"></option>
+        <option value="E3 - REFECTANCIA BAIXA"></option>
+        <option value="R9 - REINSPEÇÃO DE ROTINA"></option>
+        <option value="R1 - REINSPEÇÃO LINHA DE INSPEÇÃO 1"></option>
+        <option value="R2 - REINSPEÇÃO LINHA DE INSPEÇÃO 2"></option>
+        <option value="RS - REINSPEÇÃO SUPORTE LTQ"></option>
+        <option value="F0 - RELEVO IRREGULAR"></option>
+        <option value="RP - REPESAGEM"></option>
+        <option value="E2 - REPROCESSAMENTO"></option>
+        <option value="1J - RESOLDAGEM"></option>
+        <option value="R0 - RESPINGOS DE ÁGUA"></option>
+        <option value="R3 - RUGOSIDADE ALTA"></option>
+        <option value="R4 - RUGOSIDADE BAIXA"></option>
+        <option value="E0 - RUGOSIDADE IRREGULAR"></option>
+        <option value="H7 - SEGUNDA AMOSTRA PARA ANALISE"></option>
+        <option value="G8 - SOLDA"></option>
+        <option value="R7 - SOLDA AGR"></option>
+        <option value="T3 - SOLDA DO MIOLO LTF QUEBRADA"></option>
+        <option value="G9 - SOLDA EXTRA"></option>
+        <option value="R8 - SOLDA MATERIAL NÃO APARADO"></option>
+        <option value="T6 - SOLDA MIOLO LTF"></option>
+        <option value="R6 - TEMPO ALTO DE ESTOQUE - PA"></option>
+        <option value="L0 - TESTE LIMPEZA ALGODÃO BAIXA"></option>
+        <option value="Z9 - TOPO AMASSADO BOBIN IRREGULAR"></option>
+        <option value="Z8 - TOPO AMASSADO FORA LARGURA +"></option>
+        <option value="X2 - TOPO AMASSADO MANUSEIO"></option>
+        <option value="X1 - TOPO AMASSADO RABADA"></option>
+        <option value="TR - TRINCA / FENDA"></option>
+        <option value="T2 - TROCA DE EMBALAGEM AVARIADA"></option>
+        <option value="T1 - TROCA DE EMBALAGEM REAPLICAÇÃO"></option>
+        <option value="TE - TROCA DE ESPESSURA"></option>
+        <option value="J8 - VERIFICAÇÃO DE PESO"></option>
+        <option value="E4 - VERMICULOSE"></option>
+        <option value="E5 - VERRUGA"></option>
+        <option value="G5 - VINCO BORDA E INTERMEDIARIO"></option>
+        <option value="E6 - VINCO CENTRAL"></option>
+        <option value="G3 - VINCO CENTRO E BORDA"></option>
+        <option value="G4 - VINCO CENTRO E INTERMEDIARIO"></option>
+        <option value="E8 - VINCO DE BORDA"></option>
+        <option value="E9 - VINCO INTERMEDIARIOA"></option>
+        <option value="E7 - VINCO QUEBRA DE COLAMENTO"></option>
+    </datalist>
+
+    <header>
+        <button class="theme-toggle" onclick="toggleTheme()" id="btnTheme">
+            ☀️ MUDAR PARA TEMA CLARO
+        </button>
+        <h1>Painel Operacional de Bobinas</h1>
+        <p>SISTEMA INTELIGENTE DE CÁLCULO DIMENSIONAL E ALERTAS (LTF / LI)</p>
+    </header>
+
+    <div class="container">
+        
+        <div class="home-selector">
+            <label style="color: var(--text-muted);">SELECIONE A OPERAÇÃO DESEJADA:</label>
+            <select id="operacao_select" onchange="mudarAba()">
+                <option value="metragem" selected>⭐ POSIÇÃO PELA METRAGEM</option>
+                <option value="peso">⭐ POSIÇÃO PELO PESO</option>
+            </select>
+        </div>
+
+        <div id="aba_metragem" class="calc-section active">
+            <h2>1. DADOS DIMENSIONAIS (PELA METRAGEM)</h2>
+            <div class="row">
+                <div class="form-group">
+                    <label>METRAGEM (m)</label>
+                    <input type="number" id="m_metragem" placeholder="DIGITE A METRAGEM..." oninput="atualizarPorMetragem()">
+                </div>
+                <div class="form-group">
+                    <label>LARGURA (mm)</label>
+                    <input type="number" id="m_largura" placeholder="DIGITE A LARGURA..." oninput="atualizarPorMetragem()">
+                </div>
+                <div class="form-group">
+                    <label>ESPESSURA (mm)</label>
+                    <input type="number" id="m_esp" step="0.01" placeholder="DIGITE A ESPESSURA..." oninput="atualizarPorMetragem()">
+                </div>
+                <div class="form-group">
+                    <label>PESO (kg)</label>
+                    <input type="number" id="m_peso" placeholder="AUTO OU MANUAL" oninput="forcarCoroaMetragem()">
+                </div>
+            </div>
+
+            <div class="toggle-msg-container">
+                <input type="checkbox" id="m_check_abrir_msg" onchange="toggleMensagens('m')">
+                <label for="m_check_abrir_msg">GERAR MENSAGENS AUTOMÁTICAS? (SIM)</label>
+            </div>
+
+            <div id="m_bloco_mensagens" class="message-generator">
+                <h2>2. CONFIGURAÇÃO DO DEFEITO</h2>
+                <div class="row">
+                    <div class="form-group" style="flex: 2;">
+                        <label>QUAL DEFEITO?</label>
+                        <input list="lista-defeitos" id="m_msg_defeito" placeholder="DIGITE O NOME OU CÓDIGO..." oninput="gerarMsg('m')">
+                    </div>
+                    <div class="form-group">
+                        <label>FACE</label>
+                        <select id="m_msg_posicao" onchange="gerarMsg('m')">
+                            <option value="SUPERIOR">SUPERIOR</option>
+                            <option value="INFERIOR">INFERIOR</option>
+                            <option value="AMBAS AS FACES">AMBAS AS FACES</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>LADO / POSIÇÃO</label>
+                        <select id="m_msg_lado" onchange="verificarLado('m')">
+                            <option value="MOTOR">MOTOR</option>
+                            <option value="OPERAÇÃO">OPERAÇÃO</option>
+                            <option value="BORDAS">BORDAS</option>
+                            <option value="CENTRO">CENTRO</option>
+                        </select>
+                    </div>
+                    <div class="form-group" id="m_grupo_distancia" style="display: block;">
+                        <label>DISTÂNCIA (A QUANTOS MM?)</label>
+                        <input type="number" id="m_msg_mm" placeholder="EX: 50" oninput="gerarMsg('m')">
+                    </div>
+                </div>
+
+                <div class="row" style="align-items: flex-end;">
+                    <div class="form-group">
+                        <label>NOVA VELOCIDADE (MPM)</label>
+                        <input type="number" id="m_msg_velocidade" placeholder="EX: 150" oninput="gerarMsg('m')">
+                    </div>
+                    <div class="form-group">
+                        <label>COROA (mm) - CALC. AUTOMÁTICO</label>
+                        <input type="text" id="m_msg_coroa" readonly placeholder="AGUARDANDO DADOS...">
+                    </div>
+                    <div class="form-group" style="flex: 0 0 auto;">
+                        <button class="btn-refresh" onclick="forcarCoroaMetragem()" title="Atualizar Coroa">🔄 ATUALIZAR COROA</button>
+                    </div>
+                </div>
+
+                <div style="margin-top: 10px; padding: 15px; background: var(--bg-color); border-radius: 8px; border: 1px solid var(--border-color);">
+                    <input type="checkbox" id="m_check_gerar_li" onchange="gerarMsg('m')" style="transform: scale(1.5); margin-right: 15px; cursor: pointer;">
+                    <label for="m_check_gerar_li" style="font-weight:bold; cursor:pointer; font-size: 1.1rem;">INCLUIR ALERTA PARA LI'S?</label>
+                </div>
+
+                <div id="m_resultado_mensagens">
+                    <div class="message-card">
+                        <h4 style="color: var(--warning);">MENSAGEM LTF</h4>
+                        <div class="message-content" id="m_txt_ltf">PREENCHA OS DADOS ACIMA...</div>
+                        <button class="btn" style="background-color: var(--warning); color: #000;" onclick="copiarTexto('m_txt_ltf', this)">📋 COPIAR MENSAGEM LTF</button>
+                    </div>
+                    <div class="message-card li-msg" id="m_card_li" style="display: none;">
+                        <h4 style="color: var(--danger);">MENSAGEM LI'S</h4>
+                        <div class="message-content" id="m_txt_li"></div>
+                        <button class="btn" style="background-color: var(--danger);" onclick="copiarTexto('m_txt_li', this)">📋 COPIAR MENSAGEM LI</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="aba_peso" class="calc-section">
+            <h2>1. DADOS DIMENSIONAIS (PELO PESO)</h2>
+            <div class="row">
+                <div class="form-group">
+                    <label>PESO (kg)</label>
+                    <input type="number" id="p_peso" placeholder="DIGITE O PESO..." oninput="atualizarPorPeso()">
+                </div>
+                <div class="form-group">
+                    <label>LARGURA (mm)</label>
+                    <input type="number" id="p_largura" placeholder="DIGITE A LARGURA..." oninput="atualizarPorPeso()">
+                </div>
+                <div class="form-group">
+                    <label>ESPESSURA (mm)</label>
+                    <input type="number" id="p_esp" step="0.01" placeholder="DIGITE A ESPESSURA..." oninput="atualizarPorPeso()">
+                </div>
+                <div class="form-group">
+                    <label>METRAGEM CALCULADA (m)</label>
+                    <input type="text" id="p_metragem" readonly placeholder="AGUARDANDO DADOS...">
+                </div>
+            </div>
+
+            <div class="toggle-msg-container">
+                <input type="checkbox" id="p_check_abrir_msg" onchange="toggleMensagens('p')">
+                <label for="p_check_abrir_msg">GERAR MENSAGENS AUTOMÁTICAS? (SIM)</label>
+            </div>
+
+            <div id="p_bloco_mensagens" class="message-generator">
+                <h2>2. CONFIGURAÇÃO DO DEFEITO</h2>
+                <div class="row">
+                    <div class="form-group" style="flex: 2;">
+                        <label>QUAL DEFEITO?</label>
+                        <input list="lista-defeitos" id="p_msg_defeito" placeholder="DIGITE O NOME OU CÓDIGO..." oninput="gerarMsg('p')">
+                    </div>
+                    <div class="form-group">
+                        <label>FACE</label>
+                        <select id="p_msg_posicao" onchange="gerarMsg('p')">
+                            <option value="SUPERIOR">SUPERIOR</option>
+                            <option value="INFERIOR">INFERIOR</option>
+                            <option value="AMBAS AS FACES">AMBAS AS FACES</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>LADO / POSIÇÃO</label>
+                        <select id="p_msg_lado" onchange="verificarLado('p')">
+                            <option value="MOTOR">MOTOR</option>
+                            <option value="OPERAÇÃO">OPERAÇÃO</option>
+                            <option value="BORDAS">BORDAS</option>
+                            <option value="CENTRO">CENTRO</option>
+                        </select>
+                    </div>
+                    <div class="form-group" id="p_grupo_distancia" style="display: block;">
+                        <label>DISTÂNCIA (A QUANTOS MM?)</label>
+                        <input type="number" id="p_msg_mm" placeholder="EX: 50" oninput="gerarMsg('p')">
+                    </div>
+                </div>
+
+                <div class="row" style="align-items: flex-end;">
+                    <div class="form-group">
+                        <label>NOVA VELOCIDADE (MPM)</label>
+                        <input type="number" id="p_msg_velocidade" placeholder="EX: 150" oninput="gerarMsg('p')">
+                    </div>
+                    <div class="form-group">
+                        <label>COROA (mm) - CALC. AUTOMÁTICO</label>
+                        <input type="text" id="p_msg_coroa" readonly placeholder="AGUARDANDO DADOS...">
+                    </div>
+                    <div class="form-group" style="flex: 0 0 auto;">
+                        <button class="btn-refresh" onclick="forcarCoroaPeso()" title="Atualizar Coroa">🔄 ATUALIZAR COROA</button>
+                    </div>
+                </div>
+
+                <div style="margin-top: 10px; padding: 15px; background: var(--bg-color); border-radius: 8px; border: 1px solid var(--border-color);">
+                    <input type="checkbox" id="p_check_gerar_li" onchange="gerarMsg('p')" style="transform: scale(1.5); margin-right: 15px; cursor: pointer;">
+                    <label for="p_check_gerar_li" style="font-weight:bold; cursor:pointer; font-size: 1.1rem;">INCLUIR ALERTA PARA LI'S?</label>
+                </div>
+
+                <div id="p_resultado_mensagens">
+                    <div class="message-card">
+                        <h4 style="color: var(--warning);">MENSAGEM LTF</h4>
+                        <div class="message-content" id="p_txt_ltf">PREENCHA OS DADOS ACIMA...</div>
+                        <button class="btn" style="background-color: var(--warning); color: #000;" onclick="copiarTexto('p_txt_ltf', this)">📋 COPIAR MENSAGEM LTF</button>
+                    </div>
+                    <div class="message-card li-msg" id="p_card_li" style="display: none;">
+                        <h4 style="color: var(--danger);">MENSAGEM LI'S</h4>
+                        <div class="message-content" id="p_txt_li"></div>
+                        <button class="btn" style="background-color: var(--danger);" onclick="copiarTexto('p_txt_li', this)">📋 COPIAR MENSAGEM LI</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <footer>
+        <p>Criado por Marcus V. Soares da Silva. - U012697</p>
+        <p class="sub">Experimental & Voluntário. Voltado para fins não lucrativos.</p>
+    </footer>
+
+    <script>
+        // --- TEMA ---
+        function toggleTheme() {
+            const body = document.body;
+            const btn = document.getElementById('btnTheme');
+            if (body.getAttribute('data-theme') === 'dark') {
+                body.removeAttribute('data-theme');
+                btn.innerHTML = '🌙 MUDAR PARA TEMA ESCURO';
+                btn.style.color = '#1f2937';
+                btn.style.borderColor = '#1f2937';
+            } else {
+                body.setAttribute('data-theme', 'dark');
+                btn.innerHTML = '☀️ MUDAR PARA TEMA CLARO';
+                btn.style.color = 'white';
+                btn.style.borderColor = 'rgba(255,255,255,0.2)';
+            }
+        }
+
+        // --- NAVEGAÇÃO ENTRE ABAS ---
+        function mudarAba() {
+            document.querySelectorAll('.calc-section').forEach(s => s.classList.remove('active'));
+            const sel = document.getElementById('operacao_select').value;
+            document.getElementById('aba_' + sel).classList.add('active');
+        }
+
+        // --- MOSTRAR/OCULTAR GERADOR DE MENSAGENS ---
+        function toggleMensagens(prefix) {
+            const isChecked = document.getElementById(`${prefix}_check_abrir_msg`).checked;
+            const blocoMsg = document.getElementById(`${prefix}_bloco_mensagens`);
+            blocoMsg.style.display = isChecked ? 'block' : 'none';
+            if(isChecked) gerarMsg(prefix);
+        }
+
+        function verificarLado(prefix) {
+            const lado = document.getElementById(`${prefix}_msg_lado`).value.toUpperCase();
+            const grupoDistancia = document.getElementById(`${prefix}_grupo_distancia`);
+            
+            if (lado === 'MOTOR' || lado === 'OPERAÇÃO' || lado === 'BORDAS') {
+                grupoDistancia.style.display = 'block';
+            } else {
+                grupoDistancia.style.display = 'none';
+                document.getElementById(`${prefix}_msg_mm`).value = ''; 
+            }
+            gerarMsg(prefix);
+        }
+
+        // ================= LÓGICAS ABA METRAGEM =================
+        function atualizarPorMetragem() {
+            const metragem = parseFloat(document.getElementById('m_metragem').value) || 0;
+            const largura = parseFloat(document.getElementById('m_largura').value) || 0;
+            const esp = parseFloat(document.getElementById('m_esp').value) || 0;
+
+            if (metragem > 0 && largura > 0 && esp > 0) {
+                const peso = metragem * (largura / 1000) * esp * 7.85;
+                document.getElementById('m_peso').value = peso.toFixed(2);
+            }
+            forcarCoroaMetragem();
+        }
+
+        function forcarCoroaMetragem() {
+            const peso = parseFloat(document.getElementById('m_peso').value) || 0;
+            const largura = parseFloat(document.getElementById('m_largura').value) || 0;
+            const campoCoroa = document.getElementById('m_msg_coroa');
+
+            if (peso > 0 && largura > 0) {
+                const constante = 0.00000785 * largura * (3.1416 / 4);
+                const termo1 = peso / constante;
+                const termo2 = termo1 + (610 * 610);
+                const diametroExterno = Math.sqrt(termo2);
+                const coroa = (diametroExterno - 610) / 2;
+                campoCoroa.value = Math.round(coroa);
+            } else {
+                campoCoroa.value = "DADOS INSUF.";
+            }
+            gerarMsg('m');
+        }
+
+        // ================= LÓGICAS ABA PESO =================
+        function atualizarPorPeso() {
+            const peso = parseFloat(document.getElementById('p_peso').value) || 0;
+            const largura = parseFloat(document.getElementById('p_largura').value) || 0;
+            const esp = parseFloat(document.getElementById('p_esp').value) || 0;
+
+            if (peso > 0 && largura > 0 && esp > 0) {
+                const metragem = peso / ((largura / 1000) * esp * 7.85);
+                document.getElementById('p_metragem').value = metragem.toFixed(2);
+            } else {
+                document.getElementById('p_metragem').value = "";
+            }
+            forcarCoroaPeso();
+        }
+
+        function forcarCoroaPeso() {
+            const peso = parseFloat(document.getElementById('p_peso').value) || 0;
+            const largura = parseFloat(document.getElementById('p_largura').value) || 0;
+            const campoCoroa = document.getElementById('p_msg_coroa');
+
+            if (peso > 0 && largura > 0) {
+                const constante = 0.00000785 * largura * (3.1416 / 4);
+                const termo1 = peso / constante;
+                const termo2 = termo1 + (610 * 610);
+                const diametroExterno = Math.sqrt(termo2);
+                const coroa = (diametroExterno - 610) / 2;
+                campoCoroa.value = Math.round(coroa);
+            } else {
+                campoCoroa.value = "DADOS INSUF.";
+            }
+            gerarMsg('p');
+        }
+
+        // ================= GERAÇÃO DE MENSAGENS (UNIVERSAL) =================
+        function gerarMsg(prefix) {
+            if(!document.getElementById(`${prefix}_check_abrir_msg`).checked) return;
+
+            let defeitoInput = document.getElementById(`${prefix}_msg_defeito`).value.trim().toUpperCase() || "_____";
+            
+            // INTELIGÊNCIA DO DEFEITO: Se o usuário selecionar da lista (Ex: "A1 - AMASSAMENTO"),
+            // o sistema remove o código "A1 - " e deixa só "AMASSAMENTO" para a mensagem ficar limpa.
+            if (defeitoInput.includes(" - ")) {
+                defeitoInput = defeitoInput.split(" - ")[1].trim();
+            }
+
+            const posicao = document.getElementById(`${prefix}_msg_posicao`).value.toUpperCase();
+            const lado = document.getElementById(`${prefix}_msg_lado`).value.toUpperCase();
+            const velocidade = document.getElementById(`${prefix}_msg_velocidade`).value || "___";
+            const mm = document.getElementById(`${prefix}_msg_mm`).value;
+            
+            let coroa = document.getElementById(`${prefix}_msg_coroa`).value;
+            if (coroa === "DADOS INSUF." || coroa === "") coroa = "___";
+
+            // Gramática da Face
+            let textoFace = posicao === "AMBAS AS FACES" ? "EM AMBAS AS FACES" : `NA FACE ${posicao}`; 
+
+            // Gramática do Lado
+            let textoLado = "";
+            if (lado === "BORDAS") textoLado = "NAS BORDAS";
+            else if (lado === "CENTRO") textoLado = "NO CENTRO";
+            else textoLado = `NO LADO ${lado}`; 
+
+            // Motivo c/ mm minúsculo
+            let motivo = `${defeitoInput} ${textoFace}, ${textoLado}`;
+            if ((lado === 'MOTOR' || lado === 'OPERAÇÃO' || lado === 'BORDAS') && mm !== '') {
+                motivo += ` A ${mm}mm`; 
+            }
+
+            // Texto LTF
+            const textoLTF = `ATENÇÃO LTF: REDUZIR VELOCIDADE PARA ${velocidade} MPM NA POSIÇÃO DE COROA DE ${coroa}mm. (FAZER MARCAÇÃO COM GIZ NA POSIÇÃO DE COROA INFORMADA).\n\nMOTIVO: ${motivo}`;
+            document.getElementById(`${prefix}_txt_ltf`).innerText = textoLTF;
+
+            // Texto LI
+            const gerarLI = document.getElementById(`${prefix}_check_gerar_li`).checked;
+            const cardLI = document.getElementById(`${prefix}_card_li`);
+            
+            if (gerarLI) {
+                const peso = parseFloat(document.getElementById(`${prefix}_peso`).value) || 0;
+                const ton = peso > 0 ? (peso / 1000).toFixed(1) : "___";
+                const textoLI = `ATENÇÃO LI'S SUJEITO A FURO A ${ton} TON. A PARTIR DO INÍCIO DECAPAGEM DEVIDO ${motivo}`;
+                
+                document.getElementById(`${prefix}_txt_li`).innerText = textoLI;
+                cardLI.style.display = 'block';
+            } else {
+                cardLI.style.display = 'none';
+            }
+        }
+
+        // --- BOTÃO COPIAR ---
+        function copiarTexto(id, btn) {
+            const txt = document.getElementById(id).innerText;
+            navigator.clipboard.writeText(txt).then(() => {
+                const original = btn.innerText;
+                btn.innerText = "✅ COPIADO COM SUCESSO!";
+                setTimeout(() => btn.innerText = original, 2000);
+            });
+        }
+        
+        // Iniciar gatilhos básicos
+        window.onload = function() {
+            verificarLado('m');
+            verificarLado('p');
+        };
+    </script>
+</body>
+</html>
