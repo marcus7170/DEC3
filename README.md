@@ -1,5 +1,5 @@
 # 🏭 Dashboard Operacional de Bobinas
-
+https://marcus7170.github.io/DEC3/
 Um sistema web inteligente desenvolvido para facilitar os cálculos dimensionais de bobinas de aço e padronizar a geração de mensagens de alerta operacionais (LTF e LI's) no chão de fábrica.
 
 ## 🚀 Funcionalidades Principais
