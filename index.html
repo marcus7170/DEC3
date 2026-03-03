@@ -157,6 +157,30 @@
             letter-spacing: 1px;
         }
 
+        /* Classes auxiliares para design lado a lado */
+        .label-flex {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .checkbox-inline {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            font-size: 0.75rem;
+            color: var(--text-main);
+            font-weight: bold;
+            margin-bottom: 0 !important;
+        }
+        .checkbox-inline input {
+            transform: scale(1.3);
+            cursor: pointer;
+            margin: 0;
+            padding: 0;
+            width: auto;
+        }
+
         .form-group input, .form-group select {
             width: 100%;
             padding: 12px 15px;
@@ -296,6 +320,14 @@
         }
         footer p.sub { font-size: 1rem; opacity: 0.8; }
 
+        .bfn-defect-row {
+            background-color: var(--bg-color);
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            margin-bottom: 15px;
+            position: relative;
+        }
     </style>
 </head>
 <body data-theme="dark">
@@ -359,6 +391,17 @@
         <option value="41 - VERGÃO"></option>
     </datalist>
 
+    <datalist id="lista-inspetores">
+        <option value="GIL"></option>
+        <option value="MARCUS"></option>
+        <option value="SAMANTHA"></option>
+        <option value="ALEXSANDRO"></option>
+        <option value="SANDRO"></option>
+        <option value="LUIZ FELIPE"></option>
+        <option value="FABIO BISPO"></option>
+        <option value="CLEVERTON"></option>
+    </datalist>
+
     <header>
         <button class="theme-toggle" onclick="toggleTheme()" id="btnTheme">
             ☀️ MUDAR PARA TEMA CLARO
@@ -372,12 +415,93 @@
         <div class="home-selector">
             <label style="color: var(--text-muted);">SELECIONE A OPERAÇÃO DESEJADA:</label>
             <select id="operacao_select" onchange="mudarAba()">
-                <option value="metragem" selected>⭐ POSIÇÃO PELA METRAGEM</option>
+                <option value="bfn" selected>⭐ GERADOR DE MENSAGEM BF - N</option>
+                <option value="metragem">⭐ POSIÇÃO PELA METRAGEM</option>
                 <option value="peso">⭐ POSIÇÃO PELO PESO</option>
             </select>
         </div>
 
-        <div id="aba_metragem" class="calc-section active">
+        <div id="aba_bfn" class="calc-section active">
+            <h2>1. MEDIÇÕES E INSPETORES</h2>
+            <div class="row">
+                <div class="form-group">
+                    <label>RAIO GAMA (mm)</label>
+                    <input type="number" step="0.01" id="bfn_raio" placeholder="EX: 4.5" oninput="gerarMsgBFN()">
+                </div>
+                <div class="form-group">
+                    <label>SIDE TRIMMER (mm)</label>
+                    <input type="number" id="bfn_trimmer" placeholder="EX: 1210" oninput="gerarMsgBFN()">
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="form-group">
+                    <div class="label-flex">
+                        <label>INSP. SUPERIOR</label>
+                        <label class="checkbox-inline">
+                            <input type="checkbox" id="check_trein_sup" onchange="toggleTreinamento('sup')"> + TREINANDO
+                        </label>
+                    </div>
+                    <div style="display: flex; gap: 10px;">
+                        <input list="lista-inspetores" id="bfn_insp_sup" placeholder="TITULAR..." oninput="gerarMsgBFN()">
+                        <input list="lista-inspetores" id="bfn_insp_sup_trein" placeholder="TREINANDO..." oninput="gerarMsgBFN()" style="display: none;">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="label-flex">
+                        <label>INSP. PARSYTEC</label>
+                        <label class="checkbox-inline">
+                            <input type="checkbox" id="check_trein_par" onchange="toggleTreinamento('par')"> + TREINANDO
+                        </label>
+                    </div>
+                    <div style="display: flex; gap: 10px;">
+                        <input list="lista-inspetores" id="bfn_insp_par" placeholder="TITULAR..." oninput="gerarMsgBFN()">
+                        <input list="lista-inspetores" id="bfn_insp_par_trein" placeholder="TREINANDO..." oninput="gerarMsgBFN()" style="display: none;">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="label-flex">
+                        <label>INSP. INF. + SISTEMA</label>
+                        <label class="checkbox-inline">
+                            <input type="checkbox" id="check_trein_inf" onchange="toggleTreinamento('inf')"> + TREINANDO
+                        </label>
+                    </div>
+                    <div style="display: flex; gap: 10px;">
+                        <input list="lista-inspetores" id="bfn_insp_inf" placeholder="TITULAR..." oninput="gerarMsgBFN()">
+                        <input list="lista-inspetores" id="bfn_insp_inf_trein" placeholder="TREINANDO..." oninput="gerarMsgBFN()" style="display: none;">
+                    </div>
+                </div>
+            </div>
+
+            <h2 style="margin-top: 20px;">2. DEFEITOS REGISTRADOS</h2>
+            <div id="bfn_defeitos_container">
+                </div>
+            <button class="btn" style="background-color: var(--success); width: auto; padding: 10px 20px; font-size: 0.9rem;" onclick="adicionarDefeitoBFN()">➕ ADICIONAR MAIS DEFEITOS</button>
+
+            <h2 style="margin-top: 30px;">3. GRÁFICO DE PERFIL</h2>
+            <div class="row">
+                <div class="form-group">
+                    <label>AVALIAÇÃO DO GRÁFICO</label>
+                    <select id="bfn_grafico" onchange="gerarMsgBFN()">
+                        <option value="OK">OK (GRÁFICO AVALIADO)</option>
+                        <option value="AVALIAR">ATENÇÃO: AVALIAR (LINHAS 1 E 2)</option>
+                        <option value="IRREGULAR">ATENÇÃO: GRÁFICO IRREGULAR</option>
+                    </select>
+                </div>
+            </div>
+
+            <div id="bfn_resultado_mensagens" style="margin-top: 20px;">
+                <div class="message-card">
+                    <h4 style="color: var(--warning);">MENSAGEM FINAL BF - N</h4>
+                    <div class="message-content" id="bfn_txt_final">PREENCHA OS DADOS ACIMA...</div>
+                    <button class="btn" style="background-color: var(--warning); color: #000;" onclick="copiarTexto('bfn_txt_final', this)">📋 COPIAR MENSAGEM BF-N</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="aba_metragem" class="calc-section">
             <h2>1. DADOS DIMENSIONAIS (PELA METRAGEM)</h2>
             <div class="row">
                 <div class="form-group">
@@ -448,8 +572,10 @@
                 </div>
 
                 <div style="margin-top: 10px; padding: 15px; background: var(--bg-color); border-radius: 8px; border: 1px solid var(--border-color);">
-                    <input type="checkbox" id="m_check_gerar_li" onchange="gerarMsg('m')" style="transform: scale(1.5); margin-right: 15px; cursor: pointer;">
-                    <label for="m_check_gerar_li" style="font-weight:bold; cursor:pointer; font-size: 1.1rem;">INCLUIR ALERTA PARA LI'S?</label>
+                    <label class="checkbox-inline" style="font-size: 1.1rem;">
+                        <input type="checkbox" id="m_check_gerar_li" onchange="gerarMsg('m')" style="transform: scale(1.5);">
+                        INCLUIR ALERTA PARA LI'S?
+                    </label>
                 </div>
 
                 <div id="m_resultado_mensagens">
@@ -538,8 +664,10 @@
                 </div>
 
                 <div style="margin-top: 10px; padding: 15px; background: var(--bg-color); border-radius: 8px; border: 1px solid var(--border-color);">
-                    <input type="checkbox" id="p_check_gerar_li" onchange="gerarMsg('p')" style="transform: scale(1.5); margin-right: 15px; cursor: pointer;">
-                    <label for="p_check_gerar_li" style="font-weight:bold; cursor:pointer; font-size: 1.1rem;">INCLUIR ALERTA PARA LI'S?</label>
+                    <label class="checkbox-inline" style="font-size: 1.1rem;">
+                        <input type="checkbox" id="p_check_gerar_li" onchange="gerarMsg('p')" style="transform: scale(1.5);">
+                        INCLUIR ALERTA PARA LI'S?
+                    </label>
                 </div>
 
                 <div id="p_resultado_mensagens">
@@ -610,6 +738,209 @@
             gerarMsg(prefix);
         }
 
+        // ================= LÓGICA MENSAGEM BF - N =================
+        let bfnContadorDefeitos = 0;
+
+        function toggleTreinamento(tipo) {
+            const check = document.getElementById(`check_trein_${tipo}`).checked;
+            const inputTrein = document.getElementById(`bfn_insp_${tipo}_trein`);
+            
+            if(check) {
+                inputTrein.style.display = 'block';
+            } else {
+                inputTrein.style.display = 'none';
+                inputTrein.value = '';
+            }
+            gerarMsgBFN();
+        }
+
+        function formatarInspetorParaMensagem(idPrincipal, idTreinamento) {
+            let principal = document.getElementById(idPrincipal).value.toUpperCase() || '___';
+            let inputTrein = document.getElementById(idTreinamento);
+            
+            if (inputTrein.style.display !== 'none' && inputTrein.value.trim() !== '') {
+                return `${principal} - ${inputTrein.value.toUpperCase()} (TREIN)`;
+            }
+            return principal;
+        }
+
+        function adicionarDefeitoBFN() {
+            bfnContadorDefeitos++;
+            const id = bfnContadorDefeitos;
+            const container = document.getElementById('bfn_defeitos_container');
+            
+            const div = document.createElement('div');
+            div.className = 'bfn-defect-row';
+            div.id = `bfn_row_${id}`;
+
+            div.innerHTML = `
+                <div class="row" style="width: 100%; margin-bottom: 10px;">
+                    <div class="form-group" style="flex: 0 0 110px; min-width: 90px;">
+                        <div class="label-flex">
+                            <label>PORC.(%)</label>
+                            <label class="checkbox-inline">
+                                <input type="checkbox" class="bfn_def_100pct" onchange="toggle100PctBFN(${id})" title="100% Total"> 100%
+                            </label>
+                        </div>
+                        <input type="number" class="bfn_def_pct" placeholder="Ex: 1" oninput="gerarMsgBFN()">
+                    </div>
+                    <div class="form-group" style="flex: 2; min-width: 250px;">
+                        <label>DEFEITO</label>
+                        <input list="lista-defeitos" class="bfn_def_nome" placeholder="SELECIONE..." oninput="gerarMsgBFN()">
+                    </div>
+                    <div class="form-group" style="flex: 1; min-width: 140px;">
+                        <label>INTENSIDADE</label>
+                        <input type="text" class="bfn_def_int" placeholder="EX: 1" oninput="gerarMsgBFN()">
+                    </div>
+                    <div class="form-group" id="bfn_pos_container_${id}" style="flex: 1; min-width: 120px;">
+                        <label>POSIÇÃO</label>
+                        <select class="bfn_def_pos" onchange="gerarMsgBFN()">
+                            <option value="INÍCIO">INÍCIO</option>
+                            <option value="MEIO">MEIO</option>
+                            <option value="FINAL">FINAL</option>
+                        </select>
+                    </div>
+                    <div class="form-group" style="flex: 1; min-width: 150px;">
+                        <label>FACE</label>
+                        <select class="bfn_def_face" onchange="gerarMsgBFN()">
+                            <option value="SUPERIOR">SUPERIOR</option>
+                            <option value="INFERIOR">INFERIOR</option>
+                            <option value="AMBAS AS FACES">AMBAS AS FACES</option>
+                        </select>
+                    </div>
+                    <div class="form-group" style="flex: 0 0 50px; min-width: 50px;">
+                        <button onclick="removerDefeitoBFN(${id})" class="btn-refresh" style="background-color: var(--danger); width: 100%;" title="Remover este defeito">❌</button>
+                    </div>
+                </div>
+                
+                <div class="row" style="width: 100%; padding-top: 10px; border-top: 1px dashed var(--border-color);">
+                    <div class="form-group bfn_lado_container" style="flex: 1; min-width: 150px;">
+                        <label>LADO / POSIÇÃO</label>
+                        <select class="bfn_def_lado" onchange="verificarLadoBFN(${id})">
+                            <option value="">-- NENHUM --</option>
+                            <option value="MOTOR">MOTOR</option>
+                            <option value="OPERAÇÃO">OPERAÇÃO</option>
+                            <option value="BORDAS">BORDAS</option>
+                            <option value="CENTRO">CENTRO</option>
+                        </select>
+                    </div>
+                    <div class="form-group bfn_mm_container" id="bfn_mm_container_${id}" style="display: none; flex: 1; min-width: 150px;">
+                        <label>DISTÂNCIA (mm)</label>
+                        <input type="number" class="bfn_def_mm" placeholder="EX: 50" oninput="gerarMsgBFN()">
+                    </div>
+                </div>
+            `;
+            container.appendChild(div);
+            gerarMsgBFN();
+        }
+
+        function verificarLadoBFN(id) {
+            const row = document.getElementById(`bfn_row_${id}`);
+            const lado = row.querySelector('.bfn_def_lado').value;
+            const mmContainer = document.getElementById(`bfn_mm_container_${id}`);
+
+            if (lado === 'MOTOR' || lado === 'OPERAÇÃO' || lado === 'BORDAS') {
+                mmContainer.style.display = 'block';
+            } else {
+                mmContainer.style.display = 'none';
+                row.querySelector('.bfn_def_mm').value = '';
+            }
+            gerarMsgBFN();
+        }
+
+        function toggle100PctBFN(id) {
+            const row = document.getElementById(`bfn_row_${id}`);
+            const is100 = row.querySelector('.bfn_def_100pct').checked;
+            const pctInput = row.querySelector('.bfn_def_pct');
+            const posContainer = document.getElementById(`bfn_pos_container_${id}`);
+
+            if (is100) {
+                pctInput.value = 100;
+                pctInput.setAttribute('readonly', true);
+                posContainer.style.display = 'none';
+            } else {
+                pctInput.value = '';
+                pctInput.removeAttribute('readonly');
+                posContainer.style.display = 'block';
+            }
+            gerarMsgBFN();
+        }
+
+        function removerDefeitoBFN(id) {
+            const row = document.getElementById(`bfn_row_${id}`);
+            if(row) row.remove();
+            gerarMsgBFN();
+        }
+
+        function gerarMsgBFN() {
+            const raio = document.getElementById('bfn_raio').value || '____';
+            const trimmer = document.getElementById('bfn_trimmer').value || '____';
+
+            let msg = `BF-N // Medições conforme LFINSPO0078.\n`;
+            msg += `Raio Gama:  ${raio} mm // Side trimmer:  ${trimmer}  mm.\n`;
+
+            // Processar Defeitos dinâmicos
+            const linhasDefeitos = document.querySelectorAll('.bfn-defect-row');
+            linhasDefeitos.forEach(linha => {
+                const is100 = linha.querySelector('.bfn_def_100pct').checked;
+                const pct = linha.querySelector('.bfn_def_pct').value || '___';
+                
+                let nome = linha.querySelector('.bfn_def_nome').value.toUpperCase() || '_____';
+                if (nome.includes(" - ")) {
+                    nome = nome.split(" - ")[1].trim();
+                }
+
+                const int = linha.querySelector('.bfn_def_int').value.toUpperCase() || '___';
+                const face = linha.querySelector('.bfn_def_face').value;
+
+                let posText = "";
+                if (!is100) {
+                    const pos = linha.querySelector('.bfn_def_pos').value;
+                    posText = ` ${pos}`; // Espaço antes da palavra
+                }
+
+                let msgDefeito = `${pct}% ${nome} DE INTENSIDADE ${int}${posText} FACE ${face}`;
+
+                // Processar Lado
+                const lado = linha.querySelector('.bfn_def_lado').value;
+                const mm = linha.querySelector('.bfn_def_mm').value;
+
+                if (lado !== "") {
+                    let textoLado = "";
+                    if (lado === "BORDAS") textoLado = "NAS BORDAS";
+                    else if (lado === "CENTRO") textoLado = "NO CENTRO";
+                    else textoLado = `NO LADO ${lado}`;
+
+                    msgDefeito += `, ${textoLado}`;
+
+                    if (mm !== '' && (lado === 'MOTOR' || lado === 'OPERAÇÃO' || lado === 'BORDAS')) {
+                        msgDefeito += ` A ${mm}mm`;
+                    }
+                }
+
+                msg += `${msgDefeito}\n`;
+            });
+
+            // Processar Gráfico
+            const grafico = document.getElementById('bfn_grafico').value;
+            if (grafico === 'OK') {
+                msg += `Grafico de Perfil Avaliado (OK)\n`;
+            } else if (grafico === 'AVALIAR') {
+                msg += `ATENÇÃO LE /LI´S, AVALIAR GRAFICO DE PLANICIDADE DO MATERIAL, SUJEITO A IRREGULARIDADE.\n`;
+            } else if (grafico === 'IRREGULAR') {
+                msg += `ATENÇÃO LE. GRAFICO DE PERFIL DO MATERIAL ESTÁ IRREGULAR.\n`;
+            }
+
+            // Inspetores no Final da mensagem com lógica de treinamento
+            const txtInspSup = formatarInspetorParaMensagem('bfn_insp_sup', 'bfn_insp_sup_trein');
+            const txtInspPar = formatarInspetorParaMensagem('bfn_insp_par', 'bfn_insp_par_trein');
+            const txtInspInf = formatarInspetorParaMensagem('bfn_insp_inf', 'bfn_insp_inf_trein');
+
+            msg += `\nInsp. Superior: ${txtInspSup}  // Insp. Parsytec: ${txtInspPar}  // Insp. Inferior + sistema: ${txtInspInf}  //\n`;
+
+            document.getElementById('bfn_txt_final').innerText = msg.toUpperCase();
+        }
+
         // ================= LÓGICAS ABA METRAGEM =================
         function atualizarPorMetragem() {
             const metragem = parseFloat(document.getElementById('m_metragem').value) || 0;
@@ -674,14 +1005,12 @@
             gerarMsg('p');
         }
 
-        // ================= GERAÇÃO DE MENSAGENS (UNIVERSAL) =================
+        // ================= GERAÇÃO DE MENSAGENS (LTF/LI) =================
         function gerarMsg(prefix) {
             if(!document.getElementById(`${prefix}_check_abrir_msg`).checked) return;
 
             let defeitoInput = document.getElementById(`${prefix}_msg_defeito`).value.trim().toUpperCase() || "_____";
             
-            // INTELIGÊNCIA DO DEFEITO: Se o usuário selecionar da lista (Ex: "A1 - AMASSAMENTO"),
-            // o sistema remove o código "A1 - " e deixa só "AMASSAMENTO" para a mensagem ficar limpa.
             if (defeitoInput.includes(" - ")) {
                 defeitoInput = defeitoInput.split(" - ")[1].trim();
             }
@@ -694,26 +1023,21 @@
             let coroa = document.getElementById(`${prefix}_msg_coroa`).value;
             if (coroa === "DADOS INSUF." || coroa === "") coroa = "___";
 
-            // Gramática da Face
             let textoFace = posicao === "AMBAS AS FACES" ? "EM AMBAS AS FACES" : `NA FACE ${posicao}`; 
 
-            // Gramática do Lado
             let textoLado = "";
             if (lado === "BORDAS") textoLado = "NAS BORDAS";
             else if (lado === "CENTRO") textoLado = "NO CENTRO";
             else textoLado = `NO LADO ${lado}`; 
 
-            // Motivo c/ mm minúsculo
             let motivo = `${defeitoInput} ${textoFace}, ${textoLado}`;
             if ((lado === 'MOTOR' || lado === 'OPERAÇÃO' || lado === 'BORDAS') && mm !== '') {
                 motivo += ` A ${mm}mm`; 
             }
 
-            // Texto LTF
             const textoLTF = `ATENÇÃO LTF: REDUZIR VELOCIDADE PARA ${velocidade} MPM NA POSIÇÃO DE COROA DE ${coroa}mm. (FAZER MARCAÇÃO COM GIZ NA POSIÇÃO DE COROA INFORMADA).\n\nMOTIVO: ${motivo}`;
             document.getElementById(`${prefix}_txt_ltf`).innerText = textoLTF;
 
-            // Texto LI
             const gerarLI = document.getElementById(`${prefix}_check_gerar_li`).checked;
             const cardLI = document.getElementById(`${prefix}_card_li`);
             
@@ -743,10 +1067,9 @@
         window.onload = function() {
             verificarLado('m');
             verificarLado('p');
+            // Inicia a aba BF-N já com uma linha de defeito vazia
+            adicionarDefeitoBFN();
         };
     </script>
 </body>
-
 </html>
-
-
