@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Operacional - Cálculos de Bobina</title>
+    <title>INSPEÇÃO DEC3 - LE/LI's</title>
     <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
     
     <style>
@@ -348,6 +348,34 @@
             margin-bottom: 15px;
             position: relative;
         }
+
+        /* --- ESTILOS PARA AS TABELAS DE CÓDIGOS --- */
+        .table-custom {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.95rem;
+        }
+        .table-custom th {
+            background-color: var(--primary);
+            color: white;
+            padding: 12px;
+            text-align: left;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        .table-custom td {
+            padding: 10px 12px;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-main);
+            font-weight: bold;
+        }
+        .table-custom tr:hover td {
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+        [data-theme="dark"] .table-custom tr:hover td {
+            background-color: rgba(255, 255, 255, 0.05);
+        }
     </style>
 </head>
 <body data-theme="dark">
@@ -426,8 +454,8 @@
         <button class="theme-toggle" onclick="toggleTheme()" id="btnTheme">
             ☀️ MUDAR PARA TEMA CLARO
         </button>
-        <h1>Painel Operacional de Bobinas</h1>
-        <p>SISTEMA INTELIGENTE DE CÁLCULO DIMENSIONAL E ALERTAS (LTF / LI)</p>
+        <h1>Painel Operacional de INSPEÇÃO</h1>
+        <p>SISTEMA INTELIGENTE DE CÁLCULO DIMENSIONAL, CONSULTAS E ALERTAS (LTF // DEC3 // LE // LI's)</p>
     </header>
 
     <div class="container">
@@ -439,6 +467,7 @@
                 <option value="bqd">⭐ GERADOR DE MENSAGEM BQD</option>
                 <option value="metragem">⭐ POSIÇÃO PELA METRAGEM</option>
                 <option value="peso">⭐ POSIÇÃO PELO PESO</option>
+                <option value="codigos">⭐ CONSULTA DE CÓDIGOS (DEFEITOS E TABELAS)</option>
             </select>
         </div>
 
@@ -812,9 +841,58 @@
             </div>
         </div>
 
+        <div id="aba_codigos" class="calc-section">
+            <h2>1. DICIONÁRIO DE DEFEITOS LAMINADOS</h2>
+            <div class="form-group" style="margin-bottom: 10px;">
+                <input type="text" id="busca_defeito" placeholder="🔍 BUSCAR POR CÓDIGO (EX: 76), ABREV (EX: GF) OU NOME..." onkeyup="filtrarTabelaDefeitos()" style="border-color: var(--info); border-width: 3px;">
+            </div>
+            
+            <div style="max-height: 400px; overflow-y: auto; border: 1px solid var(--border-color); border-radius: 8px; margin-bottom: 30px;">
+                <table class="table-custom" id="tabela_defeitos_view">
+                    <thead>
+                        <tr>
+                            <th style="width: 15%;">CÓDIGO</th>
+                            <th style="width: 20%;">ABREV.</th>
+                            <th style="width: 65%;">DESCRIÇÃO DO DEFEITO</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody_defeitos">
+                        </tbody>
+                </table>
+            </div>
+
+            <h2>2. TABELAS DE APOIO (EQUIPAMENTO, POSIÇÃO E INTENSIDADE)</h2>
+            <div class="row" style="margin-bottom: 20px;">
+                <button class="btn" style="background-color: var(--secondary); flex: 1; font-size: 0.85rem;" onclick="toggleTabelaApoio('equipamentos')">⚙️ CÓD. EQUIPAMENTO</button>
+                <button class="btn" style="background-color: var(--info); flex: 1; font-size: 0.85rem;" onclick="toggleTabelaApoio('localizacao')">📍 CÓD. LOCALIZAÇÃO</button>
+                <button class="btn" style="background-color: var(--purple); flex: 1; font-size: 0.85rem;" onclick="toggleTabelaApoio('intensidade')">📊 CLASSIF. INTENSIDADE</button>
+            </div>
+
+            <div id="apoio_equipamentos" style="display: none; max-height: 300px; overflow-y: auto; border: 1px solid var(--border-color); border-radius: 8px; margin-bottom: 15px;">
+                <table class="table-custom">
+                    <thead><tr><th>CÓDIGO</th><th>EQUIPAMENTO DE ORIGEM</th></tr></thead>
+                    <tbody id="tbody_equipamentos"></tbody>
+                </table>
+            </div>
+
+            <div id="apoio_localizacao" style="display: none; max-height: 300px; overflow-y: auto; border: 1px solid var(--border-color); border-radius: 8px; margin-bottom: 15px;">
+                <table class="table-custom">
+                    <thead><tr><th>CÓDIGO</th><th>POSIÇÃO</th><th>FACE</th></tr></thead>
+                    <tbody id="tbody_localizacao"></tbody>
+                </table>
+            </div>
+
+            <div id="apoio_intensidade" style="display: none; max-height: 300px; overflow-y: auto; border: 1px solid var(--border-color); border-radius: 8px; margin-bottom: 15px;">
+                <table class="table-custom">
+                    <thead><tr><th>INTENSIDADE</th><th>CARACTERÍSTICA</th><th>DESCRIÇÃO</th></tr></thead>
+                    <tbody id="tbody_intensidade"></tbody>
+                </table>
+            </div>
+        </div>
+
     </div>
 
-<div class="modal-overlay" id="modalBQD">
+    <div class="modal-overlay" id="modalBQD">
         <div class="modal-content">
             <button class="modal-close" onclick="fecharModalBQD()" title="Fechar">✖</button>
             <h2 style="color: var(--info); margin-bottom: 15px; border-bottom: 1px solid var(--border-color); padding-bottom: 10px;">📋 INFORMATIVOS BQD</h2>
@@ -876,6 +954,381 @@
     </footer>
 
     <script>
+        // ================= BANCO DE DADOS DAS TABELAS (NOVA ABA) =================
+const dbDefeitos = [
+            { cod: "0", abrev: "TM", desc: "TROCA DE MATERIAL" },
+            { cod: "1", abrev: "CIB", desc: "CAREPA INCRUSTADA BORDA" },
+            { cod: "2", abrev: "CIC", desc: "CAREPA INCRUSTADA CILINDRO" },
+            { cod: "3", abrev: "CIAT", desc: "CAREPA INCRUSTADA ALTA TEMP" },
+            { cod: "4", abrev: "CIF", desc: "CAREPA INCRUSTADA FAIXA" },
+            { cod: "5", abrev: "CIP", desc: "CAREPA INCRUSTADA PONTOS" },
+            { cod: "6", abrev: "CACA", desc: "CAVIDADE DE CAREPA" },
+            { cod: "7", abrev: "CIBT", desc: "CAREPA INCRUSTADA BAIXA TEMP" },
+            { cod: "8", abrev: "ESFQ", desc: "ESFOLIAÇÃO QUÍMICA" },
+            { cod: "9", abrev: "FERCH", desc: "FERRUGEM CHUVA" },
+            { cod: "11", abrev: "MSKID", desc: "MARCA DE SKID" },
+            { cod: "12", abrev: "IM", desc: "INCRUSTAÇÃO DE MATERIAL" },
+            { cod: "13", abrev: "PEFOTO", desc: "PESO FORA DA TOLERÂNCIA DA OV" },
+            { cod: "14", abrev: "MANCHA", desc: "MANCHA" },
+            { cod: "15", abrev: "MA", desc: "MANCHA AMARELA" },
+            { cod: "16", abrev: "CACAC", desc: "CAVIDADE DE CAREPA DE CILINDRO" },
+            { cod: "17", abrev: "MP", desc: "MANCHA PRETA" },
+            { cod: "18", abrev: "MC", desc: "MARCA DE CILINDRO" },
+            { cod: "19", abrev: "MBAT", desc: "MARCA DE BATIDA" },
+            { cod: "20", abrev: "PORIR", desc: "POROSIDADE IRREGULAR" },
+            { cod: "21", abrev: "MEQUI", desc: "MARCA DE EQUIPAMENTO" },
+            { cod: "22", abrev: "MDESL", desc: "MARCA DE DESLIZAMENTO" },
+            { cod: "23", abrev: "MSNRO", desc: "MARCA DE SUJEIRA NÚMERO" },
+            { cod: "24", abrev: "MRASP", desc: "MARCA DE RASPADEIRA" },
+            { cod: "25", abrev: "MRET", desc: "MARCA DE RETIFICA" },
+            { cod: "26", abrev: "MAROL", desc: "MARCA DE ROLO" },
+            { cod: "27", abrev: "MSP", desc: "MARCA DE SUJEIRA PONTOS" },
+            { cod: "28", abrev: "MTENAZ", desc: "MARCA DE TENAZ" },
+            { cod: "29", abrev: "MATRA", desc: "MARCA TRANSVERSAL" },
+            { cod: "30", abrev: "OL", desc: "ONDULADO LATERAL" },
+            { cod: "31", abrev: "OC", desc: "ONDULADO CENTRAL" },
+            { cod: "32", abrev: "OT", desc: "ONDULADO TOTAL" },
+            { cod: "33", abrev: "OI", desc: "ONDULADO INTERMEDIÁRIO" },
+            { cod: "34", abrev: "BISOLD", desc: "BOBINAMENTO IRREGULAR SOLDA" },
+            { cod: "35", abrev: "SUBTB+", desc: "SUB DECAPADO TEMP BOB A MAIS" },
+            { cod: "36", abrev: "QS`Q`", desc: "QUEBRA DE SUPERF QUENTE" },
+            { cod: "37", abrev: "RISCO", desc: "RISCO" },
+            { cod: "38", abrev: "FTB -", desc: "FORA TEMP BOB A MENOS" },
+            { cod: "39", abrev: "FTB +", desc: "FORA TEMP BOB A MAIS" },
+            { cod: "40", abrev: "TT", desc: "TRINCA TÉRMICA" },
+            { cod: "41", abrev: "VERGAO", desc: "VERGÃO" },
+            { cod: "42", abrev: "FTAC -", desc: "FORA DE TEMP DE ACABTO A MENOS" },
+            { cod: "43", abrev: "FTAC +", desc: "FORA DE TEMP DE ACABTO A MAIS" },
+            { cod: "44", abrev: "COIR", desc: "COROA IRREGULAR" },
+            { cod: "45", abrev: "CUIR", desc: "CUNHA IRREGULAR" },
+            { cod: "47", abrev: "PEFIR", desc: "PERFIL IRREGULAR" },
+            { cod: "48", abrev: "MCCALO", desc: "MARCA DE CILINDRO - CALO" },
+            { cod: "49", abrev: "MCENC", desc: "MARCA DE CILINDRO - ENCAIXE" },
+            { cod: "50", abrev: "APIR", desc: "APARAMENTO IRREGULAR" },
+            { cod: "51", abrev: "BV", desc: "BITOLA VARIÁVEL" },
+            { cod: "52", abrev: "BFF", desc: "BOBINAMENTO FROUXO Á FRIO" },
+            { cod: "53", abrev: "BI", desc: "BOBINAMENTO IRREGULAR" },
+            { cod: "55", abrev: "BOLSA", desc: "BOLSA" },
+            { cod: "56", abrev: "BAVA", desc: "BORDA AVARIADA" },
+            { cod: "57", abrev: "BF", desc: "BOBINAMENTO FROUXO" },
+            { cod: "58", abrev: "BS", desc: "BORDA SERRILHADA" },
+            { cod: "60", abrev: "APLSOL", desc: "APLAINAMENTO SOLDA" },
+            { cod: "61", abrev: "APL", desc: "APLAINAMENTO" },
+            { cod: "62", abrev: "DOBRA", desc: "DOBRA" },
+            { cod: "63", abrev: "BOVAL", desc: "BOBINA OVALIZADA" },
+            { cod: "64", abrev: "EMP", desc: "EMPENO" },
+            { cod: "65", abrev: "ESC", desc: "ESCAMA" },
+            { cod: "66", abrev: "MLUA", desc: "MEIA LUA" },
+            { cod: "67", abrev: "PTAS", desc: "PONTAS" },
+            { cod: "68", abrev: "FB +", desc: "FORA DE BITOLA A MAIS" },
+            { cod: "69", abrev: "FB -", desc: "FORA DE BITOLA A MENOS" },
+            { cod: "72", abrev: "FESQ", desc: "FORA DE ESQUADRIA" },
+            { cod: "73", abrev: "FL +", desc: "FORA DE LARGURA A MAIS" },
+            { cod: "74", abrev: "FL -", desc: "FORA DE LARGURA A MENOS" },
+            { cod: "75", abrev: "FURO", desc: "FURO" },
+            { cod: "76", abrev: "GF", desc: "GOTA FRIA" },
+            { cod: "77", abrev: "LGVAR", desc: "LARGURA VARIÁVEL" },
+            { cod: "78", abrev: "MFITA", desc: "MARCA DE FITA" },
+            { cod: "79", abrev: "MAGUA", desc: "MANCHA DAGUA" },
+            { cod: "80", abrev: "MCLOR", desc: "MANCHA DE CLORETO" },
+            { cod: "81", abrev: "SOLDIR", desc: "SOLDA IRREGULAR" },
+            { cod: "82", abrev: "MSEC", desc: "MANCHA SECADOR" },
+            { cod: "84", abrev: "PESO -", desc: "PESO A MENOS" },
+            { cod: "85", abrev: "REPLAT", desc: "REPUXADO LATERAL" },
+            { cod: "86", abrev: "REFINC", desc: "REFRATÁRIO INCRUSTADO" },
+            { cod: "87", abrev: "REPCEN", desc: "REPUXADO CENTRAL" },
+            { cod: "88", abrev: "RUPTIR", desc: "ROMPIMENTO DE TIRA" },
+            { cod: "90", abrev: "SBPOST", desc: "SOBREPOSTO" },
+            { cod: "91", abrev: "SUBDEC", desc: "SUBDECAPADO" },
+            { cod: "92", abrev: "SUCATA", desc: "SUCATA" },
+            { cod: "93", abrev: "SUPDEC", desc: "SUPERDECAPADO" },
+            { cod: "94", abrev: "CAVFER", desc: "CAVIDADE DE FERRUGEM" },
+            { cod: "95", abrev: "SM", desc: "SOBREPOSTO METÁLICO" },
+            { cod: "96", abrev: "QST", desc: "QUEBRA DE SUPERF. TRANSVERSAL" },
+            { cod: "97", abrev: "OLIND", desc: "OLEAMENTO INDEVIDO" },
+            { cod: "98", abrev: "OLIR", desc: "OLEAMENTO IRREGULAR" },
+            { cod: "99", abrev: "DIV", desc: "DIVERSOS" },
+            { cod: "1A", abrev: "BOBREG", desc: "DIÂMETRO 580-690 BOB REGULAR" },
+            { cod: "1B", abrev: "BOBIRG", desc: "DIÂMETRO 580-690 BOB IRREG" },
+            { cod: "1C", abrev: "> 610", desc: "DIÂMETRO > 610 MM" },
+            { cod: "1D", abrev: "PESO -", desc: "PESO A MENOS" },
+            { cod: "1E", abrev: "PESO +", desc: "PESO A MAIS" },
+            { cod: "1F", abrev: "DIAM +", desc: "DIÂMETRO EXTERNO MAIOR" },
+            { cod: "1G", abrev: "DI IRR", desc: "DIÂMETRO INTERNO IRREGULAR" },
+            { cod: "1K", abrev: "SOLDBG", desc: "DESCARTE PARA SOLDA BGD" },
+            { cod: "1L", abrev: "ETIQUE", desc: "DESCARTE ETIQUETA DE PRODUTO" },
+            { cod: "2C", abrev: "< 580", desc: "DIÂMETRO < 580 MM" },
+            { cod: "A0", abrev: "ALIR", desc: "ALONGAMENTO IRREGULAR" },
+            { cod: "A1", abrev: "AMAS", desc: "AMASSAMENTO" },
+            { cod: "A2", abrev: "PASAG", desc: "PASSAGEM DE ÁGUA" },
+            { cod: "A3", abrev: "AMOSTR", desc: "AMOSTRAGEM DE MATERIAL" },
+            { cod: "A4", abrev: "APARA", desc: "APARA DE PROCESSO" },
+            { cod: "A5", abrev: "CAL", desc: "CALOMBO" },
+            { cod: "A6", abrev: "CASLAR", desc: "CASCA DE LARANJA" },
+            { cod: "A7", abrev: "CORRUG", desc: "CORRUGADO" },
+            { cod: "A8", abrev: "COST", desc: "COSTELETA" },
+            { cod: "A9", abrev: "DC", desc: "DEPÓSITO DE CARBONO" },
+            { cod: "AD", abrev: "ALDIAM", desc: "ALTERAÇÃO DE DIÂMETRO 610MM" },
+            { cod: "AG", abrev: "PTSAGR", desc: "PONTAS AGR" },
+            { cod: "AP", abrev: "AJPMEC", desc: "AJUSTE DE PROPRIEDADE MECÂNICA" },
+            { cod: "AT", abrev: "AGTMEC", desc: "AGUARD RESUL TESTE MECÂNICO" },
+            { cod: "B0", abrev: "ENSAIO", desc: "ENSAIOS" },
+            { cod: "B1", abrev: "FER AR", desc: "FERRUGEM AR" },
+            { cod: "B2", abrev: "FER", desc: "FERRUGEM" },
+            { cod: "B3", abrev: "FD", desc: "FORA DE DUREZA" },
+            { cod: "B4", abrev: "INCLUS", desc: "INCLUSÕES" },
+            { cod: "B5", abrev: "LDIST", desc: "LINHA DE DISTENSÃO" },
+            { cod: "B6", abrev: "MATRI", desc: "MARCA DE ATRITO" },
+            { cod: "B7", abrev: "MATRIE", desc: "MARCA ATRITO ESCURO" },
+            { cod: "B8", abrev: "MACOL", desc: "MARCA DE COLAMENTO" },
+            { cod: "C3", abrev: "MSF", desc: "MARCA DE SUJEIRA FAIXA" },
+            { cod: "C4", abrev: "MSFUL", desc: "MARCA DE SUJEIRA FULIGEM" },
+            { cod: "C5", abrev: "MSGX", desc: "MARCA DE SUJEIRA GRAXA" },
+            { cod: "C6", abrev: "MSOL", desc: "MARCA DE SUJEIRA ÓLEO" },
+            { cod: "C7", abrev: "OLCRAQ", desc: "OLEO QUEIMADO CRAQUEADO" },
+            { cod: "C8", abrev: "OXBRAN", desc: "OXIDO BRANCO" },
+            { cod: "C9", abrev: "MSPTIN", desc: "MARCA DE SUJEIRA PONTA INICIAL" },
+            { cod: "CI", abrev: "CI", desc: "COMPOSIÇÃO QUÍMICA IRREGULAR" },
+            { cod: "CP", abrev: "CAVPÓ", desc: "CAVIDADE DE PÓ" },
+            { cod: "CR", abrev: "COROBE", desc: "CORRUGADO ROLO BERÇO" },
+            { cod: "CS", abrev: "CS", desc: "CAREPA SILICIOSA" },
+            { cod: "D0", abrev: "CACAF", desc: "CAVIDADE DE CAREPA EM FAIXA" },
+            { cod: "D1", abrev: "QB", desc: "QUEBRA DE BORDA" },
+            { cod: "D2", abrev: "QBPERF", desc: "QUEBRA DE BORDA PERFIL" },
+            { cod: "D3", abrev: "APAREA", desc: "APARA POR REAPLICAÇÃO" },
+            { cod: "D4", abrev: "QCOL", desc: "QUEBRA DE COLAMENTO" },
+            { cod: "D5", abrev: "QSR", desc: "QUEBRA DE SUPERFÍCIE RUGA" },
+            { cod: "D6", abrev: "RZ", desc: "RECOZIMENTO AZUL" },
+            { cod: "D7", abrev: "CACAP", desc: "CAVIDADE DE CAREPA EM PONTO" },
+            { cod: "D8", abrev: "COBA", desc: "COLAMENTO DE BORDA" },
+            { cod: "D9", abrev: "CACAAT", desc: "CAVIDADE DE CAREPA DE ALTA TEM" },
+            { cod: "DP", abrev: "DIVPES", desc: "DIVERGÊNCIA DE PESO BALANÇA" },
+            { cod: "DT", abrev: "MDESLT", desc: "MARCA DESLIZAMENTO TRANSVERSAL" },
+            { cod: "DV", abrev: "DIVISA", desc: "DIVISÃO DE PRODUTO FINAL NO TQ" },
+            { cod: "E0", abrev: "RUGIR", desc: "RUGOSIDADE IRREGULAR" },
+            { cod: "E1", abrev: "REAM", desc: "REAMOSTRAGEM" },
+            { cod: "E2", abrev: "REPROC", desc: "REPROCESSAMENTO" },
+            { cod: "E3", abrev: "REFBAI", desc: "REFLETÂNCIA BAIXA" },
+            { cod: "E5", abrev: "VER", desc: "VERRUGA" },
+            { cod: "E6", abrev: "VINC C", desc: "VINCO CENTRAL" },
+            { cod: "E7", abrev: "VINCQC", desc: "VINCO QUEBRA DE COLAMENTO" },
+            { cod: "E8", abrev: "VINC B", desc: "VINCO DE BORDA" },
+            { cod: "E9", abrev: "VINC I", desc: "VINCO INTERMEDIÁRIO" },
+            { cod: "EM", abrev: "ESFM", desc: "ESFOLIAÇÃO MECÂNICA" },
+            { cod: "F0", abrev: "RELIR", desc: "RELEVO IRREGULAR" },
+            { cod: "F1", abrev: "ESTUDO", desc: "ESTUDO" },
+            { cod: "F2", abrev: "MSELA", desc: "MARCA DE SELA" },
+            { cod: "F4", abrev: "ENTALH", desc: "ENTALHE" },
+            { cod: "F6", abrev: "CAV", desc: "CAVIDADE" },
+            { cod: "F7", abrev: "RBPEIX", desc: "RABO DE PEIXE" },
+            { cod: "F8", abrev: "MDESL", desc: "MARCA DESLIZAMENTO TRANS" },
+            { cod: "F9", abrev: "CINT", desc: "CINTAMENTO" },
+            { cod: "FE", abrev: "FESPEC", desc: "MATERIAL FORA DE ESPECIFICAÇÃO" },
+            { cod: "FH", abrev: "INSBHF", desc: "AGUARDANDO INSPEÇÃO BFH" },
+            { cod: "FL", abrev: "FL-LTF", desc: "FORA DE LARGURA A MENOS LTF" },
+            { cod: "G0", abrev: "MSJBO", desc: "MARCA SUJEIRA BORRACHA" },
+            { cod: "G1", abrev: "MAZUL", desc: "MANCHA AZULADA" },
+            { cod: "G2", abrev: "MSUPER", desc: "MARCA SUPERFICIAL" },
+            { cod: "G3", abrev: "VINCCB", desc: "VINCO CENTRO E BORDA" },
+            { cod: "G4", abrev: "VINCCI", desc: "VINCO CENTRO E INTERMEDIÁRIO" },
+            { cod: "G5", abrev: "VINCBI", desc: "VINCO BORDA E INTERMEDIÁRIO" },
+            { cod: "G6", abrev: "M'SELO", desc: "MARCA DE SELO" },
+            { cod: "G7", abrev: "PESO +", desc: "PESO A MAIS" },
+            { cod: "G8", abrev: "SOLDA", desc: "SOLDA" },
+            { cod: "G9", abrev: "SOLDE", desc: "SOLDA EXTRA" },
+            { cod: "H0", abrev: "HETMI", desc: "HETEROGENEIDADE DE MICROESTRUT" },
+            { cod: "H1", abrev: "AVARIN", desc: "AVARIA NO TRANSPORTE INTERNO" },
+            { cod: "H2", abrev: "AVAREX", desc: "AVARIA NO TRANSPORTE EXTERNO" },
+            { cod: "H3", abrev: "DEVOLU", desc: "DEVOLUÇÃO ESTOQUE" },
+            { cod: "H4", abrev: "AMHOM", desc: "REAMOSTRA HOMOLOGAÇÃO" },
+            { cod: "H5", abrev: "AMFPOS", desc: "REAMOSTRA FORA DE POSIÇÃO" },
+            { cod: "H6", abrev: "AMTINC", desc: "REAMOSTRA TAMANHO INCORRETO" },
+            { cod: "H7", abrev: "SEGAMO", desc: "SEGUNDA AMOSTRA PARA ANÁLISE" },
+            { cod: "H8", abrev: "ERRON1", desc: "ERRO DE GERAÇÃO DESCARTE NO N1" },
+            { cod: "H9", abrev: "CAMBER", desc: "DEFEITO CAMBER DO LTQ" },
+            { cod: "ID", abrev: "ID_ÑC", desc: "IDENTIFICAÇÃO NÃO CONFORME" },
+            { cod: "IF", abrev: "INVFAC", desc: "INVERSÃO DE FACE" },
+            { cod: "J0", abrev: "BISDNA", desc: "BI SOLDA NATURAL" },
+            { cod: "J1", abrev: "MAFASI", desc: "MARCA EM FAIXA SINUOSA" },
+            { cod: "J2", abrev: "MOLHAM", desc: "MOLHAMENTO" },
+            { cod: "J3", abrev: "EMB>48", desc: "MATERIAL À EMBALAR > 48H" },
+            { cod: "J7", abrev: "FERREC", desc: "FERRUGEM REC" },
+            { cod: "J8", abrev: "VEPESO", desc: "VERIFICAÇÃO DE PESO" },
+            { cod: "L0", abrev: "TLABAI", desc: "TESTE LIMPEZA ALGODÃO BAIXA" },
+            { cod: "L1", abrev: "D_INEX", desc: "DESCARTE INEXISTENTE" },
+            { cod: "L2", abrev: "DZ_HET", desc: "DUREZA HETEROGÊNEA" },
+            { cod: "L3", abrev: "OXPTOS", desc: "OXIDAÇÃO EM PONTOS" },
+            { cod: "L4", abrev: "PLANIR", desc: "PLANICIDADE IRREGULAR" },
+            { cod: "L5", abrev: "DIGINC", desc: "DIGITO INCORRETO" },
+            { cod: "L6", abrev: "AMRECA", desc: "AMOST ANÁLISE RESÍDUO CARBONOS" },
+            { cod: "L7", abrev: "MC_CR", desc: "MC DESPRENDIMENTO DE CROMO" },
+            { cod: "L8", abrev: "CIREIR", desc: "CICLO DE RECOZIMENTO IRREGULAR" },
+            { cod: "L9", abrev: "JUGRIN", desc: "JUNÇÃO DE GRUPO INDEVIDO" },
+            { cod: "LF", abrev: "INLTFH", desc: "INSP PARA VALIDAÇÃO DO LOTE FH" },
+            { cod: "M1", abrev: "AMÑPLA", desc: "RETIRADA DE AMOSTRA NÃO PLANEJ" },
+            { cod: "M2", abrev: "RETPAM", desc: "SUSPEITA TROCA POSIÇÃO AMOSTRA" },
+            { cod: "M3", abrev: "RETATM", desc: "SUSPEITA TROCA DE AMOST OU MAT" },
+            { cod: "M4", abrev: "AQC", desc: "ANÁLISE DE COMPOSIÇÃO QUÍMICA" },
+            { cod: "M5", abrev: "AMFOPA", desc: "AMOSTRA FORA DO PADRÃO" },
+            { cod: "M6", abrev: "FTI -", desc: "FORA TEMP. INTERMED. A MENOS" },
+            { cod: "M7", abrev: "FTI +", desc: "FORA TEMP. INTERMED. A MAIS" },
+            { cod: "M8", abrev: "FOREIN", desc: "FORNO DE REAQUECIMENTO INADEQ." },
+            { cod: "M9", abrev: "AMEXTV", desc: "AMOSTRA EXTRAVIADA" },
+            { cod: "ME", abrev: "MESC", desc: "MANCHA ESCURA" },
+            { cod: "MS", abrev: "MSUJEI", desc: "MARCA DE SUJEIRA" },
+            { cod: "P0", abrev: "FBSOLD", desc: "FORA DE BITOLA SOLDA" },
+            { cod: "P1", abrev: "PTAÑEN", desc: "PONTA NÃO ENCRUADA" },
+            { cod: "P2", abrev: "PASSOL", desc: "PASSAGEM DE SOLUÇÃO" },
+            { cod: "P3", abrev: "PUXDEC", desc: "DIVISÃO PUXADA DECAPAGEM 3" },
+            { cod: "P4", abrev: "DEFOPA", desc: "DESCARTE FORA DO PADRÃO" },
+            { cod: "P5", abrev: "DEPAIN", desc: "DESCARTE PADRÃO INSUFICIENTE" },
+            { cod: "P6", abrev: "DEPREV", desc: "DESCARTE PREVISTO" },
+            { cod: "P7", abrev: "PROQUA", desc: "PROJETO DE QUALIDADE" },
+            { cod: "P8", abrev: "MPTBOB", desc: "MARCA DE PONTA NO BOBINAMENTO" },
+            { cod: "P9", abrev: "LEBRBT", desc: "LE BAIXO (RL DE BAIXA TON)" },
+            { cod: "PA", abrev: "PADRAM", desc: "DESCARTE PADRÃO DE AMOSTRAGEM" },
+            { cod: "PL", abrev: "PENDLT", desc: "PENDENTE LTF" },
+            { cod: "PM", abrev: "PROMEC", desc: "PROPRIEDADE MECÂNICA" },
+            { cod: "PT", abrev: "PT", desc: "PESO TEÓRICO" },
+            { cod: "R0", abrev: "RAGUA", desc: "RESPINGOS DE ÁGUA" },
+            { cod: "R1", abrev: "RINSP1", desc: "REINSPEÇÃO LINHA DE INSPEÇÃO 1" },
+            { cod: "R2", abrev: "RINSP2", desc: "REINSPEÇÃO LINHA DE INSPEÇÃO 2" },
+            { cod: "R3", abrev: "RUGALT", desc: "RUGOSIDADE ALTA" },
+            { cod: "R4", abrev: "RUGBAI", desc: "RUGOSIDADE BAIXA" },
+            { cod: "R5", abrev: "CARGEX", desc: "CARGA DE EXCEÇÃO" },
+            { cod: "R6", abrev: "TEALPA", desc: "TEMPO ALTO DE ESTOQUE - PA" },
+            { cod: "R7", abrev: "SOLAGR", desc: "SOLDA AGR" },
+            { cod: "R8", abrev: "SOLÑAP", desc: "SOLDA MATERIAL NÃO APARADO" },
+            { cod: "R9", abrev: "RINROT", desc: "REINSPEÇÃO DE ROTINA" },
+            { cod: "RL", abrev: "RISLTF", desc: "RISCO LTF" },
+            { cod: "RM", abrev: "REAMAT", desc: "REAPLICAÇÃO DE MATERIAL" },
+            { cod: "RP", abrev: "REPESA", desc: "REPESAGEM" },
+            { cod: "T0", abrev: "DTECLI", desc: "DESCARTE TECNOLÓGICO LI" },
+            { cod: "T1", abrev: "TEMBRE", desc: "TROCA DE EMBALAGEM REAPLICAÇÃO" },
+            { cod: "T2", abrev: "EMBAVA", desc: "TROCA DE EMBALAGEM AVARIADA" },
+            { cod: "T3", abrev: "SOLDQA", desc: "SOLDA DO MIOLO LTF QUEBRADA" },
+            { cod: "T4", abrev: "CILNOR", desc: "CILINDRO NORMAL" },
+            { cod: "T5", abrev: "CILCRO", desc: "CILINDRO CROMADO" },
+            { cod: "T6", abrev: "SOLDTF", desc: "SOLDA MIOLO LTF" },
+            { cod: "T7", abrev: "INSP", desc: "INSPEÇÃO DE PRODUTO" },
+            { cod: "T8", abrev: "FRTLI1", desc: "FORA ROTA LINHA DE INSPEÇÃO 1" },
+            { cod: "T9", abrev: "MCFLAM", desc: "MARCA DO CILINDRO FAIXA DE LAM" },
+            { cod: "TE", abrev: "TE", desc: "TROCA DE ESPESSURA" },
+            { cod: "X3", abrev: "PTFURO", desc: "PONTAS FURO" },
+            { cod: "X4", abrev: "GFF", desc: "GOTA FRIA FACÃO" },
+            { cod: "X5", abrev: "GFTL", desc: "GOTA FRIA (TL)" },
+            { cod: "Z1", abrev: "FIMGRU", desc: "FINAL DE GRUPO" },
+            { cod: "Z2", abrev: "GR1BQ", desc: "GRUPO COM 01 BQ" },
+            { cod: "Z3", abrev: "GRIMPA", desc: "GRUPO ÍMPAR" },
+            { cod: "Z4", abrev: "OUTROS", desc: "OUTROS DECAPAGEM" },
+            { cod: "Z5", abrev: "ERRODE", desc: "ERRO OPERACIONAL DECAPAGENS" },
+            { cod: "Z6", abrev: "GRINC", desc: "GRUPO INCOMPLETO" },
+            { cod: "MV", abrev: "MAVEPA", desc: "MATERIAL VENCIDO NO PA" }
+        ];
+
+        const dbEquipamentos = [
+            { cod: "16", equip: "Laminador de Tiras a Quente 2" },
+            { cod: "17", equip: "Decapagem 3" },
+            { cod: "22", equip: "Laminador de Tiras a Frio" },
+            { cod: "23", equip: "Recozimento 1" },
+            { cod: "24", equip: "Recozimento 2" },
+            { cod: "25", equip: "Laminador de Encruamento 1" },
+            { cod: "27", equip: "Tesouras a Frio 2" },
+            { cod: "28", equip: "Linha de Inspeção 1" },
+            { cod: "29", equip: "Linha de Inspeção 2" },
+            { cod: "31", equip: "Recozimento 5" },
+            { cod: "32", equip: "Seleção de Chapas a Frio" },
+            { cod: "33", equip: "Linha Preparadora de BQ" },
+            { cod: "34", equip: "Laminador de Acabamento - 2" },
+            { cod: "35", equip: "Linha Divisora" },
+            { cod: "65", equip: "Preparadora" },
+            { cod: "68", equip: "Laboratório" },
+            { cod: "71", equip: "Laminador de Encruamento 2" },
+            { cod: "75", equip: "Porto" },
+            { cod: "76", equip: "Logística Interna" },
+            { cod: "77", equip: "Logística externa" },
+            { cod: "93", equip: "Programação" },
+            { cod: "97", equip: "Embalagem" },
+            { cod: "98", equip: "Aciaria 2" },
+            { cod: "99", equip: "Diversos" }
+        ];
+
+        const dbLocalizacao = [
+            { cod: "A", pos: "Início", face: "Inferior" },
+            { cod: "B", pos: "Início", face: "Superior" },
+            { cod: "C", pos: "Início", face: "Inferior e Superior" },
+            { cod: "D", pos: "Meio", face: "Inferior" },
+            { cod: "E", pos: "Meio", face: "Superior" },
+            { cod: "F", pos: "Meio", face: "Inferior e Superior" },
+            { cod: "G", pos: "Final", face: "Inferior" },
+            { cod: "H", pos: "Final", face: "Superior" },
+            { cod: "I", pos: "Final", face: "Inferior e Superior" },
+            { cod: "J", pos: "Início e Meio", face: "Inferior" },
+            { cod: "K", pos: "Início e Meio", face: "Superior" },
+            { cod: "L", pos: "Início e Meio", face: "Inferior e Superior" },
+            { cod: "M", pos: "Início e Final", face: "Inferior" },
+            { cod: "N", pos: "Início e Final", face: "Superior" },
+            { cod: "O", pos: "Início e Final", face: "Inferior e Superior" },
+            { cod: "P", pos: "Meio e Final", face: "Inferior" },
+            { cod: "Q", pos: "Meio e Final", face: "Superior" },
+            { cod: "R", pos: "Meio e Final", face: "Inferior e Superior" },
+            { cod: "S", pos: "Total", face: "Inferior" },
+            { cod: "T", pos: "Total", face: "Superior" },
+            { cod: "U", pos: "Total", face: "Inferior e Superior" },
+            { cod: "V", pos: "Esparso", face: "Inferior" },
+            { cod: "X", pos: "Esparso", face: "Superior" },
+            { cod: "Z", pos: "Esparso", face: "Inferior e Superior" }
+        ];
+
+        const dbIntensidade = [
+            { int: "0", carac: "Sem intensidade", desc: "Só há sombra do defeito e não dá para senti-lo ao tato." },
+            { int: "1", carac: "Leve (Sup. A / 01)", desc: "São leves imperfeições na superfície que não prejudicam o uso e que são retirados por condicionamento mínimo." },
+            { int: "2", carac: "Média (Sup. B / 02)", desc: "São moderadas imperfeições na superfície que não prejudicam o uso e que são retirados por recondicionamento leve." },
+            { int: "3", carac: "Forte (Sup. C)", desc: "São fortes imperfeições na superfície que não prejudicam o uso e que são retirados por recondicionamento maior que a intensidade 2." },
+            { int: "4", carac: "Fortíssima (2ª Qualidade)", desc: "São fortíssimas imperfeições na superfície que podem prejudicar o uso e não são retirados por recondicionamento." }
+        ];
+
+        // --- FUNÇÕES DA NOVA ABA DE CÓDIGOS ---
+        function renderTabelasApoio() {
+            filtrarTabelaDefeitos();
+            
+            const tbEq = document.getElementById('tbody_equipamentos');
+            dbEquipamentos.forEach(e => {
+                tbEq.innerHTML += `<tr><td>${e.cod}</td><td>${e.equip}</td></tr>`;
+            });
+            
+            const tbLoc = document.getElementById('tbody_localizacao');
+            dbLocalizacao.forEach(l => {
+                tbLoc.innerHTML += `<tr><td>${l.cod}</td><td>${l.pos}</td><td>${l.face}</td></tr>`;
+            });
+
+            const tbInt = document.getElementById('tbody_intensidade');
+            dbIntensidade.forEach(i => {
+                tbInt.innerHTML += `<tr><td>${i.int}</td><td>${i.carac}</td><td style="text-transform:none; font-weight:normal;">${i.desc}</td></tr>`;
+            });
+        }
+
+        function filtrarTabelaDefeitos() {
+            const termo = document.getElementById('busca_defeito').value.toUpperCase();
+            const tbody = document.getElementById('tbody_defeitos');
+            tbody.innerHTML = '';
+            
+            dbDefeitos.forEach(d => {
+                if (d.cod.includes(termo) || d.abrev.includes(termo) || d.desc.includes(termo)) {
+                    tbody.innerHTML += `<tr><td>${d.cod}</td><td>${d.abrev}</td><td>${d.desc}</td></tr>`;
+                }
+            });
+        }
+
+        function toggleTabelaApoio(tabela) {
+            const div = document.getElementById(`apoio_${tabela}`);
+            if(div.style.display === 'none' || div.style.display === '') {
+                div.style.display = 'block';
+            } else {
+                div.style.display = 'none';
+            }
+        }
+
         // --- TEMA ---
         function toggleTheme() {
             const body = document.body;
@@ -907,7 +1360,6 @@
         function fecharModalBQD() {
             document.getElementById('modalBQD').style.display = 'none';
         }
-        // Fechar modal ao clicar fora dele
         window.onclick = function(event) {
             const modal = document.getElementById('modalBQD');
             if (event.target === modal) {
@@ -1121,14 +1573,12 @@
         function gerarMsgBFN() {
             let msg = `BF-N // Medições conforme LFINSPO0078.\n`;
             
-            // Medições Opcionais BF-N
             if (document.getElementById('bfn_check_medicoes').checked) {
                 const raio = document.getElementById('bfn_raio').value || '____';
                 const trimmer = document.getElementById('bfn_trimmer').value || '____';
                 msg += `Raio Gama:  ${raio} mm // Side trimmer:  ${trimmer}  mm.\n`;
             }
 
-            // Medição Universal BF-N
             if (document.getElementById('bfn_check_universal').checked) {
                 const ini = document.getElementById('bfn_uni_ini').value || '____';
                 const meio = document.getElementById('bfn_uni_meio').value || '____';
@@ -1188,17 +1638,14 @@
         }
 
         function gerarMsgBQD() {
-            // Cabeçalho BQD
             let msg = `MEDIÇÕES CONFORME NORMA LFINSOT0005 BQD // Gráfico do LTQ / DEC OK // BOBINAMENTO OK.\n`;
 
-            // Medições Opcionais BQD
             if (document.getElementById('bqd_check_medicoes').checked) {
                 const raio = document.getElementById('bqd_raio').value || '____';
                 const trimmer = document.getElementById('bqd_trimmer').value || '____';
                 msg += `Raio Gama:  ${raio} mm // Side trimmer:  ${trimmer}  mm.\n`;
             }
 
-            // Defeitos BQD
             const linhasDefeitos = document.querySelectorAll('.bqd-defect-row');
             linhasDefeitos.forEach(linha => {
                 const is100 = linha.querySelector('.bqd_def_100pct').checked;
@@ -1234,11 +1681,9 @@
                         msgDefeito += ` A ${mm}mm`;
                     }
                 }
-                // Adicionando NQ: no começo de cada defeito na BQD
                 msg += `NQ: ${msgDefeito}\n`;
             });
 
-            // Inspetores BQD
             const txtInspSup = formatarInspetorParaMensagem('bqd_insp_sup', 'bqd_insp_sup_trein');
             const txtInspPar = formatarInspetorParaMensagem('bqd_insp_par', 'bqd_insp_par_trein');
             const txtInspInf = formatarInspetorParaMensagem('bqd_insp_inf', 'bqd_insp_inf_trein');
@@ -1369,14 +1814,13 @@
             });
         }
         
-        // Iniciar gatilhos básicos
+        // --- INICIALIZAÇÃO ---
         window.onload = function() {
             verificarLado('m');
             verificarLado('p');
-            // Removemos a criação inicial de defeitos para que as telas comecem 100% limpas.
-            // Para adicionar, basta clicar em "➕ ADICIONAR DEFEITOS".
             gerarMsgBFN();
             gerarMsgBQD();
+            renderTabelasApoio(); 
         };
     </script>
 </body>
