@@ -14,6 +14,8 @@
             --success: #10b981;
             --warning: #f59e0b;
             --danger: #ef4444;
+            --info: #0ea5e9;
+            --purple: #8b5cf6;
             
             --bg-color: #f0f2f5;
             --card-bg: #ffffff;
@@ -157,7 +159,6 @@
             letter-spacing: 1px;
         }
 
-        /* Classes auxiliares para design lado a lado */
         .label-flex {
             display: flex;
             justify-content: space-between;
@@ -287,6 +288,7 @@
             border-bottom: 1px solid var(--border-color);
         }
         .message-card.li-msg { border-left-color: var(--danger); }
+        .message-card.info-msg { border-left-color: var(--info); }
         
         .message-content {
             font-family: 'Consolas', monospace;
@@ -301,6 +303,24 @@
             color: var(--text-main);
             border: 1px solid var(--border-color);
         }
+
+        /* MODAL STYLES */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.7); backdrop-filter: blur(4px);
+            display: none; justify-content: center; align-items: center; z-index: 9999;
+        }
+        .modal-content {
+            background: var(--card-bg); padding: 30px; border-radius: 12px;
+            max-width: 600px; width: 90%; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.3);
+            position: relative; border-top: 5px solid var(--info);
+            animation: slideUp 0.3s ease;
+        }
+        .modal-close {
+            position: absolute; top: 15px; right: 15px; background: transparent;
+            border: none; font-size: 1.5rem; color: var(--text-muted); cursor: pointer;
+        }
+        .modal-close:hover { color: var(--danger); }
 
         footer {
             text-align: center;
@@ -320,7 +340,7 @@
         }
         footer p.sub { font-size: 1rem; opacity: 0.8; }
 
-        .bfn-defect-row {
+        .bfn-defect-row, .bqd-defect-row {
             background-color: var(--bg-color);
             padding: 15px;
             border-radius: 8px;
@@ -416,30 +436,61 @@
             <label style="color: var(--text-muted);">SELECIONE A OPERAÇÃO DESEJADA:</label>
             <select id="operacao_select" onchange="mudarAba()">
                 <option value="bfn" selected>⭐ GERADOR DE MENSAGEM BF - N</option>
+                <option value="bqd">⭐ GERADOR DE MENSAGEM BQD</option>
                 <option value="metragem">⭐ POSIÇÃO PELA METRAGEM</option>
                 <option value="peso">⭐ POSIÇÃO PELO PESO</option>
             </select>
         </div>
 
         <div id="aba_bfn" class="calc-section active">
-            <h2>1. MEDIÇÕES E INSPETORES</h2>
-            <div class="row">
-                <div class="form-group">
-                    <label>RAIO GAMA (mm)</label>
-                    <input type="number" step="0.01" id="bfn_raio" placeholder="EX: 4.5" oninput="gerarMsgBFN()">
+            <h2>1. MEDIÇÕES E INSPETORES (BF-N)</h2>
+            
+            <div class="toggle-msg-container" style="margin-bottom: 20px; margin-top: 0; background-color: var(--secondary);">
+                <input type="checkbox" id="bfn_check_medicoes" onchange="toggleMedicoesBFN()">
+                <label for="bfn_check_medicoes">INFORMAR MEDIÇÕES (RAIO GAMA / SIDE TRIMMER)?</label>
+            </div>
+
+            <div id="bfn_medicoes_container" style="display: none;">
+                <div class="row">
+                    <div class="form-group">
+                        <label>RAIO GAMA (mm)</label>
+                        <input type="number" step="0.01" id="bfn_raio" placeholder="EX: 4.5" oninput="gerarMsgBFN()">
+                    </div>
+                    <div class="form-group">
+                        <label>SIDE TRIMMER (mm)</label>
+                        <input type="number" id="bfn_trimmer" placeholder="EX: 1210" oninput="gerarMsgBFN()">
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label>SIDE TRIMMER (mm)</label>
-                    <input type="number" id="bfn_trimmer" placeholder="EX: 1210" oninput="gerarMsgBFN()">
+            </div>
+
+            <div class="toggle-msg-container" style="margin-bottom: 20px; margin-top: 0; background-color: var(--purple);">
+                <input type="checkbox" id="bfn_check_universal" onchange="toggleUniversalBFN()">
+                <label for="bfn_check_universal">INFORMAR MEDIÇÃO UNIVERSAL?</label>
+            </div>
+
+            <div id="bfn_universal_container" style="display: none;">
+                <div class="row" style="background: rgba(139, 92, 246, 0.1); padding: 15px; border-radius: 8px; border: 1px dashed var(--purple);">
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <label>INÍCIO (mm)</label>
+                        <input type="number" id="bfn_uni_ini" placeholder="EX: 1205" oninput="gerarMsgBFN()">
+                    </div>
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <label>MEIO (mm)</label>
+                        <input type="number" id="bfn_uni_meio" placeholder="EX: 1206" oninput="gerarMsgBFN()">
+                    </div>
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <label>FINAL (mm)</label>
+                        <input type="number" id="bfn_uni_fim" placeholder="EX: 1205" oninput="gerarMsgBFN()">
+                    </div>
                 </div>
             </div>
             
-            <div class="row">
+            <div class="row" style="margin-top: 20px;">
                 <div class="form-group">
                     <div class="label-flex">
                         <label>INSP. SUPERIOR</label>
                         <label class="checkbox-inline">
-                            <input type="checkbox" id="check_trein_sup" onchange="toggleTreinamento('sup')"> + TREINANDO
+                            <input type="checkbox" id="check_trein_sup" onchange="toggleTreinamento('sup', 'bfn')"> + TREINANDO
                         </label>
                     </div>
                     <div style="display: flex; gap: 10px;">
@@ -452,7 +503,7 @@
                     <div class="label-flex">
                         <label>INSP. PARSYTEC</label>
                         <label class="checkbox-inline">
-                            <input type="checkbox" id="check_trein_par" onchange="toggleTreinamento('par')"> + TREINANDO
+                            <input type="checkbox" id="check_trein_par" onchange="toggleTreinamento('par', 'bfn')"> + TREINANDO
                         </label>
                     </div>
                     <div style="display: flex; gap: 10px;">
@@ -465,7 +516,7 @@
                     <div class="label-flex">
                         <label>INSP. INF. + SISTEMA</label>
                         <label class="checkbox-inline">
-                            <input type="checkbox" id="check_trein_inf" onchange="toggleTreinamento('inf')"> + TREINANDO
+                            <input type="checkbox" id="check_trein_inf" onchange="toggleTreinamento('inf', 'bfn')"> + TREINANDO
                         </label>
                     </div>
                     <div style="display: flex; gap: 10px;">
@@ -476,9 +527,8 @@
             </div>
 
             <h2 style="margin-top: 20px;">2. DEFEITOS REGISTRADOS</h2>
-            <div id="bfn_defeitos_container">
-                </div>
-            <button class="btn" style="background-color: var(--success); width: auto; padding: 10px 20px; font-size: 0.9rem;" onclick="adicionarDefeitoBFN()">➕ ADICIONAR MAIS DEFEITOS</button>
+            <div id="bfn_defeitos_container"></div>
+            <button class="btn" style="background-color: var(--success); width: auto; padding: 10px 20px; font-size: 0.9rem;" onclick="adicionarDefeitoBFN()">➕ ADICIONAR DEFEITOS</button>
 
             <h2 style="margin-top: 30px;">3. GRÁFICO DE PERFIL</h2>
             <div class="row">
@@ -497,6 +547,83 @@
                     <h4 style="color: var(--warning);">MENSAGEM FINAL BF - N</h4>
                     <div class="message-content" id="bfn_txt_final">PREENCHA OS DADOS ACIMA...</div>
                     <button class="btn" style="background-color: var(--warning); color: #000;" onclick="copiarTexto('bfn_txt_final', this)">📋 COPIAR MENSAGEM BF-N</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="aba_bqd" class="calc-section">
+            <button class="btn" style="background-color: var(--info); margin-bottom: 25px; padding: 15px;" onclick="abrirModalBQD()">📋 ABRIR INFORMATIVOS BQD</button>
+
+            <h2>1. MEDIÇÕES E INSPETORES (BQD)</h2>
+
+            <div class="toggle-msg-container" style="margin-bottom: 20px; margin-top: 0; background-color: var(--secondary);">
+                <input type="checkbox" id="bqd_check_medicoes" onchange="toggleMedicoesBQD()">
+                <label for="bqd_check_medicoes">INFORMAR MEDIÇÕES (RAIO GAMA / SIDE TRIMMER)?</label>
+            </div>
+
+            <div id="bqd_medicoes_container" style="display: none;">
+                <div class="row">
+                    <div class="form-group">
+                        <label>RAIO GAMA (mm)</label>
+                        <input type="number" step="0.01" id="bqd_raio" placeholder="EX: 4.5" oninput="gerarMsgBQD()">
+                    </div>
+                    <div class="form-group">
+                        <label>SIDE TRIMMER (mm)</label>
+                        <input type="number" id="bqd_trimmer" placeholder="EX: 1210" oninput="gerarMsgBQD()">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="form-group">
+                    <div class="label-flex">
+                        <label>INSP. SUPERIOR</label>
+                        <label class="checkbox-inline">
+                            <input type="checkbox" id="bqd_check_trein_sup" onchange="toggleTreinamento('sup', 'bqd')"> + TREINANDO
+                        </label>
+                    </div>
+                    <div style="display: flex; gap: 10px;">
+                        <input list="lista-inspetores" id="bqd_insp_sup" placeholder="TITULAR..." oninput="gerarMsgBQD()">
+                        <input list="lista-inspetores" id="bqd_insp_sup_trein" placeholder="TREINANDO..." oninput="gerarMsgBQD()" style="display: none;">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="label-flex">
+                        <label>INSP. PARSYTEC</label>
+                        <label class="checkbox-inline">
+                            <input type="checkbox" id="bqd_check_trein_par" onchange="toggleTreinamento('par', 'bqd')"> + TREINANDO
+                        </label>
+                    </div>
+                    <div style="display: flex; gap: 10px;">
+                        <input list="lista-inspetores" id="bqd_insp_par" placeholder="TITULAR..." oninput="gerarMsgBQD()">
+                        <input list="lista-inspetores" id="bqd_insp_par_trein" placeholder="TREINANDO..." oninput="gerarMsgBQD()" style="display: none;">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="label-flex">
+                        <label>INSP. INF. + SISTEMA</label>
+                        <label class="checkbox-inline">
+                            <input type="checkbox" id="bqd_check_trein_inf" onchange="toggleTreinamento('inf', 'bqd')"> + TREINANDO
+                        </label>
+                    </div>
+                    <div style="display: flex; gap: 10px;">
+                        <input list="lista-inspetores" id="bqd_insp_inf" placeholder="TITULAR..." oninput="gerarMsgBQD()">
+                        <input list="lista-inspetores" id="bqd_insp_inf_trein" placeholder="TREINANDO..." oninput="gerarMsgBQD()" style="display: none;">
+                    </div>
+                </div>
+            </div>
+
+            <h2 style="margin-top: 20px;">2. DEFEITOS REGISTRADOS (BQD)</h2>
+            <div id="bqd_defeitos_container"></div>
+            <button class="btn" style="background-color: var(--success); width: auto; padding: 10px 20px; font-size: 0.9rem;" onclick="adicionarDefeitoBQD()">➕ ADICIONAR DEFEITOS</button>
+
+            <div id="bqd_resultado_mensagens" style="margin-top: 30px;">
+                <div class="message-card" style="border-left-color: var(--info);">
+                    <h4 style="color: var(--info);">MENSAGEM FINAL BQD</h4>
+                    <div class="message-content" id="bqd_txt_final">PREENCHA OS DADOS ACIMA...</div>
+                    <button class="btn" style="background-color: var(--info); color: #fff;" onclick="copiarTexto('bqd_txt_final', this)">📋 COPIAR MENSAGEM BQD</button>
                 </div>
             </div>
         </div>
@@ -687,6 +814,62 @@
 
     </div>
 
+<div class="modal-overlay" id="modalBQD">
+        <div class="modal-content">
+            <button class="modal-close" onclick="fecharModalBQD()" title="Fechar">✖</button>
+            <h2 style="color: var(--info); margin-bottom: 15px; border-bottom: 1px solid var(--border-color); padding-bottom: 10px;">📋 INFORMATIVOS BQD</h2>
+            
+            <div class="message-content" style="font-weight: normal; font-size: 1rem; color: var(--text-main); text-transform: none; max-height: 60vh; overflow-y: auto;">
+                
+                <h3 style="text-align: center; margin-bottom: 15px; color: var(--text-main);">Rotinas Decapagem 3</h3>
+                
+                <h4 style="color: var(--info); margin-top: 15px;">BQD // BGD - RETORNOS DE LOTE BQD</h4>
+                <ul style="margin-left: 20px; margin-top: 5px;">
+                    <li>ENR. 1 &lt;= 4.75 &gt;= 1200 Baixa Resistencia 30mts</li>
+                    <li>ENR. 2 &lt;= 4.75 &gt;= 1200 Baixa Resistencia 20mts</li>
+                </ul>
+
+                <h4 style="color: var(--info); margin-top: 15px;">RETORNOS 10mts</h4>
+                <ul style="margin-left: 20px; margin-top: 5px;">
+                    <li>1º Turno &lt;= 4,75</li>
+                    <li>1º Largura &gt; 1250</li>
+                    <li>A cada 20 rolos de cada enroladeira, na metade desse intervalo deverá ser feito a inspeção visual na saída com velocidade &lt;= 120m/min.</li>
+                    <li>Suspeita de anormalidade.</li>
+                    <li>&gt; 4,75 Realizar na saída a velocidade &lt;= 120m/min.</li>
+                </ul>
+
+                <h4 style="color: var(--info); margin-top: 15px;">OLEAMENTO</h4>
+                <ul style="margin-left: 20px; margin-top: 5px;">
+                    <li>BQD / BGD de 5 em 5 rolos processados.</li>
+                    <li>BF / BFH a cada 10 rolos.</li>
+                </ul>
+
+                <h4 style="color: var(--info); margin-top: 15px;">BOBINAMENTO</h4>
+                <ul style="margin-left: 20px; margin-top: 5px;">
+                    <li>BQD / BGD: Todos os rolos</li>
+                    <li>BF / BFH: 1º Rolo do turno e a cada 10 rolos</li>
+                </ul>
+
+                <h4 style="color: var(--info); margin-top: 15px;">BF / BFH - INSPEÇÃO FORA DA CABINE</h4>
+                <ul style="margin-left: 20px; margin-top: 5px;">
+                    <li>1º Rolo do Turno</li>
+                    <li>1º Rolo Largura &gt; 1250</li>
+                    <li>A cada 20 bobinas</li>
+                    <li>Suspeita de anormalidade</li>
+                    <li>Material com espessura nominal &gt; 4,75 ou aparado, não realizar o retorno parcial da tira, realizar inspeção visual na saída com vel 120 m/min.</li>
+                </ul>
+
+                <h4 style="color: var(--info); margin-top: 15px;">APARAMENTO (BQD, BGD, BF E BFH)</h4>
+                <ul style="margin-left: 20px; margin-top: 5px;">
+                    <li>1º Rolo Aparado do turno e a cada 10 rolos (pátio LTF)</li>
+                    <li>Quando houver anormalidade (plataforma inspeção)</li>
+                    <li>Quando Virar ou Trocar Navalhas Circulares (Plataforma de inspeção)</li>
+                </ul>
+
+            </div>
+        </div>
+    </div>
+
     <footer>
         <p>Criado por Marcus V. Soares da Silva. - U012697</p>
         <p class="sub">Experimental & Voluntário. Voltado para fins não lucrativos.</p>
@@ -717,12 +900,52 @@
             document.getElementById('aba_' + sel).classList.add('active');
         }
 
-        // --- MOSTRAR/OCULTAR GERADOR DE MENSAGENS ---
+        // --- MODAL BQD ---
+        function abrirModalBQD() {
+            document.getElementById('modalBQD').style.display = 'flex';
+        }
+        function fecharModalBQD() {
+            document.getElementById('modalBQD').style.display = 'none';
+        }
+        // Fechar modal ao clicar fora dele
+        window.onclick = function(event) {
+            const modal = document.getElementById('modalBQD');
+            if (event.target === modal) {
+                modal.style.display = "none";
+            }
+        }
+
+        // --- MOSTRAR/OCULTAR GERADOR DE MENSAGENS E TREINAMENTOS ---
         function toggleMensagens(prefix) {
             const isChecked = document.getElementById(`${prefix}_check_abrir_msg`).checked;
             const blocoMsg = document.getElementById(`${prefix}_bloco_mensagens`);
             blocoMsg.style.display = isChecked ? 'block' : 'none';
             if(isChecked) gerarMsg(prefix);
+        }
+
+        function toggleTreinamento(tipo, prefixo_aba) {
+            const checkId = prefixo_aba === 'bfn' ? `check_trein_${tipo}` : `${prefixo_aba}_check_trein_${tipo}`;
+            const check = document.getElementById(checkId).checked;
+            const inputTrein = document.getElementById(`${prefixo_aba}_insp_${tipo}_trein`);
+            
+            if(check) {
+                inputTrein.style.display = 'block';
+            } else {
+                inputTrein.style.display = 'none';
+                inputTrein.value = '';
+            }
+            if(prefixo_aba === 'bfn') gerarMsgBFN();
+            else if(prefixo_aba === 'bqd') gerarMsgBQD();
+        }
+
+        function formatarInspetorParaMensagem(idPrincipal, idTreinamento) {
+            let principal = document.getElementById(idPrincipal).value.toUpperCase() || '___';
+            let inputTrein = document.getElementById(idTreinamento);
+            
+            if (inputTrein.style.display !== 'none' && inputTrein.value.trim() !== '') {
+                return `${principal} - ${inputTrein.value.toUpperCase()} (TREIN)`;
+            }
+            return principal;
         }
 
         function verificarLado(prefix) {
@@ -741,27 +964,18 @@
         // ================= LÓGICA MENSAGEM BF - N =================
         let bfnContadorDefeitos = 0;
 
-        function toggleTreinamento(tipo) {
-            const check = document.getElementById(`check_trein_${tipo}`).checked;
-            const inputTrein = document.getElementById(`bfn_insp_${tipo}_trein`);
-            
-            if(check) {
-                inputTrein.style.display = 'block';
-            } else {
-                inputTrein.style.display = 'none';
-                inputTrein.value = '';
-            }
+        function toggleMedicoesBFN() {
+            const check = document.getElementById('bfn_check_medicoes').checked;
+            const container = document.getElementById('bfn_medicoes_container');
+            container.style.display = check ? 'block' : 'none';
             gerarMsgBFN();
         }
 
-        function formatarInspetorParaMensagem(idPrincipal, idTreinamento) {
-            let principal = document.getElementById(idPrincipal).value.toUpperCase() || '___';
-            let inputTrein = document.getElementById(idTreinamento);
-            
-            if (inputTrein.style.display !== 'none' && inputTrein.value.trim() !== '') {
-                return `${principal} - ${inputTrein.value.toUpperCase()} (TREIN)`;
-            }
-            return principal;
+        function toggleUniversalBFN() {
+            const check = document.getElementById('bfn_check_universal').checked;
+            const container = document.getElementById('bfn_universal_container');
+            container.style.display = check ? 'block' : 'none';
+            gerarMsgBFN();
         }
 
         function adicionarDefeitoBFN() {
@@ -772,29 +986,58 @@
             const div = document.createElement('div');
             div.className = 'bfn-defect-row';
             div.id = `bfn_row_${id}`;
+            div.innerHTML = getHTMLDefeito('bfn', id);
+            container.appendChild(div);
+            gerarMsgBFN();
+        }
 
-            div.innerHTML = `
+        // ================= LÓGICA MENSAGEM BQD =================
+        let bqdContadorDefeitos = 0;
+
+        function toggleMedicoesBQD() {
+            const check = document.getElementById('bqd_check_medicoes').checked;
+            const container = document.getElementById('bqd_medicoes_container');
+            container.style.display = check ? 'block' : 'none';
+            gerarMsgBQD();
+        }
+
+        function adicionarDefeitoBQD() {
+            bqdContadorDefeitos++;
+            const id = bqdContadorDefeitos;
+            const container = document.getElementById('bqd_defeitos_container');
+            
+            const div = document.createElement('div');
+            div.className = 'bqd-defect-row';
+            div.id = `bqd_row_${id}`;
+            div.innerHTML = getHTMLDefeito('bqd', id);
+            container.appendChild(div);
+            gerarMsgBQD();
+        }
+
+        // Template Compartilhado para Linha de Defeito (BFN e BQD)
+        function getHTMLDefeito(prefix, id) {
+            return `
                 <div class="row" style="width: 100%; margin-bottom: 10px;">
                     <div class="form-group" style="flex: 0 0 110px; min-width: 90px;">
                         <div class="label-flex">
                             <label>PORC.(%)</label>
                             <label class="checkbox-inline">
-                                <input type="checkbox" class="bfn_def_100pct" onchange="toggle100PctBFN(${id})" title="100% Total"> 100%
+                                <input type="checkbox" class="${prefix}_def_100pct" onchange="toggle100Pct('${prefix}', ${id})" title="100% Total"> 100%
                             </label>
                         </div>
-                        <input type="number" class="bfn_def_pct" placeholder="Ex: 1" oninput="gerarMsgBFN()">
+                        <input type="number" class="${prefix}_def_pct" placeholder="Ex: 1" oninput="gerarMsg${prefix.toUpperCase()}()">
                     </div>
                     <div class="form-group" style="flex: 2; min-width: 250px;">
                         <label>DEFEITO</label>
-                        <input list="lista-defeitos" class="bfn_def_nome" placeholder="SELECIONE..." oninput="gerarMsgBFN()">
+                        <input list="lista-defeitos" class="${prefix}_def_nome" placeholder="SELECIONE..." oninput="gerarMsg${prefix.toUpperCase()}()">
                     </div>
                     <div class="form-group" style="flex: 1; min-width: 140px;">
                         <label>INTENSIDADE</label>
-                        <input type="text" class="bfn_def_int" placeholder="EX: 1" oninput="gerarMsgBFN()">
+                        <input type="text" class="${prefix}_def_int" placeholder="EX: 1" oninput="gerarMsg${prefix.toUpperCase()}()">
                     </div>
-                    <div class="form-group" id="bfn_pos_container_${id}" style="flex: 1; min-width: 120px;">
+                    <div class="form-group" id="${prefix}_pos_container_${id}" style="flex: 1; min-width: 120px;">
                         <label>POSIÇÃO</label>
-                        <select class="bfn_def_pos" onchange="gerarMsgBFN()">
+                        <select class="${prefix}_def_pos" onchange="gerarMsg${prefix.toUpperCase()}()">
                             <option value="INÍCIO">INÍCIO</option>
                             <option value="MEIO">MEIO</option>
                             <option value="FINAL">FINAL</option>
@@ -802,21 +1045,21 @@
                     </div>
                     <div class="form-group" style="flex: 1; min-width: 150px;">
                         <label>FACE</label>
-                        <select class="bfn_def_face" onchange="gerarMsgBFN()">
+                        <select class="${prefix}_def_face" onchange="gerarMsg${prefix.toUpperCase()}()">
                             <option value="SUPERIOR">SUPERIOR</option>
                             <option value="INFERIOR">INFERIOR</option>
                             <option value="AMBAS AS FACES">AMBAS AS FACES</option>
                         </select>
                     </div>
                     <div class="form-group" style="flex: 0 0 50px; min-width: 50px;">
-                        <button onclick="removerDefeitoBFN(${id})" class="btn-refresh" style="background-color: var(--danger); width: 100%;" title="Remover este defeito">❌</button>
+                        <button onclick="removerDefeito('${prefix}', ${id})" class="btn-refresh" style="background-color: var(--danger); width: 100%;" title="Remover este defeito">❌</button>
                     </div>
                 </div>
                 
                 <div class="row" style="width: 100%; padding-top: 10px; border-top: 1px dashed var(--border-color);">
-                    <div class="form-group bfn_lado_container" style="flex: 1; min-width: 150px;">
+                    <div class="form-group ${prefix}_lado_container" style="flex: 1; min-width: 150px;">
                         <label>LADO / POSIÇÃO</label>
-                        <select class="bfn_def_lado" onchange="verificarLadoBFN(${id})">
+                        <select class="${prefix}_def_lado" onchange="verificarLadoLinha('${prefix}', ${id})">
                             <option value="">-- NENHUM --</option>
                             <option value="MOTOR">MOTOR</option>
                             <option value="OPERAÇÃO">OPERAÇÃO</option>
@@ -825,35 +1068,34 @@
                             <option value="C/B">C/B</option>
                         </select>
                     </div>
-                    <div class="form-group bfn_mm_container" id="bfn_mm_container_${id}" style="display: none; flex: 1; min-width: 150px;">
+                    <div class="form-group ${prefix}_mm_container" id="${prefix}_mm_container_${id}" style="display: none; flex: 1; min-width: 150px;">
                         <label>DISTÂNCIA (mm)</label>
-                        <input type="number" class="bfn_def_mm" placeholder="EX: 50" oninput="gerarMsgBFN()">
+                        <input type="number" class="${prefix}_def_mm" placeholder="EX: 50" oninput="gerarMsg${prefix.toUpperCase()}()">
                     </div>
                 </div>
             `;
-            container.appendChild(div);
-            gerarMsgBFN();
         }
 
-        function verificarLadoBFN(id) {
-            const row = document.getElementById(`bfn_row_${id}`);
-            const lado = row.querySelector('.bfn_def_lado').value;
-            const mmContainer = document.getElementById(`bfn_mm_container_${id}`);
+        function verificarLadoLinha(prefix, id) {
+            const row = document.getElementById(`${prefix}_row_${id}`);
+            const lado = row.querySelector(`.${prefix}_def_lado`).value;
+            const mmContainer = document.getElementById(`${prefix}_mm_container_${id}`);
 
             if (lado === 'MOTOR' || lado === 'OPERAÇÃO' || lado === 'BORDAS') {
                 mmContainer.style.display = 'block';
             } else {
                 mmContainer.style.display = 'none';
-                row.querySelector('.bfn_def_mm').value = '';
+                row.querySelector(`.${prefix}_def_mm`).value = '';
             }
-            gerarMsgBFN();
+            if(prefix === 'bfn') gerarMsgBFN();
+            else if(prefix === 'bqd') gerarMsgBQD();
         }
 
-        function toggle100PctBFN(id) {
-            const row = document.getElementById(`bfn_row_${id}`);
-            const is100 = row.querySelector('.bfn_def_100pct').checked;
-            const pctInput = row.querySelector('.bfn_def_pct');
-            const posContainer = document.getElementById(`bfn_pos_container_${id}`);
+        function toggle100Pct(prefix, id) {
+            const row = document.getElementById(`${prefix}_row_${id}`);
+            const is100 = row.querySelector(`.${prefix}_def_100pct`).checked;
+            const pctInput = row.querySelector(`.${prefix}_def_pct`);
+            const posContainer = document.getElementById(`${prefix}_pos_container_${id}`);
 
             if (is100) {
                 pctInput.value = 100;
@@ -864,32 +1106,43 @@
                 pctInput.removeAttribute('readonly');
                 posContainer.style.display = 'block';
             }
-            gerarMsgBFN();
+            if(prefix === 'bfn') gerarMsgBFN();
+            else if(prefix === 'bqd') gerarMsgBQD();
         }
 
-        function removerDefeitoBFN(id) {
-            const row = document.getElementById(`bfn_row_${id}`);
+        function removerDefeito(prefix, id) {
+            const row = document.getElementById(`${prefix}_row_${id}`);
             if(row) row.remove();
-            gerarMsgBFN();
+            if(prefix === 'bfn') gerarMsgBFN();
+            else if(prefix === 'bqd') gerarMsgBQD();
         }
 
+        // Funções de Geração de Mensagens Individuais (BFN e BQD)
         function gerarMsgBFN() {
-            const raio = document.getElementById('bfn_raio').value || '____';
-            const trimmer = document.getElementById('bfn_trimmer').value || '____';
-
             let msg = `BF-N // Medições conforme LFINSPO0078.\n`;
-            msg += `Raio Gama:  ${raio} mm // Side trimmer:  ${trimmer}  mm.\n`;
+            
+            // Medições Opcionais BF-N
+            if (document.getElementById('bfn_check_medicoes').checked) {
+                const raio = document.getElementById('bfn_raio').value || '____';
+                const trimmer = document.getElementById('bfn_trimmer').value || '____';
+                msg += `Raio Gama:  ${raio} mm // Side trimmer:  ${trimmer}  mm.\n`;
+            }
 
-            // Processar Defeitos dinâmicos
+            // Medição Universal BF-N
+            if (document.getElementById('bfn_check_universal').checked) {
+                const ini = document.getElementById('bfn_uni_ini').value || '____';
+                const meio = document.getElementById('bfn_uni_meio').value || '____';
+                const fim = document.getElementById('bfn_uni_fim').value || '____';
+                msg += `Medição Universal: Início ${ini} mm / Meio ${meio} mm / Final ${fim} mm.\n`;
+            }
+
             const linhasDefeitos = document.querySelectorAll('.bfn-defect-row');
             linhasDefeitos.forEach(linha => {
                 const is100 = linha.querySelector('.bfn_def_100pct').checked;
                 const pct = linha.querySelector('.bfn_def_pct').value || '___';
                 
                 let nome = linha.querySelector('.bfn_def_nome').value.toUpperCase() || '_____';
-                if (nome.includes(" - ")) {
-                    nome = nome.split(" - ")[1].trim();
-                }
+                if (nome.includes(" - ")) nome = nome.split(" - ")[1].trim();
 
                 const int = linha.querySelector('.bfn_def_int').value.toUpperCase() || '___';
                 const face = linha.querySelector('.bfn_def_face').value;
@@ -897,12 +1150,11 @@
                 let posText = "";
                 if (!is100) {
                     const pos = linha.querySelector('.bfn_def_pos').value;
-                    posText = ` ${pos}`; // Espaço antes da palavra
+                    posText = ` ${pos}`;
                 }
 
                 let msgDefeito = `${pct}% ${nome} DE INTENSIDADE ${int}${posText} FACE ${face}`;
 
-                // Processar Lado
                 const lado = linha.querySelector('.bfn_def_lado').value;
                 const mm = linha.querySelector('.bfn_def_mm').value;
 
@@ -919,28 +1171,80 @@
                         msgDefeito += ` A ${mm}mm`;
                     }
                 }
-
                 msg += `${msgDefeito}\n`;
             });
 
-            // Processar Gráfico
             const grafico = document.getElementById('bfn_grafico').value;
-            if (grafico === 'OK') {
-                msg += `Grafico de Perfil Avaliado (OK)\n`;
-            } else if (grafico === 'AVALIAR') {
-                msg += `ATENÇÃO LE /LI´S, AVALIAR GRAFICO DE PLANICIDADE DO MATERIAL, SUJEITO A IRREGULARIDADE.\n`;
-            } else if (grafico === 'IRREGULAR') {
-                msg += `ATENÇÃO LE. GRAFICO DE PERFIL DO MATERIAL ESTÁ IRREGULAR.\n`;
-            }
+            if (grafico === 'OK') msg += `Grafico de Perfil Avaliado (OK)\n`;
+            else if (grafico === 'AVALIAR') msg += `ATENÇÃO LE /LI´S, AVALIAR GRAFICO DE PLANICIDADE DO MATERIAL, SUJEITO A IRREGULARIDADE.\n`;
+            else if (grafico === 'IRREGULAR') msg += `ATENÇÃO LE. GRAFICO DE PERFIL DO MATERIAL ESTÁ IRREGULAR.\n`;
 
-            // Inspetores no Final da mensagem com lógica de treinamento
             const txtInspSup = formatarInspetorParaMensagem('bfn_insp_sup', 'bfn_insp_sup_trein');
             const txtInspPar = formatarInspetorParaMensagem('bfn_insp_par', 'bfn_insp_par_trein');
             const txtInspInf = formatarInspetorParaMensagem('bfn_insp_inf', 'bfn_insp_inf_trein');
 
             msg += `\nInsp. Superior: ${txtInspSup}  // Insp. Parsytec: ${txtInspPar}  // Insp. Inferior + sistema: ${txtInspInf}  //\n`;
-
             document.getElementById('bfn_txt_final').innerText = msg.toUpperCase();
+        }
+
+        function gerarMsgBQD() {
+            // Cabeçalho BQD
+            let msg = `MEDIÇÕES CONFORME NORMA LFINSOT0005 BQD // Gráfico do LTQ / DEC OK // BOBINAMENTO OK.\n`;
+
+            // Medições Opcionais BQD
+            if (document.getElementById('bqd_check_medicoes').checked) {
+                const raio = document.getElementById('bqd_raio').value || '____';
+                const trimmer = document.getElementById('bqd_trimmer').value || '____';
+                msg += `Raio Gama:  ${raio} mm // Side trimmer:  ${trimmer}  mm.\n`;
+            }
+
+            // Defeitos BQD
+            const linhasDefeitos = document.querySelectorAll('.bqd-defect-row');
+            linhasDefeitos.forEach(linha => {
+                const is100 = linha.querySelector('.bqd_def_100pct').checked;
+                const pct = linha.querySelector('.bqd_def_pct').value || '___';
+                
+                let nome = linha.querySelector('.bqd_def_nome').value.toUpperCase() || '_____';
+                if (nome.includes(" - ")) nome = nome.split(" - ")[1].trim();
+
+                const int = linha.querySelector('.bqd_def_int').value.toUpperCase() || '___';
+                const face = linha.querySelector('.bqd_def_face').value;
+
+                let posText = "";
+                if (!is100) {
+                    const pos = linha.querySelector('.bqd_def_pos').value;
+                    posText = ` ${pos}`;
+                }
+
+                let msgDefeito = `${pct}% ${nome} DE INTENSIDADE ${int}${posText} FACE ${face}`;
+
+                const lado = linha.querySelector('.bqd_def_lado').value;
+                const mm = linha.querySelector('.bqd_def_mm').value;
+
+                if (lado !== "") {
+                    let textoLado = "";
+                    if (lado === "BORDAS") textoLado = "NAS BORDAS";
+                    else if (lado === "CENTRO") textoLado = "NO CENTRO";
+                    else if (lado === "C/B") textoLado = "CENTRO E BORDAS";
+                    else textoLado = `NO LADO ${lado}`;
+
+                    msgDefeito += `, ${textoLado}`;
+
+                    if (mm !== '' && (lado === 'MOTOR' || lado === 'OPERAÇÃO' || lado === 'BORDAS')) {
+                        msgDefeito += ` A ${mm}mm`;
+                    }
+                }
+                // Adicionando NQ: no começo de cada defeito na BQD
+                msg += `NQ: ${msgDefeito}\n`;
+            });
+
+            // Inspetores BQD
+            const txtInspSup = formatarInspetorParaMensagem('bqd_insp_sup', 'bqd_insp_sup_trein');
+            const txtInspPar = formatarInspetorParaMensagem('bqd_insp_par', 'bqd_insp_par_trein');
+            const txtInspInf = formatarInspetorParaMensagem('bqd_insp_inf', 'bqd_insp_inf_trein');
+
+            msg += `\nInsp. Superior: ${txtInspSup}  // Insp. Parsytec: ${txtInspPar}  // Insp. Inferior + sistema: ${txtInspInf}  //\n`;
+            document.getElementById('bqd_txt_final').innerText = msg.toUpperCase();
         }
 
         // ================= LÓGICAS ABA METRAGEM =================
@@ -1069,12 +1373,11 @@
         window.onload = function() {
             verificarLado('m');
             verificarLado('p');
-            // Inicia a aba BF-N já com uma linha de defeito vazia
-            adicionarDefeitoBFN();
+            // Removemos a criação inicial de defeitos para que as telas comecem 100% limpas.
+            // Para adicionar, basta clicar em "➕ ADICIONAR DEFEITOS".
+            gerarMsgBFN();
+            gerarMsgBQD();
         };
     </script>
 </body>
 </html>
-
-
-
