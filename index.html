@@ -4,82 +4,92 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>INSPEÇÃO DEC3 - LE/LI's</title>
-    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
     
     <style>
-        /* VARIÁVEIS DE TEMA CLARO E ESCURO... */
+        /* VARIÁVEIS DE TEMA CLARO E ESCURO - CORES MODERNIZADAS */
         :root {
-            --primary: #0056b3;
-            --secondary: #007bff;
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
+            --secondary: #3b82f6;
             --success: #10b981;
+            --success-hover: #059669;
             --warning: #f59e0b;
             --danger: #ef4444;
             --info: #0ea5e9;
             --purple: #8b5cf6;
             
-            --bg-color: #f0f2f5;
+            --bg-color: #f8fafc;
             --card-bg: #ffffff;
-            --text-main: #1f2937;
-            --text-muted: #6b7280;
-            --border-color: #d1d5db;
-            --input-bg: #ffffff;
-            --input-disabled: #e5e7eb;
-            --card-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+            --input-bg: #f8fafc;
+            --input-disabled: #f1f5f9;
+            --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            --focus-ring: rgba(37, 99, 235, 0.3);
         }
 
         [data-theme="dark"] {
             --primary: #3b82f6;
-            --secondary: #60a5fa;
+            --primary-hover: #60a5fa;
+            --secondary: #2563eb;
             --bg-color: #0f172a; 
             --card-bg: #1e293b; 
-            --text-main: #f8fafc;
+            --text-main: #f1f5f9;
             --text-muted: #94a3b8;
             --border-color: #334155;
             --input-bg: #0f172a;
             --input-disabled: #1e293b;
-            --card-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+            --card-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+            --focus-ring: rgba(96, 165, 250, 0.3);
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Inter', 'Segoe UI', sans-serif;
             text-transform: uppercase; 
-            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.2s ease;
         }
 
         body {
             background-color: var(--bg-color);
             color: var(--text-main);
-            padding-bottom: 40px;
+            padding-bottom: 60px;
         }
 
+        /* HEADER MODERNIZADO */
         header {
             position: relative;
             text-align: center;
-            padding: 60px 20px;
+            padding: 70px 20px;
             margin-bottom: 40px;
-            background-image: linear-gradient(to bottom, rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 1)), url('https://www.revistadoaco.com.br/wp-content/uploads/2020/03/PatiodeBobinas_IanLopes_Divulg.jpg');
+            background-image: linear-gradient(to bottom, rgba(15, 23, 42, 0.85), rgba(15, 23, 42, 0.95)), url('https://www.revistadoaco.com.br/wp-content/uploads/2020/03/PatiodeBobinas_IanLopes_Divulg.jpg');
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
             color: white;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-            border-bottom: 4px solid var(--primary);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+            border-bottom: 5px solid var(--primary);
         }
 
         header h1 {
-            font-size: 2.2rem;
-            letter-spacing: 2px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
-            margin-bottom: 10px;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 2.8rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-shadow: 0px 4px 10px rgba(0,0,0,0.5);
+            margin-bottom: 15px;
         }
 
         header p {
             font-size: 1.1rem;
-            color: #cbd5e1;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+            color: #94a3b8;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            text-transform: none;
         }
 
         .theme-toggle {
@@ -87,116 +97,144 @@
             top: 20px;
             right: 20px;
             background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(5px);
+            backdrop-filter: blur(10px);
             border: 1px solid rgba(255,255,255,0.2);
             color: white;
-            padding: 10px 15px;
-            border-radius: 30px;
+            padding: 10px 18px;
+            border-radius: 50px;
             cursor: pointer;
-            font-weight: bold;
+            font-weight: 600;
+            font-size: 0.85rem;
             display: flex;
             align-items: center;
             gap: 8px;
             text-transform: none;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
-        .theme-toggle:hover { background: rgba(255, 255, 255, 0.2); transform: scale(1.05); }
+        .theme-toggle:hover { background: rgba(255, 255, 255, 0.2); transform: translateY(-2px); }
 
-        .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+        /* LARGURA DO CONTAINER AUMENTADA PARA 1300PX */
+        .container { max-width: 1300px; margin: 0 auto; padding: 0 20px; }
 
-        .home-selector {
+        /* NAVEGAÇÃO POR ABAS - EM UMA LINHA */
+        .tabs-container {
+            display: flex;
+            flex-wrap: nowrap; /* Força ficar na mesma linha */
+            overflow-x: auto; /* Adiciona scroll se a tela for pequena */
+            gap: 10px;
+            margin-bottom: 30px;
             background-color: var(--card-bg);
-            padding: 25px;
-            border-radius: 12px;
-            box-shadow: var(--card-shadow);
-            margin-bottom: 25px;
-            text-align: center;
-            border-top: 4px solid var(--primary);
-        }
-
-        .home-selector select {
             padding: 15px;
-            font-size: 1.1rem;
-            width: 100%;
-            max-width: 500px;
-            margin-top: 15px;
-            font-weight: bold;
-            border-radius: 8px;
-            background-color: var(--input-bg);
-            color: var(--text-main);
-            border: 2px solid var(--border-color);
-            cursor: pointer;
+            border-radius: 16px;
+            box-shadow: var(--card-shadow);
+            justify-content: flex-start;
+            /* Scrollbar suave */
+            scrollbar-width: thin;
+            scrollbar-color: var(--primary) transparent;
         }
 
+        .tabs-container::-webkit-scrollbar { height: 6px; }
+        .tabs-container::-webkit-scrollbar-thumb { background-color: var(--primary); border-radius: 10px; }
+
+        .tab-btn {
+            background-color: transparent;
+            color: var(--text-muted);
+            border: 2px solid transparent;
+            padding: 12px 24px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            white-space: nowrap; /* Impede quebra de linha no texto do botão */
+            flex-shrink: 0;
+        }
+
+        .tab-btn:hover {
+            color: var(--primary);
+            background-color: var(--input-bg);
+        }
+
+        .tab-btn.active {
+            background-color: var(--primary);
+            color: white;
+            border-color: var(--primary);
+            box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3);
+        }
+
+        /* SEÇÕES DE CONTEÚDO */
         .calc-section {
             display: none; 
             background-color: var(--card-bg);
-            padding: 30px;
-            border-radius: 12px;
+            padding: 35px;
+            border-radius: 16px;
             box-shadow: var(--card-shadow);
-            margin-bottom: 20px;
+            margin-bottom: 25px;
+            border: 1px solid var(--border-color);
         }
 
-        .calc-section.active { display: block; animation: slideUp 0.5s ease; }
-        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .calc-section.active { display: block; animation: slideUp 0.4s ease; }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 
         .calc-section h2 {
-            font-size: 1.4rem;
+            font-size: 1.3rem;
             color: var(--primary);
             margin-bottom: 25px;
             border-bottom: 2px solid var(--border-color);
-            padding-bottom: 10px;
+            padding-bottom: 12px;
+            font-weight: 800;
         }
 
         .row { display: flex; gap: 20px; flex-wrap: wrap; align-items: flex-end; }
-        .form-group { margin-bottom: 20px; flex: 1; min-width: 200px; }
+        .form-group { margin-bottom: 20px; flex: 1; min-width: 220px; }
 
         .form-group label {
             display: block;
-            font-weight: 800;
-            font-size: 0.85rem;
+            font-weight: 700;
+            font-size: 0.8rem;
             margin-bottom: 8px;
             color: var(--text-muted);
-            letter-spacing: 1px;
+            letter-spacing: 0.5px;
         }
 
-        .label-flex {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+        .label-flex { display: flex; justify-content: space-between; align-items: center; }
+        
         .checkbox-inline {
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
             cursor: pointer;
             font-size: 0.75rem;
             color: var(--text-main);
-            font-weight: bold;
+            font-weight: 700;
             margin-bottom: 0 !important;
+            padding: 4px 8px;
+            background: var(--input-bg);
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
         }
-        .checkbox-inline input {
-            transform: scale(1.3);
-            cursor: pointer;
-            margin: 0;
-            padding: 0;
-            width: auto;
-        }
+        .checkbox-inline:hover { border-color: var(--primary); }
+        .checkbox-inline input { transform: scale(1.2); cursor: pointer; margin: 0; width: auto; accent-color: var(--primary); }
 
+        /* ESTILO DOS INPUTS */
         .form-group input, .form-group select {
             width: 100%;
-            padding: 12px 15px;
+            padding: 14px 16px;
             border: 2px solid var(--border-color);
-            border-radius: 8px;
-            font-size: 1.1rem;
-            font-weight: bold;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
             background-color: var(--input-bg);
             color: var(--text-main);
             outline: none;
+            transition: all 0.2s ease;
         }
 
         .form-group input:focus, .form-group select:focus {
             border-color: var(--primary);
-            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.2);
+            box-shadow: 0 0 0 4px var(--focus-ring);
         }
         
         .form-group input[readonly] {
@@ -206,83 +244,90 @@
             border-style: dashed;
         }
 
+        /* TOGGLE CONTAINERS COLORIDOS */
         .toggle-msg-container {
-            margin-top: 25px; 
-            padding: 15px 20px; 
-            background: var(--primary); 
-            border-radius: 8px; 
+            margin-top: 20px; 
+            padding: 18px 20px; 
+            border-radius: 10px; 
             display: flex;
             align-items: center;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: transform 0.2s ease;
         }
+        .toggle-msg-container:hover { transform: translateY(-2px); }
+
+        .toggle-msg-container.theme-primary { background: linear-gradient(135deg, var(--primary), var(--primary-hover)); }
+        .toggle-msg-container.theme-secondary { background: linear-gradient(135deg, var(--info), #0284c7); }
+        .toggle-msg-container.theme-purple { background: linear-gradient(135deg, var(--purple), #7c3aed); }
 
         .toggle-msg-container label {
-            font-weight: 800; 
+            font-weight: 700; 
             cursor: pointer; 
-            font-size: 1.2rem; 
+            font-size: 1rem; 
             color: white; 
             margin-left: 15px;
-            letter-spacing: 1px;
+            letter-spacing: 0.5px;
         }
 
         .toggle-msg-container input {
-            transform: scale(1.8); 
+            transform: scale(1.6); 
             cursor: pointer;
-            accent-color: var(--success);
+            accent-color: #fff;
         }
 
         .message-generator {
             display: none; 
             margin-top: 25px;
-            padding: 25px;
-            background-color: rgba(0, 0, 0, 0.03);
+            padding: 30px;
+            background-color: var(--input-bg);
             border: 1px solid var(--border-color);
-            border-radius: 12px;
+            border-radius: 16px;
             animation: fadeIn 0.4s ease;
         }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        [data-theme="dark"] .message-generator {
-            background-color: rgba(255, 255, 255, 0.02);
-        }
-
+        /* BOTÕES */
         .btn {
             background-color: var(--primary);
             color: white;
-            padding: 14px 20px;
+            padding: 14px 24px;
             border: none;
-            border-radius: 8px;
+            border-radius: 10px;
             cursor: pointer;
-            font-weight: bold;
+            font-weight: 700;
             width: 100%;
             margin-top: 10px;
-            font-size: 1rem;
+            font-size: 0.95rem;
             letter-spacing: 1px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: all 0.2s ease;
+            text-align: center;
         }
-        .btn:hover { background-color: var(--secondary); transform: translateY(-2px); box-shadow: 0 6px 12px rgba(0,0,0,0.2); }
+        .btn:hover { background-color: var(--primary-hover); transform: translateY(-2px); box-shadow: 0 6px 12px rgba(0,0,0,0.15); }
         .btn:active { transform: translateY(0); }
 
         .btn-refresh {
             background-color: var(--success);
             color: white;
-            padding: 12px;
+            padding: 14px;
             border: none;
-            border-radius: 8px;
+            border-radius: 10px;
             cursor: pointer;
             font-size: 0.9rem;
-            height: 50px; 
-            font-weight: bold;
+            height: 52px; 
+            font-weight: 700;
+            box-shadow: 0 4px 6px rgba(16, 185, 129, 0.2);
         }
-        .btn-refresh:hover { opacity: 0.8; }
+        .btn-refresh:hover { background-color: var(--success-hover); transform: translateY(-2px); }
 
+        /* CARDS DE MENSAGENS FINAIS */
         .message-card {
-            background-color: var(--input-bg);
+            background-color: var(--card-bg);
             border-left: 6px solid var(--warning);
-            padding: 20px;
-            margin-top: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            padding: 25px;
+            margin-top: 25px;
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
             border-top: 1px solid var(--border-color);
             border-right: 1px solid var(--border-color);
             border-bottom: 1px solid var(--border-color);
@@ -291,33 +336,34 @@
         .message-card.info-msg { border-left-color: var(--info); }
         
         .message-content {
-            font-family: 'Consolas', monospace;
-            background: var(--bg-color);
-            padding: 15px;
+            font-family: 'Consolas', 'Courier New', monospace;
+            background: #1e293b;
+            color: #f8fafc;
+            padding: 20px;
             margin: 15px 0;
-            border-radius: 6px;
+            border-radius: 8px;
             white-space: pre-wrap;
-            font-weight: bold;
-            font-size: 1.15rem;
+            font-weight: 400;
+            font-size: 1.05rem;
             text-transform: none; 
-            color: var(--text-main);
-            border: 1px solid var(--border-color);
+            border: 1px solid #0f172a;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
         }
 
         /* MODAL STYLES */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.7); backdrop-filter: blur(4px);
+            background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(5px);
             display: none; justify-content: center; align-items: center; z-index: 9999;
         }
         .modal-content {
-            background: var(--card-bg); padding: 30px; border-radius: 12px;
-            max-width: 600px; width: 90%; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.3);
-            position: relative; border-top: 5px solid var(--info);
+            background: var(--card-bg); padding: 35px; border-radius: 16px;
+            max-width: 650px; width: 90%; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+            position: relative; border-top: 6px solid var(--info);
             animation: slideUp 0.3s ease;
         }
         .modal-close {
-            position: absolute; top: 15px; right: 15px; background: transparent;
+            position: absolute; top: 15px; right: 20px; background: transparent;
             border: none; font-size: 1.5rem; color: var(--text-muted); cursor: pointer;
         }
         .modal-close:hover { color: var(--danger); }
@@ -333,111 +379,53 @@
         footer p {
             font-family: 'Rajdhani', sans-serif;
             text-transform: none;
-            font-size: 1.2rem;
-            font-weight: 500;
+            font-size: 1.1rem;
+            font-weight: 600;
             margin-bottom: 5px;
-            letter-spacing: 0.5px;
         }
-        footer p.sub { font-size: 1rem; opacity: 0.8; }
+        footer p.sub { font-size: 0.9rem; font-weight: 400; opacity: 0.8; }
 
         .bfn-defect-row, .bqd-defect-row {
-            background-color: var(--bg-color);
-            padding: 15px;
-            border-radius: 8px;
+            background-color: var(--input-bg);
+            padding: 20px;
+            border-radius: 12px;
             border: 1px solid var(--border-color);
             margin-bottom: 15px;
             position: relative;
         }
 
-        /* --- ESTILOS PARA AS TABELAS DE CÓDIGOS --- */
+        /* --- TABELAS --- */
         .table-custom {
             width: 100%;
             border-collapse: collapse;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
         }
         .table-custom th {
             background-color: var(--primary);
             color: white;
-            padding: 12px;
+            padding: 15px;
             text-align: left;
             position: sticky;
             top: 0;
             z-index: 10;
+            font-weight: 700;
+            letter-spacing: 0.5px;
         }
         .table-custom td {
-            padding: 10px 12px;
+            padding: 12px 15px;
             border-bottom: 1px solid var(--border-color);
             color: var(--text-main);
-            font-weight: bold;
+            font-weight: 600;
         }
-        .table-custom tr:hover td {
-            background-color: rgba(0, 0, 0, 0.05);
-        }
-        [data-theme="dark"] .table-custom tr:hover td {
-            background-color: rgba(255, 255, 255, 0.05);
-        }
+        .table-custom tr:nth-child(even) td { background-color: rgba(0, 0, 0, 0.02); }
+        [data-theme="dark"] .table-custom tr:nth-child(even) td { background-color: rgba(255, 255, 255, 0.02); }
+        
+        .table-custom tr:hover td { background-color: rgba(37, 99, 235, 0.1); }
     </style>
 </head>
 <body data-theme="dark">
 
-    <datalist id="lista-defeitos">
-        <option value="M9 - AMOSTRA ESTRAVIADA"></option>
-        <option value="50 - APARAMENTO IRREGULAR"></option>
-        <option value="A0 - ALONGAMENTO IRREGULAR"></option>
-        <option value="A1 - AMASSAMENTO"></option>
-        <option value="53 - BI"></option>
-        <option value="51 - BITOLA VARIAVEL"></option>
-        <option value="56 - BORDA AVARIADA"></option>
-        <option value="F3 - BOLHA"></option>
-        <option value="A5 - CALOMBO"></option>
-        <option value="F5 - CAREPA COBRE"></option>
-        <option value="CS - CAREPA SILICIOSA"></option>
-        <option value="05 - CAREPA ENCRUSTADA EM PONTO"></option>
-        <option value="02 - CAREPA ENCRUSTADA DE CILINDRO"></option>
-        <option value="F6 - CAVIDADE"></option>
-        <option value="D9 - CAVIDADE DE CAREPA DE ALTA TEM"></option>
-        <option value="D0 - CAVIDADE DE CAREPA EM FAIXA"></option>
-        <option value="D7 - CAVIDADE DE CAREPA EM PONTO"></option>
-        <option value="16 - CAVIDADE DE CAREPA DE CILINDRO"></option>
-        <option value="94 - CAVIDADE DE FERRUGEM"></option>
-        <option value="62 - DOBRA"></option>
-        <option value="L2 - DUREZA HETEROGÊNEA"></option>
-        <option value="08 - ESFOLIAÇÃO QUIMICA"></option>
-        <option value="F4 - ENTALHE"></option>
-        <option value="Z5 - ERRO OPERACIONAL DECAPAGENS"></option>
-        <option value="EM - ESFOLIACAO MECÂNICA"></option>
-        <option value="75 - FURO"></option>
-        <option value="76 - GOTA FRIA"></option>
-        <option value="12 - INCRUSTACAO DE MATERIAL"></option>
-        <option value="G1 - MANCHA AZULADA"></option>
-        <option value="ME - MANCHA ESCURA"></option>
-        <option value="17 - MANCHA PRETA"></option>
-        <option value="15 - MANCHA AMARELA"></option>
-        <option value="18 - MARCA DE CILINDRO"></option>
-        <option value="21 - MARCA DE EQUIPAMENTO"></option>
-        <option value="C5 - MARCA DE SUJEIRA GRAXA"></option>
-        <option value="C6 - MARCA DE SUJEIRA OLEO"></option>
-        <option value="27 - MARCA DE SUJEIRA EM PONTO"></option>
-        <option value="22 - MARCA DESLIZAMENTO"></option>
-        <option value="G0 - MARCA SUJEIRA BORRACHA"></option>
-        <option value="30 - ONDULADO LATERAL"></option>
-        <option value="31 - ONDULADO CENTRAL"></option>
-        <option value="Z4 - OUTROS DECAPAGEM"></option>
-        <option value="L3 - OXIDAÇÃO EM PONTOS"></option>
-        <option value="A2 - PASSAGEM DE AGUA"></option>
-        <option value="G7 - PESO A MAIS"></option>
-        <option value="1E - PESO A MAIS"></option>
-        <option value="1D - PESO A MENOS"></option>
-        <option value="L4 - PLANICIDADE IRREGULAR"></option>
-        <option value="D1 - QUEBRA DE BORDA"></option>
-        <option value="D2 - QUEBRA DE BORDA PERFIL"></option>
-        <option value="36 - QUEBRA DE SUPERFICIE A QUENTE"></option>
-        <option value="37 - RISCO"></option>
-        <option value="90 - SOBREPOSTO"></option>
-        <option value="TR - TRINCA / FENDA"></option>
-        <option value="E5 - VERRUGA"></option>
-        <option value="41 - VERGÃO"></option>
-    </datalist>
+    <datalist id="lista-defeitos"></datalist>
 
     <datalist id="lista-inspetores">
         <option value="GIL"></option>
@@ -452,31 +440,28 @@
 
     <header>
         <button class="theme-toggle" onclick="toggleTheme()" id="btnTheme">
-            ☀️ MUDAR PARA TEMA CLARO
+            ☀️ TEMA CLARO
         </button>
-        <h1>Painel Operacional de INSPEÇÃO</h1>
-        <p>SISTEMA INTELIGENTE DE CÁLCULO DIMENSIONAL, CONSULTAS E ALERTAS (LTF // DEC3 // LE // LI's)</p>
+        <h1>Painel Operacional DEC3</h1>
+        <p>Sistema Inteligente de Cálculo Dimensional, Consultas e Alertas</p>
     </header>
 
     <div class="container">
         
-        <div class="home-selector">
-            <label style="color: var(--text-muted);">SELECIONE A OPERAÇÃO DESEJADA:</label>
-            <select id="operacao_select" onchange="mudarAba()">
-                <option value="bfn" selected>⭐ GERADOR DE MENSAGEM BF - N</option>
-                <option value="bqd">⭐ GERADOR DE MENSAGEM BQD</option>
-                <option value="metragem">⭐ POSIÇÃO PELA METRAGEM</option>
-                <option value="peso">⭐ POSIÇÃO PELO PESO</option>
-                <option value="codigos">⭐ CONSULTA DE CÓDIGOS (DEFEITOS E TABELAS)</option>
-            </select>
+        <div class="tabs-container">
+            <button class="tab-btn" onclick="mudarAba('bfn', this)">⭐ MENSAGEM BF-N</button>
+            <button class="tab-btn" onclick="mudarAba('bqd', this)">⭐ MENSAGEM BQD</button>
+            <button class="tab-btn" onclick="mudarAba('metragem', this)">📏 PELA METRAGEM</button>
+            <button class="tab-btn" onclick="mudarAba('peso', this)">⚖️ PELO PESO</button>
+            <button class="tab-btn active" onclick="mudarAba('codigos', this)">📚 CÓDIGOS & TABELAS</button>
         </div>
 
-        <div id="aba_bfn" class="calc-section active">
+        <div id="aba_bfn" class="calc-section">
             <h2>1. MEDIÇÕES E INSPETORES (BF-N)</h2>
             
-            <div class="toggle-msg-container" style="margin-bottom: 20px; margin-top: 0; background-color: var(--secondary);">
+            <div class="toggle-msg-container theme-secondary" style="margin-bottom: 20px; margin-top: 0;">
                 <input type="checkbox" id="bfn_check_medicoes" onchange="toggleMedicoesBFN()">
-                <label for="bfn_check_medicoes">INFORMAR MEDIÇÕES (RAIO GAMA / SIDE TRIMMER)?</label>
+                <label for="bfn_check_medicoes">Informar medições (Raio Gama / Side Trimmer)?</label>
             </div>
 
             <div id="bfn_medicoes_container" style="display: none;">
@@ -492,13 +477,13 @@
                 </div>
             </div>
 
-            <div class="toggle-msg-container" style="margin-bottom: 20px; margin-top: 0; background-color: var(--purple);">
+            <div class="toggle-msg-container theme-purple" style="margin-bottom: 20px; margin-top: 0;">
                 <input type="checkbox" id="bfn_check_universal" onchange="toggleUniversalBFN()">
-                <label for="bfn_check_universal">INFORMAR MEDIÇÃO UNIVERSAL?</label>
+                <label for="bfn_check_universal">Informar medição universal?</label>
             </div>
 
             <div id="bfn_universal_container" style="display: none;">
-                <div class="row" style="background: rgba(139, 92, 246, 0.1); padding: 15px; border-radius: 8px; border: 1px dashed var(--purple);">
+                <div class="row" style="background: var(--input-bg); padding: 20px; border-radius: 12px; border: 1px dashed var(--purple);">
                     <div class="form-group" style="margin-bottom: 0;">
                         <label>INÍCIO (mm)</label>
                         <input type="number" id="bfn_uni_ini" placeholder="EX: 1205" oninput="gerarMsgBFN()">
@@ -514,7 +499,7 @@
                 </div>
             </div>
             
-            <div class="row" style="margin-top: 20px;">
+            <div class="row" style="margin-top: 25px;">
                 <div class="form-group">
                     <div class="label-flex">
                         <label>INSP. SUPERIOR</label>
@@ -555,25 +540,25 @@
                 </div>
             </div>
 
-            <h2 style="margin-top: 20px;">2. DEFEITOS REGISTRADOS</h2>
+            <h2 style="margin-top: 30px;">2. DEFEITOS REGISTRADOS</h2>
             <div id="bfn_defeitos_container"></div>
-            <button class="btn" style="background-color: var(--success); width: auto; padding: 10px 20px; font-size: 0.9rem;" onclick="adicionarDefeitoBFN()">➕ ADICIONAR DEFEITOS</button>
+            <button class="btn" style="background-color: var(--success); width: auto; font-size: 0.9rem;" onclick="adicionarDefeitoBFN()">➕ ADICIONAR DEFEITOS</button>
 
-            <h2 style="margin-top: 30px;">3. GRÁFICO DE PERFIL</h2>
+            <h2 style="margin-top: 35px;">3. GRÁFICO DE PERFIL</h2>
             <div class="row">
                 <div class="form-group">
                     <label>AVALIAÇÃO DO GRÁFICO</label>
                     <select id="bfn_grafico" onchange="gerarMsgBFN()">
-                        <option value="OK">OK (GRÁFICO AVALIADO)</option>
-                        <option value="AVALIAR">ATENÇÃO: AVALIAR (LINHAS 1 E 2)</option>
-                        <option value="IRREGULAR">ATENÇÃO: GRÁFICO IRREGULAR</option>
+                        <option value="OK">✅ OK (GRÁFICO AVALIADO)</option>
+                        <option value="AVALIAR">⚠️ ATENÇÃO: AVALIAR (LINHAS 1 E 2)</option>
+                        <option value="IRREGULAR">🚨 ATENÇÃO: GRÁFICO IRREGULAR</option>
                     </select>
                 </div>
             </div>
 
             <div id="bfn_resultado_mensagens" style="margin-top: 20px;">
                 <div class="message-card">
-                    <h4 style="color: var(--warning);">MENSAGEM FINAL BF - N</h4>
+                    <h4 style="color: var(--warning); margin-bottom: 10px;">MENSAGEM FINAL BF - N</h4>
                     <div class="message-content" id="bfn_txt_final">PREENCHA OS DADOS ACIMA...</div>
                     <button class="btn" style="background-color: var(--warning); color: #000;" onclick="copiarTexto('bfn_txt_final', this)">📋 COPIAR MENSAGEM BF-N</button>
                 </div>
@@ -581,13 +566,13 @@
         </div>
 
         <div id="aba_bqd" class="calc-section">
-            <button class="btn" style="background-color: var(--info); margin-bottom: 25px; padding: 15px;" onclick="abrirModalBQD()">📋 ABRIR INFORMATIVOS BQD</button>
+            <button class="btn" style="background-color: var(--info); margin-bottom: 30px; padding: 16px;" onclick="abrirModalBQD()">📖 ABRIR INFORMATIVOS BQD</button>
 
             <h2>1. MEDIÇÕES E INSPETORES (BQD)</h2>
 
-            <div class="toggle-msg-container" style="margin-bottom: 20px; margin-top: 0; background-color: var(--secondary);">
+            <div class="toggle-msg-container theme-secondary" style="margin-bottom: 20px; margin-top: 0;">
                 <input type="checkbox" id="bqd_check_medicoes" onchange="toggleMedicoesBQD()">
-                <label for="bqd_check_medicoes">INFORMAR MEDIÇÕES (RAIO GAMA / SIDE TRIMMER)?</label>
+                <label for="bqd_check_medicoes">Informar medições (Raio Gama / Side Trimmer)?</label>
             </div>
 
             <div id="bqd_medicoes_container" style="display: none;">
@@ -644,13 +629,13 @@
                 </div>
             </div>
 
-            <h2 style="margin-top: 20px;">2. DEFEITOS REGISTRADOS (BQD)</h2>
+            <h2 style="margin-top: 30px;">2. DEFEITOS REGISTRADOS (BQD)</h2>
             <div id="bqd_defeitos_container"></div>
-            <button class="btn" style="background-color: var(--success); width: auto; padding: 10px 20px; font-size: 0.9rem;" onclick="adicionarDefeitoBQD()">➕ ADICIONAR DEFEITOS</button>
+            <button class="btn" style="background-color: var(--success); width: auto; font-size: 0.9rem;" onclick="adicionarDefeitoBQD()">➕ ADICIONAR DEFEITOS</button>
 
-            <div id="bqd_resultado_mensagens" style="margin-top: 30px;">
-                <div class="message-card" style="border-left-color: var(--info);">
-                    <h4 style="color: var(--info);">MENSAGEM FINAL BQD</h4>
+            <div id="bqd_resultado_mensagens" style="margin-top: 35px;">
+                <div class="message-card info-msg">
+                    <h4 style="color: var(--info); margin-bottom: 10px;">MENSAGEM FINAL BQD</h4>
                     <div class="message-content" id="bqd_txt_final">PREENCHA OS DADOS ACIMA...</div>
                     <button class="btn" style="background-color: var(--info); color: #fff;" onclick="copiarTexto('bqd_txt_final', this)">📋 COPIAR MENSAGEM BQD</button>
                 </div>
@@ -678,7 +663,7 @@
                 </div>
             </div>
 
-            <div class="toggle-msg-container">
+            <div class="toggle-msg-container theme-primary">
                 <input type="checkbox" id="m_check_abrir_msg" onchange="toggleMensagens('m')">
                 <label for="m_check_abrir_msg">GERAR MENSAGENS AUTOMÁTICAS? (SIM)</label>
             </div>
@@ -705,6 +690,7 @@
                             <option value="OPERAÇÃO">OPERAÇÃO</option>
                             <option value="BORDAS">BORDAS</option>
                             <option value="CENTRO">CENTRO</option>
+                            <option value="C/B">C/B</option>
                         </select>
                     </div>
                     <div class="form-group" id="m_grupo_distancia" style="display: block;">
@@ -727,8 +713,8 @@
                     </div>
                 </div>
 
-                <div style="margin-top: 10px; padding: 15px; background: var(--bg-color); border-radius: 8px; border: 1px solid var(--border-color);">
-                    <label class="checkbox-inline" style="font-size: 1.1rem;">
+                <div style="margin-top: 10px; padding: 20px; background: var(--bg-color); border-radius: 12px; border: 1px solid var(--border-color);">
+                    <label class="checkbox-inline" style="font-size: 1rem;">
                         <input type="checkbox" id="m_check_gerar_li" onchange="gerarMsg('m')" style="transform: scale(1.5);">
                         INCLUIR ALERTA PARA LI'S?
                     </label>
@@ -736,12 +722,12 @@
 
                 <div id="m_resultado_mensagens">
                     <div class="message-card">
-                        <h4 style="color: var(--warning);">MENSAGEM LTF</h4>
+                        <h4 style="color: var(--warning); margin-bottom: 10px;">MENSAGEM LTF</h4>
                         <div class="message-content" id="m_txt_ltf">PREENCHA OS DADOS ACIMA...</div>
                         <button class="btn" style="background-color: var(--warning); color: #000;" onclick="copiarTexto('m_txt_ltf', this)">📋 COPIAR MENSAGEM LTF</button>
                     </div>
                     <div class="message-card li-msg" id="m_card_li" style="display: none;">
-                        <h4 style="color: var(--danger);">MENSAGEM LI'S</h4>
+                        <h4 style="color: var(--danger); margin-bottom: 10px;">MENSAGEM LI'S</h4>
                         <div class="message-content" id="m_txt_li"></div>
                         <button class="btn" style="background-color: var(--danger);" onclick="copiarTexto('m_txt_li', this)">📋 COPIAR MENSAGEM LI</button>
                     </div>
@@ -770,7 +756,7 @@
                 </div>
             </div>
 
-            <div class="toggle-msg-container">
+            <div class="toggle-msg-container theme-primary">
                 <input type="checkbox" id="p_check_abrir_msg" onchange="toggleMensagens('p')">
                 <label for="p_check_abrir_msg">GERAR MENSAGENS AUTOMÁTICAS? (SIM)</label>
             </div>
@@ -797,6 +783,7 @@
                             <option value="OPERAÇÃO">OPERAÇÃO</option>
                             <option value="BORDAS">BORDAS</option>
                             <option value="CENTRO">CENTRO</option>
+                            <option value="C/B">C/B</option>
                         </select>
                     </div>
                     <div class="form-group" id="p_grupo_distancia" style="display: block;">
@@ -819,8 +806,8 @@
                     </div>
                 </div>
 
-                <div style="margin-top: 10px; padding: 15px; background: var(--bg-color); border-radius: 8px; border: 1px solid var(--border-color);">
-                    <label class="checkbox-inline" style="font-size: 1.1rem;">
+                <div style="margin-top: 10px; padding: 20px; background: var(--bg-color); border-radius: 12px; border: 1px solid var(--border-color);">
+                    <label class="checkbox-inline" style="font-size: 1rem;">
                         <input type="checkbox" id="p_check_gerar_li" onchange="gerarMsg('p')" style="transform: scale(1.5);">
                         INCLUIR ALERTA PARA LI'S?
                     </label>
@@ -828,12 +815,12 @@
 
                 <div id="p_resultado_mensagens">
                     <div class="message-card">
-                        <h4 style="color: var(--warning);">MENSAGEM LTF</h4>
+                        <h4 style="color: var(--warning); margin-bottom: 10px;">MENSAGEM LTF</h4>
                         <div class="message-content" id="p_txt_ltf">PREENCHA OS DADOS ACIMA...</div>
                         <button class="btn" style="background-color: var(--warning); color: #000;" onclick="copiarTexto('p_txt_ltf', this)">📋 COPIAR MENSAGEM LTF</button>
                     </div>
                     <div class="message-card li-msg" id="p_card_li" style="display: none;">
-                        <h4 style="color: var(--danger);">MENSAGEM LI'S</h4>
+                        <h4 style="color: var(--danger); margin-bottom: 10px;">MENSAGEM LI'S</h4>
                         <div class="message-content" id="p_txt_li"></div>
                         <button class="btn" style="background-color: var(--danger);" onclick="copiarTexto('p_txt_li', this)">📋 COPIAR MENSAGEM LI</button>
                     </div>
@@ -841,13 +828,13 @@
             </div>
         </div>
 
-        <div id="aba_codigos" class="calc-section">
+        <div id="aba_codigos" class="calc-section active">
             <h2>1. DICIONÁRIO DE DEFEITOS LAMINADOS</h2>
-            <div class="form-group" style="margin-bottom: 10px;">
-                <input type="text" id="busca_defeito" placeholder="🔍 BUSCAR POR CÓDIGO (EX: 76), ABREV (EX: GF) OU NOME..." onkeyup="filtrarTabelaDefeitos()" style="border-color: var(--info); border-width: 3px;">
+            <div class="form-group" style="margin-bottom: 20px;">
+                <input type="text" id="busca_defeito" placeholder="🔍 BUSCAR POR CÓDIGO (EX: 76), ABREV (EX: GF) OU NOME..." onkeyup="filtrarTabelaDefeitos()" style="border-color: var(--primary); border-width: 2px;">
             </div>
             
-            <div style="max-height: 400px; overflow-y: auto; border: 1px solid var(--border-color); border-radius: 8px; margin-bottom: 30px;">
+            <div style="max-height: 450px; overflow-y: auto; border: 1px solid var(--border-color); border-radius: 12px; margin-bottom: 35px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);">
                 <table class="table-custom" id="tabela_defeitos_view">
                     <thead>
                         <tr>
@@ -862,27 +849,27 @@
             </div>
 
             <h2>2. TABELAS DE APOIO (EQUIPAMENTO, POSIÇÃO E INTENSIDADE)</h2>
-            <div class="row" style="margin-bottom: 20px;">
-                <button class="btn" style="background-color: var(--secondary); flex: 1; font-size: 0.85rem;" onclick="toggleTabelaApoio('equipamentos')">⚙️ CÓD. EQUIPAMENTO</button>
-                <button class="btn" style="background-color: var(--info); flex: 1; font-size: 0.85rem;" onclick="toggleTabelaApoio('localizacao')">📍 CÓD. LOCALIZAÇÃO</button>
-                <button class="btn" style="background-color: var(--purple); flex: 1; font-size: 0.85rem;" onclick="toggleTabelaApoio('intensidade')">📊 CLASSIF. INTENSIDADE</button>
+            <div class="row" style="margin-bottom: 25px;">
+                <button class="btn" style="background-color: var(--secondary); flex: 1; font-size: 0.9rem;" onclick="toggleTabelaApoio('equipamentos')">⚙️ CÓD. EQUIPAMENTO</button>
+                <button class="btn" style="background-color: var(--info); flex: 1; font-size: 0.9rem;" onclick="toggleTabelaApoio('localizacao')">📍 CÓD. LOCALIZAÇÃO</button>
+                <button class="btn" style="background-color: var(--purple); flex: 1; font-size: 0.9rem;" onclick="toggleTabelaApoio('intensidade')">📊 CLASSIF. INTENSIDADE</button>
             </div>
 
-            <div id="apoio_equipamentos" style="display: none; max-height: 300px; overflow-y: auto; border: 1px solid var(--border-color); border-radius: 8px; margin-bottom: 15px;">
+            <div id="apoio_equipamentos" style="display: none; max-height: 350px; overflow-y: auto; border: 1px solid var(--border-color); border-radius: 12px; margin-bottom: 20px;">
                 <table class="table-custom">
                     <thead><tr><th>CÓDIGO</th><th>EQUIPAMENTO DE ORIGEM</th></tr></thead>
                     <tbody id="tbody_equipamentos"></tbody>
                 </table>
             </div>
 
-            <div id="apoio_localizacao" style="display: none; max-height: 300px; overflow-y: auto; border: 1px solid var(--border-color); border-radius: 8px; margin-bottom: 15px;">
+            <div id="apoio_localizacao" style="display: none; max-height: 350px; overflow-y: auto; border: 1px solid var(--border-color); border-radius: 12px; margin-bottom: 20px;">
                 <table class="table-custom">
                     <thead><tr><th>CÓDIGO</th><th>POSIÇÃO</th><th>FACE</th></tr></thead>
                     <tbody id="tbody_localizacao"></tbody>
                 </table>
             </div>
 
-            <div id="apoio_intensidade" style="display: none; max-height: 300px; overflow-y: auto; border: 1px solid var(--border-color); border-radius: 8px; margin-bottom: 15px;">
+            <div id="apoio_intensidade" style="display: none; max-height: 350px; overflow-y: auto; border: 1px solid var(--border-color); border-radius: 12px; margin-bottom: 20px;">
                 <table class="table-custom">
                     <thead><tr><th>INTENSIDADE</th><th>CARACTERÍSTICA</th><th>DESCRIÇÃO</th></tr></thead>
                     <tbody id="tbody_intensidade"></tbody>
@@ -895,50 +882,50 @@
     <div class="modal-overlay" id="modalBQD">
         <div class="modal-content">
             <button class="modal-close" onclick="fecharModalBQD()" title="Fechar">✖</button>
-            <h2 style="color: var(--info); margin-bottom: 15px; border-bottom: 1px solid var(--border-color); padding-bottom: 10px;">📋 INFORMATIVOS BQD</h2>
+            <h2 style="color: var(--primary); margin-bottom: 20px; border-bottom: 2px solid var(--border-color); padding-bottom: 12px; font-weight: 800;">📋 INFORMATIVOS BQD</h2>
             
-            <div class="message-content" style="font-weight: normal; font-size: 1rem; color: var(--text-main); text-transform: none; max-height: 60vh; overflow-y: auto;">
+            <div class="message-content" style="font-weight: 500; font-size: 1rem; color: var(--text-main); text-transform: none; max-height: 60vh; overflow-y: auto; background: transparent; border: none; box-shadow: none; padding: 0;">
                 
-                <h3 style="text-align: center; margin-bottom: 15px; color: var(--text-main);">Rotinas Decapagem 3</h3>
+                <h3 style="text-align: center; margin-bottom: 20px; color: var(--text-main); font-weight: 800;">Rotinas Decapagem 3</h3>
                 
-                <h4 style="color: var(--info); margin-top: 15px;">BQD // BGD - RETORNOS DE LOTE BQD</h4>
-                <ul style="margin-left: 20px; margin-top: 5px;">
-                    <li>ENR. 1 &lt;= 4.75 &gt;= 1200 Baixa Resistencia 30mts</li>
-                    <li>ENR. 2 &lt;= 4.75 &gt;= 1200 Baixa Resistencia 20mts</li>
+                <h4 style="color: var(--info); margin-top: 20px; font-weight: 700;">BQD // BGD - RETORNOS DE LOTE BQD</h4>
+                <ul style="margin-left: 25px; margin-top: 8px; line-height: 1.6;">
+                    <li>ENR. 1 <= 4.75 >= 1200 Baixa Resistencia 30mts</li>
+                    <li>ENR. 2 <= 4.75 >= 1200 Baixa Resistencia 20mts</li>
                 </ul>
 
-                <h4 style="color: var(--info); margin-top: 15px;">RETORNOS 10mts</h4>
-                <ul style="margin-left: 20px; margin-top: 5px;">
-                    <li>1º Turno &lt;= 4,75</li>
-                    <li>1º Largura &gt; 1250</li>
-                    <li>A cada 20 rolos de cada enroladeira, na metade desse intervalo deverá ser feito a inspeção visual na saída com velocidade &lt;= 120m/min.</li>
+                <h4 style="color: var(--info); margin-top: 20px; font-weight: 700;">RETORNOS 10mts</h4>
+                <ul style="margin-left: 25px; margin-top: 8px; line-height: 1.6;">
+                    <li>1º Turno <= 4,75</li>
+                    <li>1º Largura > 1250</li>
+                    <li>A cada 20 rolos de cada enroladeira, na metade desse intervalo deverá ser feito a inspeção visual na saída com velocidade <= 120m/min.</li>
                     <li>Suspeita de anormalidade.</li>
-                    <li>&gt; 4,75 Realizar na saída a velocidade &lt;= 120m/min.</li>
+                    <li>> 4,75 Realizar na saída a velocidade <= 120m/min.</li>
                 </ul>
 
-                <h4 style="color: var(--info); margin-top: 15px;">OLEAMENTO</h4>
-                <ul style="margin-left: 20px; margin-top: 5px;">
+                <h4 style="color: var(--info); margin-top: 20px; font-weight: 700;">OLEAMENTO</h4>
+                <ul style="margin-left: 25px; margin-top: 8px; line-height: 1.6;">
                     <li>BQD / BGD de 5 em 5 rolos processados.</li>
                     <li>BF / BFH a cada 10 rolos.</li>
                 </ul>
 
-                <h4 style="color: var(--info); margin-top: 15px;">BOBINAMENTO</h4>
-                <ul style="margin-left: 20px; margin-top: 5px;">
+                <h4 style="color: var(--info); margin-top: 20px; font-weight: 700;">BOBINAMENTO</h4>
+                <ul style="margin-left: 25px; margin-top: 8px; line-height: 1.6;">
                     <li>BQD / BGD: Todos os rolos</li>
                     <li>BF / BFH: 1º Rolo do turno e a cada 10 rolos</li>
                 </ul>
 
-                <h4 style="color: var(--info); margin-top: 15px;">BF / BFH - INSPEÇÃO FORA DA CABINE</h4>
-                <ul style="margin-left: 20px; margin-top: 5px;">
+                <h4 style="color: var(--info); margin-top: 20px; font-weight: 700;">BF / BFH - INSPEÇÃO FORA DA CABINE</h4>
+                <ul style="margin-left: 25px; margin-top: 8px; line-height: 1.6;">
                     <li>1º Rolo do Turno</li>
-                    <li>1º Rolo Largura &gt; 1250</li>
+                    <li>1º Rolo Largura > 1250</li>
                     <li>A cada 20 bobinas</li>
                     <li>Suspeita de anormalidade</li>
-                    <li>Material com espessura nominal &gt; 4,75 ou aparado, não realizar o retorno parcial da tira, realizar inspeção visual na saída com vel 120 m/min.</li>
+                    <li>Material com espessura nominal > 4,75 ou aparado, não realizar o retorno parcial da tira, realizar inspeção visual na saída com vel 120 m/min.</li>
                 </ul>
 
-                <h4 style="color: var(--info); margin-top: 15px;">APARAMENTO (BQD, BGD, BF E BFH)</h4>
-                <ul style="margin-left: 20px; margin-top: 5px;">
+                <h4 style="color: var(--info); margin-top: 20px; font-weight: 700;">APARAMENTO (BQD, BGD, BF E BFH)</h4>
+                <ul style="margin-left: 25px; margin-top: 8px; line-height: 1.6;">
                     <li>1º Rolo Aparado do turno e a cada 10 rolos (pátio LTF)</li>
                     <li>Quando houver anormalidade (plataforma inspeção)</li>
                     <li>Quando Virar ou Trocar Navalhas Circulares (Plataforma de inspeção)</li>
@@ -954,8 +941,8 @@
     </footer>
 
     <script>
-        // ================= BANCO DE DADOS DAS TABELAS (NOVA ABA) =================
-const dbDefeitos = [
+        // ================= BANCO DE DADOS DAS TABELAS =================
+        const dbDefeitos = [
             { cod: "0", abrev: "TM", desc: "TROCA DE MATERIAL" },
             { cod: "1", abrev: "CIB", desc: "CAREPA INCRUSTADA BORDA" },
             { cod: "2", abrev: "CIC", desc: "CAREPA INCRUSTADA CILINDRO" },
@@ -1288,7 +1275,19 @@ const dbDefeitos = [
             { int: "4", carac: "Fortíssima (2ª Qualidade)", desc: "São fortíssimas imperfeições na superfície que podem prejudicar o uso e não são retirados por recondicionamento." }
         ];
 
-        // --- FUNÇÕES DA NOVA ABA DE CÓDIGOS ---
+        // --- POPULAR LISTA DE DEFEITOS (DINÂMICA) - AGORA COM CÓDIGO ---
+        function popularListaDefeitos() {
+            const datalist = document.getElementById('lista-defeitos');
+            datalist.innerHTML = ''; // Limpa a lista
+            dbDefeitos.forEach(d => {
+                const option = document.createElement('option');
+                // Adicionado o código na busca
+                option.value = `${d.cod} - ${d.abrev} - ${d.desc}`;
+                datalist.appendChild(option);
+            });
+        }
+
+        // --- FUNÇÕES DA ABA DE CÓDIGOS ---
         function renderTabelasApoio() {
             filtrarTabelaDefeitos();
             
@@ -1335,22 +1334,26 @@ const dbDefeitos = [
             const btn = document.getElementById('btnTheme');
             if (body.getAttribute('data-theme') === 'dark') {
                 body.removeAttribute('data-theme');
-                btn.innerHTML = '🌙 MUDAR PARA TEMA ESCURO';
-                btn.style.color = '#1f2937';
-                btn.style.borderColor = '#1f2937';
+                btn.innerHTML = '🌙 TEMA ESCURO';
+                btn.style.color = '#0f172a';
+                btn.style.borderColor = 'rgba(0,0,0,0.2)';
             } else {
                 body.setAttribute('data-theme', 'dark');
-                btn.innerHTML = '☀️ MUDAR PARA TEMA CLARO';
+                btn.innerHTML = '☀️ TEMA CLARO';
                 btn.style.color = 'white';
                 btn.style.borderColor = 'rgba(255,255,255,0.2)';
             }
         }
 
         // --- NAVEGAÇÃO ENTRE ABAS ---
-        function mudarAba() {
+        function mudarAba(abaId, buttonElement) {
             document.querySelectorAll('.calc-section').forEach(s => s.classList.remove('active'));
-            const sel = document.getElementById('operacao_select').value;
-            document.getElementById('aba_' + sel).classList.add('active');
+            document.getElementById('aba_' + abaId).classList.add('active');
+
+            if(buttonElement) {
+                document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+                buttonElement.classList.add('active');
+            }
         }
 
         // --- MODAL BQD ---
@@ -1469,25 +1472,25 @@ const dbDefeitos = [
         // Template Compartilhado para Linha de Defeito (BFN e BQD)
         function getHTMLDefeito(prefix, id) {
             return `
-                <div class="row" style="width: 100%; margin-bottom: 10px;">
-                    <div class="form-group" style="flex: 0 0 110px; min-width: 90px;">
+                <div class="row" style="width: 100%; margin-bottom: 15px;">
+                    <div class="form-group" style="flex: 0 0 110px; min-width: 90px; margin-bottom: 0;">
                         <div class="label-flex">
                             <label>PORC.(%)</label>
-                            <label class="checkbox-inline">
+                            <label class="checkbox-inline" style="background:transparent; border:none; padding:0;">
                                 <input type="checkbox" class="${prefix}_def_100pct" onchange="toggle100Pct('${prefix}', ${id})" title="100% Total"> 100%
                             </label>
                         </div>
                         <input type="number" class="${prefix}_def_pct" placeholder="Ex: 1" oninput="gerarMsg${prefix.toUpperCase()}()">
                     </div>
-                    <div class="form-group" style="flex: 2; min-width: 250px;">
+                    <div class="form-group" style="flex: 2; min-width: 250px; margin-bottom: 0;">
                         <label>DEFEITO</label>
                         <input list="lista-defeitos" class="${prefix}_def_nome" placeholder="SELECIONE..." oninput="gerarMsg${prefix.toUpperCase()}()">
                     </div>
-                    <div class="form-group" style="flex: 1; min-width: 140px;">
+                    <div class="form-group" style="flex: 1; min-width: 140px; margin-bottom: 0;">
                         <label>INTENSIDADE</label>
                         <input type="text" class="${prefix}_def_int" placeholder="EX: 1" oninput="gerarMsg${prefix.toUpperCase()}()">
                     </div>
-                    <div class="form-group" id="${prefix}_pos_container_${id}" style="flex: 1; min-width: 120px;">
+                    <div class="form-group" id="${prefix}_pos_container_${id}" style="flex: 1; min-width: 120px; margin-bottom: 0;">
                         <label>POSIÇÃO</label>
                         <select class="${prefix}_def_pos" onchange="gerarMsg${prefix.toUpperCase()}()">
                             <option value="INÍCIO">INÍCIO</option>
@@ -1495,7 +1498,7 @@ const dbDefeitos = [
                             <option value="FINAL">FINAL</option>
                         </select>
                     </div>
-                    <div class="form-group" style="flex: 1; min-width: 150px;">
+                    <div class="form-group" style="flex: 1; min-width: 150px; margin-bottom: 0;">
                         <label>FACE</label>
                         <select class="${prefix}_def_face" onchange="gerarMsg${prefix.toUpperCase()}()">
                             <option value="SUPERIOR">SUPERIOR</option>
@@ -1503,13 +1506,14 @@ const dbDefeitos = [
                             <option value="AMBAS AS FACES">AMBAS AS FACES</option>
                         </select>
                     </div>
-                    <div class="form-group" style="flex: 0 0 50px; min-width: 50px;">
-                        <button onclick="removerDefeito('${prefix}', ${id})" class="btn-refresh" style="background-color: var(--danger); width: 100%;" title="Remover este defeito">❌</button>
+                    <div class="form-group" style="flex: 0 0 50px; min-width: 50px; margin-bottom: 0;">
+                        <label>&nbsp;</label>
+                        <button onclick="removerDefeito('${prefix}', ${id})" class="btn-refresh" style="background-color: var(--danger); width: 100%; box-shadow:none;" title="Remover este defeito">❌</button>
                     </div>
                 </div>
                 
-                <div class="row" style="width: 100%; padding-top: 10px; border-top: 1px dashed var(--border-color);">
-                    <div class="form-group ${prefix}_lado_container" style="flex: 1; min-width: 150px;">
+                <div class="row" style="width: 100%; padding-top: 15px; border-top: 1px dashed var(--border-color);">
+                    <div class="form-group ${prefix}_lado_container" style="flex: 1; min-width: 150px; margin-bottom: 0;">
                         <label>LADO / POSIÇÃO</label>
                         <select class="${prefix}_def_lado" onchange="verificarLadoLinha('${prefix}', ${id})">
                             <option value="">-- NENHUM --</option>
@@ -1520,7 +1524,7 @@ const dbDefeitos = [
                             <option value="C/B">C/B</option>
                         </select>
                     </div>
-                    <div class="form-group ${prefix}_mm_container" id="${prefix}_mm_container_${id}" style="display: none; flex: 1; min-width: 150px;">
+                    <div class="form-group ${prefix}_mm_container" id="${prefix}_mm_container_${id}" style="display: none; flex: 1; min-width: 150px; margin-bottom: 0;">
                         <label>DISTÂNCIA (mm)</label>
                         <input type="number" class="${prefix}_def_mm" placeholder="EX: 50" oninput="gerarMsg${prefix.toUpperCase()}()">
                     </div>
@@ -1592,7 +1596,10 @@ const dbDefeitos = [
                 const pct = linha.querySelector('.bfn_def_pct').value || '___';
                 
                 let nome = linha.querySelector('.bfn_def_nome').value.toUpperCase() || '_____';
-                if (nome.includes(" - ")) nome = nome.split(" - ")[1].trim();
+                if (nome.includes(" - ")) {
+                    let partes = nome.split(" - ");
+                    nome = partes.length > 1 ? partes[1].trim() : partes[0].trim(); // Pega a Abreviação ignorando o código
+                }
 
                 const int = linha.querySelector('.bfn_def_int').value.toUpperCase() || '___';
                 const face = linha.querySelector('.bfn_def_face').value;
@@ -1603,7 +1610,8 @@ const dbDefeitos = [
                     posText = ` ${pos}`;
                 }
 
-                let msgDefeito = `${pct}% ${nome} DE INTENSIDADE ${int}${posText} FACE ${face}`;
+                let textoFace = face === "AMBAS AS FACES" ? "EM AMBAS AS FACES" : `FACE ${face}`;
+                let msgDefeito = `${pct}% ${nome} INTENSIDADE (${int})${posText} ${textoFace}`;
 
                 const lado = linha.querySelector('.bfn_def_lado').value;
                 const mm = linha.querySelector('.bfn_def_mm').value;
@@ -1612,7 +1620,7 @@ const dbDefeitos = [
                     let textoLado = "";
                     if (lado === "BORDAS") textoLado = "NAS BORDAS";
                     else if (lado === "CENTRO") textoLado = "NO CENTRO";
-                    else if (lado === "C/B") textoLado = "CENTRO E BORDAS";
+                    else if (lado === "C/B") textoLado = "C/B";
                     else textoLado = `NO LADO ${lado}`;
 
                     msgDefeito += `, ${textoLado}`;
@@ -1633,7 +1641,7 @@ const dbDefeitos = [
             const txtInspPar = formatarInspetorParaMensagem('bfn_insp_par', 'bfn_insp_par_trein');
             const txtInspInf = formatarInspetorParaMensagem('bfn_insp_inf', 'bfn_insp_inf_trein');
 
-            msg += `\nInsp. Superior: ${txtInspSup}  // Insp. Parsytec: ${txtInspPar}  // Insp. Inferior + sistema: ${txtInspInf}  //\n`;
+            msg += `\nInsp. Superior: ${txtInspSup}  // Insp. Parsytec: ${txtInspPar}  // Insp. Inferior + sistema: ${txtInspInf}\n`;
             document.getElementById('bfn_txt_final').innerText = msg.toUpperCase();
         }
 
@@ -1652,7 +1660,10 @@ const dbDefeitos = [
                 const pct = linha.querySelector('.bqd_def_pct').value || '___';
                 
                 let nome = linha.querySelector('.bqd_def_nome').value.toUpperCase() || '_____';
-                if (nome.includes(" - ")) nome = nome.split(" - ")[1].trim();
+                if (nome.includes(" - ")) {
+                    let partes = nome.split(" - ");
+                    nome = partes.length > 1 ? partes[1].trim() : partes[0].trim(); // Pega a Abreviação ignorando o código
+                }
 
                 const int = linha.querySelector('.bqd_def_int').value.toUpperCase() || '___';
                 const face = linha.querySelector('.bqd_def_face').value;
@@ -1663,7 +1674,8 @@ const dbDefeitos = [
                     posText = ` ${pos}`;
                 }
 
-                let msgDefeito = `${pct}% ${nome} DE INTENSIDADE ${int}${posText} FACE ${face}`;
+                let textoFace = face === "AMBAS AS FACES" ? "EM AMBAS AS FACES" : `FACE ${face}`;
+                let msgDefeito = `${pct}% ${nome} INTENSIDADE (${int})${posText} ${textoFace}`;
 
                 const lado = linha.querySelector('.bqd_def_lado').value;
                 const mm = linha.querySelector('.bqd_def_mm').value;
@@ -1672,7 +1684,7 @@ const dbDefeitos = [
                     let textoLado = "";
                     if (lado === "BORDAS") textoLado = "NAS BORDAS";
                     else if (lado === "CENTRO") textoLado = "NO CENTRO";
-                    else if (lado === "C/B") textoLado = "CENTRO E BORDAS";
+                    else if (lado === "C/B") textoLado = "C/B";
                     else textoLado = `NO LADO ${lado}`;
 
                     msgDefeito += `, ${textoLado}`;
@@ -1688,7 +1700,7 @@ const dbDefeitos = [
             const txtInspPar = formatarInspetorParaMensagem('bqd_insp_par', 'bqd_insp_par_trein');
             const txtInspInf = formatarInspetorParaMensagem('bqd_insp_inf', 'bqd_insp_inf_trein');
 
-            msg += `\nInsp. Superior: ${txtInspSup}  // Insp. Parsytec: ${txtInspPar}  // Insp. Inferior + sistema: ${txtInspInf}  //\n`;
+            msg += `\nInsp. Superior: ${txtInspSup}  // Insp. Parsytec: ${txtInspPar}  // Insp. Inferior + sistema: ${txtInspInf}\n`;
             document.getElementById('bqd_txt_final').innerText = msg.toUpperCase();
         }
 
@@ -1763,7 +1775,8 @@ const dbDefeitos = [
             let defeitoInput = document.getElementById(`${prefix}_msg_defeito`).value.trim().toUpperCase() || "_____";
             
             if (defeitoInput.includes(" - ")) {
-                defeitoInput = defeitoInput.split(" - ")[1].trim();
+                let partes = defeitoInput.split(" - ");
+                defeitoInput = partes.length > 1 ? partes[1].trim() : partes[0].trim(); // Pega a Abreviação ignorando o código
             }
 
             const posicao = document.getElementById(`${prefix}_msg_posicao`).value.toUpperCase();
@@ -1779,6 +1792,7 @@ const dbDefeitos = [
             let textoLado = "";
             if (lado === "BORDAS") textoLado = "NAS BORDAS";
             else if (lado === "CENTRO") textoLado = "NO CENTRO";
+            else if (lado === "C/B") textoLado = "C/B";
             else textoLado = `NO LADO ${lado}`; 
 
             let motivo = `${defeitoInput} ${textoFace}, ${textoLado}`;
@@ -1816,6 +1830,7 @@ const dbDefeitos = [
         
         // --- INICIALIZAÇÃO ---
         window.onload = function() {
+            popularListaDefeitos(); // Popula a lista no input puxando de dbDefeitos
             verificarLado('m');
             verificarLado('p');
             gerarMsgBFN();
