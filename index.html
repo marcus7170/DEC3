@@ -485,15 +485,15 @@
             <div id="bfn_universal_container" style="display: none;">
                 <div class="row" style="background: var(--input-bg); padding: 20px; border-radius: 12px; border: 1px dashed var(--purple);">
                     <div class="form-group" style="margin-bottom: 0;">
-                        <label>INÍCIO (mm)</label>
+                        <label>Mínimo (mm)</label>
                         <input type="number" id="bfn_uni_ini" placeholder="EX: 1205" oninput="gerarMsgBFN()">
                     </div>
                     <div class="form-group" style="margin-bottom: 0;">
-                        <label>MEIO (mm)</label>
+                        <label>Media (mm)</label>
                         <input type="number" id="bfn_uni_meio" placeholder="EX: 1206" oninput="gerarMsgBFN()">
                     </div>
                     <div class="form-group" style="margin-bottom: 0;">
-                        <label>FINAL (mm)</label>
+                        <label>Maxima (mm)</label>
                         <input type="number" id="bfn_uni_fim" placeholder="EX: 1205" oninput="gerarMsgBFN()">
                     </div>
                 </div>
@@ -1580,14 +1580,14 @@
             if (document.getElementById('bfn_check_medicoes').checked) {
                 const raio = document.getElementById('bfn_raio').value || '____';
                 const trimmer = document.getElementById('bfn_trimmer').value || '____';
-                msg += `Raio Gama:  ${raio} mm // Side trimmer:  ${trimmer}  mm.\n`;
+                msg += `Raio Gama:  ${raio}mm // Side trimmer:  ${trimmer}mm.\n`;
             }
 
             if (document.getElementById('bfn_check_universal').checked) {
                 const ini = document.getElementById('bfn_uni_ini').value || '____';
                 const meio = document.getElementById('bfn_uni_meio').value || '____';
                 const fim = document.getElementById('bfn_uni_fim').value || '____';
-                msg += `Medição Universal: Início ${ini} mm / Meio ${meio} mm / Final ${fim} mm.\n`;
+                msg += `Medição Universal: Mínima ${ini}mm / Media ${meio}mm / Maxima${fim} mm.\n`;
             }
 
             const linhasDefeitos = document.querySelectorAll('.bfn-defect-row');
@@ -1651,7 +1651,7 @@
             if (document.getElementById('bqd_check_medicoes').checked) {
                 const raio = document.getElementById('bqd_raio').value || '____';
                 const trimmer = document.getElementById('bqd_trimmer').value || '____';
-                msg += `Raio Gama:  ${raio} mm // Side trimmer:  ${trimmer}  mm.\n`;
+                msg += `Raio Gama:  ${raio}mm // Side trimmer:  ${trimmer}mm.\n`;
             }
 
             const linhasDefeitos = document.querySelectorAll('.bqd-defect-row');
