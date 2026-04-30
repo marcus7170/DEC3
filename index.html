@@ -104,12 +104,14 @@
         .message-card { background-color: var(--card-bg); border-left: 6px solid var(--warning); padding: 25px; margin-top: 25px; border-radius: 12px; box-shadow: var(--card-shadow); border-top: 1px solid var(--border-color); border-right: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); }
         .message-card.li-msg { border-left-color: var(--danger); }
         .message-card.info-msg { border-left-color: var(--info); }
+        .message-card.purple-msg { border-left-color: var(--purple); }
+        
         .message-content { font-family: 'Consolas', 'Courier New', monospace; background: #1e293b; color: #f8fafc; padding: 20px; margin: 15px 0; border-radius: 8px; white-space: pre-wrap; font-weight: 400; font-size: 1.05rem; text-transform: none; border: 1px solid #0f172a; box-shadow: inset 0 2px 4px rgba(0,0,0,0.2); }
         .btn-info-sobre { background: transparent; border: 1px solid var(--border-color); color: var(--text-muted); border-radius: 50%; width: 20px; height: 20px; font-size: 0.7rem; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; font-weight: 700; flex-shrink: 0; text-transform: none; padding: 0; line-height: 1; transition: all 0.2s ease; }
         .btn-info-sobre:hover { background: var(--info); border-color: var(--info); color: white; }
 
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(5px); display: none; justify-content: center; align-items: center; z-index: 9999; }
-        .modal-content { background: var(--card-bg); padding: 35px; border-radius: 16px; max-width: 650px; width: 90%; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5); position: relative; border-top: 6px solid var(--info); animation: slideUp 0.3s ease; }
+        .modal-content { background: var(--card-bg); padding: 35px; border-radius: 16px; max-width: 650px; width: 90%; max-height: 90vh; overflow-y: auto; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5); position: relative; border-top: 6px solid var(--info); animation: slideUp 0.3s ease; }
         .modal-close { position: absolute; top: 15px; right: 20px; background: transparent; border: none; font-size: 1.5rem; color: var(--text-muted); cursor: pointer; }
         .modal-close:hover { color: var(--danger); }
 
@@ -130,96 +132,27 @@
         .format-container label { text-transform: none; font-size: 0.9rem; font-weight: 700; color: var(--text-main); cursor: pointer; }
         .format-container input { transform: scale(1.3); accent-color: var(--warning); cursor: pointer; }
 
-        /* ========================================================
-           NOVO CSS PARA A ABA LI's (CLONE EXCEL - RESPONSIVO)
-           ======================================================== */
-        .excel-grid {
-            display: grid;
-            grid-template-columns: repeat(6, 1fr);
-            gap: 5px;
-            max-width: 1100px;
-            margin: 0 auto;
-            border: 2px solid var(--excel-border);
-            padding: 5px;
-            background-color: var(--excel-bg-gray);
-        }
-
-        .excel-box {
-            display: flex;
-            flex-direction: column;
-            border: 2px solid var(--excel-border);
-            background-color: var(--card-bg);
-            text-align: center;
-        }
-
-        .excel-header {
-            background-color: #bfdbfe;
-            color: #0f172a;
-            font-weight: 800;
-            font-size: 0.85rem;
-            padding: 8px 4px;
-            border-bottom: 2px solid var(--excel-border);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 60px;
-        }
+        /* CSS EXCEL CLONE */
+        .excel-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 5px; width: 100%; border: 2px solid var(--excel-border); padding: 5px; background-color: var(--excel-bg-gray); }
+        .excel-box { display: flex; flex-direction: column; border: 2px solid var(--excel-border); background-color: var(--card-bg); text-align: center; }
+        .excel-header { background-color: #bfdbfe; color: #0f172a; font-weight: 800; font-size: 0.85rem; padding: 8px 4px; border-bottom: 2px solid var(--excel-border); display: flex; align-items: center; justify-content: center; height: 60px; }
         [data-theme="dark"] .excel-header { background-color: #1e3a8a; color: white; }
-
-        .excel-header-yellow {
-            background-color: #d1b46b; 
-            color: #000;
-            font-weight: 800;
-            font-size: 0.9rem;
-            padding: 8px 4px;
-            border-bottom: 2px solid var(--excel-border);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 60px;
-        }
-
-        .excel-input {
-            width: 100%;
-            height: 80px;
-            border: none;
-            background-color: #e2e8f0; 
-            color: #000;
-            font-size: 1.8rem;
-            font-weight: 400;
-            text-align: center;
-            outline: none;
-        }
+        .excel-header-yellow { background-color: #d1b46b; color: #000; font-weight: 800; font-size: 0.9rem; padding: 8px 4px; border-bottom: 2px solid var(--excel-border); display: flex; align-items: center; justify-content: center; height: 60px; }
+        .excel-input { width: 100%; height: 80px; border: none; background-color: #e2e8f0; color: #000; font-size: 1.5rem; font-weight: 400; text-align: center; outline: none; }
         [data-theme="dark"] .excel-input { background-color: #94a3b8; }
         .excel-input:focus { background-color: #fff; }
-
-        .excel-result {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100%;
-            min-height: 80px;
-            font-size: 2.2rem;
-            font-weight: 800;
-            color: #000;
-            background-color: #fff;
-        }
-        
+        .excel-result { display: flex; align-items: center; justify-content: center; height: 100%; min-height: 80px; font-size: 2.2rem; font-weight: 800; color: #000; background-color: #fff; }
         .excel-result-green { background-color: #84cc16; color: #000; } 
         .excel-result-red { background-color: #ef4444; color: #fff; } 
         .excel-result-white { background-color: #ffffff; color: #000; } 
-        
-        /* Grid Spannings para alinhar igual ao print */
         .box-col-2 { grid-column: span 2; }
         .box-row-2 { grid-row: span 2; }
-
         .obs-text { margin-top: 25px; font-size: 0.85rem; color: var(--text-muted); text-transform: none; line-height: 1.6; }
     </style>
 </head>
 <body data-theme="dark">
 
     <datalist id="lista-defeitos"></datalist>
-
     <datalist id="lista-inspetores">
         <option value="GIL"></option>
         <option value="MARCUS"></option>
@@ -242,12 +175,13 @@
         <div class="tabs-container">
             <button class="tab-btn" onclick="mudarAba('bfn', this)">⭐ MENSAGEM BF-N</button>
             <button class="tab-btn" onclick="mudarAba('bqd', this)">⭐ MENSAGEM BQD</button>
+            <button class="tab-btn" onclick="mudarAba('msg_lis', this)">⭐ MENSAGEM LI'S</button>
             <button class="tab-btn" onclick="mudarAba('metragem', this)">📏 PELA METRAGEM</button>
             <button class="tab-btn" onclick="mudarAba('peso', this)">⚖️ PELO PESO</button>
-            <button class="tab-btn" onclick="mudarAba('lis', this)">🔄 LI'S</button>
             <button class="tab-btn active" onclick="mudarAba('codigos', this)">📚 CÓDIGOS</button>
         </div>
 
+        <!-- ABA MENSAGEM BF-N -->
         <div id="aba_bfn" class="calc-section">
             <h2>1. INSPETORES (BF-N)</h2>
             <div class="row" style="margin-top: 15px;">
@@ -330,6 +264,7 @@
                         <label for="bfn_check_aparamento">APARAMENTO ABAIXO DO PLANEJADO</label>
                     </div>
                 </div>
+                <!-- Containers de Medições Ocultos -->
                 <div id="bfn_medicoes_container" style="display: none; padding: 20px; background: var(--input-bg); border-radius: 10px; margin-top: 10px; margin-bottom: 10px; border: 1px dashed var(--border-color);">
                     <div class="row">
                         <div class="form-group" style="margin-bottom: 0;">
@@ -374,6 +309,7 @@
                         </div>
                     </div>
                 </div>
+                
                 <div class="message-card">
                     <h4 style="color: var(--warning); margin-bottom: 10px;">MENSAGEM FINAL BF - N</h4>
                     <div class="message-content" id="bfn_txt_final">PREENCHA OS DADOS ACIMA...</div>
@@ -382,11 +318,11 @@
             </div>
         </div>
 
+        <!-- ABA MENSAGEM BQD -->
         <div id="aba_bqd" class="calc-section">
             <button class="btn" style="background-color: var(--info); margin-bottom: 30px; padding: 16px;" onclick="abrirModalBQD()">📖 ABRIR INFORMATIVOS BQD</button>
 
             <h2>1. INSPETORES (BQD)</h2>
-
             <div class="row" style="margin-top: 15px;">
                 <div class="form-group">
                     <div class="label-flex">
@@ -457,6 +393,7 @@
                         <button class="btn-info-sobre" onclick="abrirModal('modal_3paradas')" title="Sobre">ℹ</button>
                     </div>
                 </div>
+                
                 <div id="bqd_medicoes_container" style="display: none; padding: 20px; background: var(--input-bg); border-radius: 10px; margin-top: 10px; margin-bottom: 10px; border: 1px dashed var(--border-color);">
                     <div class="row">
                         <div class="form-group" style="margin-bottom: 0;">
@@ -475,10 +412,109 @@
                         <label for="bqd_check_550d_lixa">ESPESSURA &gt; 2,25MM? (INSPEÇÃO COM LIXA)</label>
                     </div>
                 </div>
+                
                 <div class="message-card info-msg">
                     <h4 style="color: var(--info); margin-bottom: 10px;">MENSAGEM FINAL BQD</h4>
                     <div class="message-content" id="bqd_txt_final">PREENCHA OS DADOS ACIMA...</div>
                     <button class="btn" style="background-color: var(--info); color: #fff;" onclick="copiarTexto('bqd_txt_final', this)">📋 COPIAR MENSAGEM BQD</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ABA NOVA: MENSAGEM LI'S -->
+        <div id="aba_msg_lis" class="calc-section">
+            <button class="btn" style="background-color: var(--success); margin-bottom: 30px; padding: 16px;" onclick="abrirModalCalcLI()">📊 ABRIR CÁLCULO DE MIOLO (LI'S)</button>
+
+            <h2>1. INSPETOR (LI'S)</h2>
+            <div class="row" style="margin-top: 15px;">
+                <div class="form-group" style="flex: none; width: 400px;">
+                    <div class="label-flex">
+                        <label>INSPETOR RESPONSÁVEL</label>
+                        <label class="checkbox-inline">
+                            <input type="checkbox" id="lis_check_trein_sup" onchange="toggleTreinamento('sup', 'lis')"> + TREINANDO
+                        </label>
+                    </div>
+                    <div style="display: flex; gap: 10px;">
+                        <input list="lista-inspetores" id="lis_insp_sup" placeholder="TITULAR..." oninput="gerarMsgLIS()">
+                        <input list="lista-inspetores" id="lis_insp_sup_trein" placeholder="TREINANDO..." oninput="gerarMsgLIS()" style="display: none;">
+                    </div>
+                </div>
+            </div>
+
+            <h2 style="margin-top: 25px;">2. OPÇÕES DE ROTA / AUDITORIA</h2>
+            <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 15px;">
+                <div class="format-container" style="margin-bottom: 0;">
+                    <input type="checkbox" id="lis_chk_retorno" onchange="gerarMsgLIS()">
+                    <label for="lis_chk_retorno" style="font-weight: 600;">Retorno na linha, oleamento e planicidade ok</label>
+                </div>
+                <div class="format-container" style="margin-bottom: 0;">
+                    <input type="checkbox" id="lis_chk_face_inf" onchange="gerarMsgLIS()">
+                    <label for="lis_chk_face_inf" style="font-weight: 600;">Face inferior avaliada pelo operador de saída - ok</label>
+                </div>
+            </div>
+            
+            <h2 style="margin-top: 25px;">3. DEFEITO LE (OPCIONAL)</h2>
+            <div class="format-container" style="margin-bottom: 15px; border-color: var(--purple);">
+                <input type="checkbox" id="lis_chk_le" onchange="toggleDefeitoLE_LIS()">
+                <label for="lis_chk_le" style="color: var(--purple);">INCLUIR DEFEITO LE? (EX: 1% DOBRA² LE)</label>
+            </div>
+            <div id="lis_defeito_le_container" style="display: none; background: var(--input-bg); padding: 20px; border-radius: 12px; border: 1px dashed var(--purple); margin-bottom: 25px;">
+                <div class="row" style="margin-bottom: 0;">
+                    <div class="form-group" style="flex: 0 0 120px; margin-bottom: 0;">
+                        <label>PORC.(%)</label>
+                        <input type="number" id="lis_le_pct" placeholder="Ex: 1" oninput="gerarMsgLIS()">
+                    </div>
+                    <div class="form-group" style="flex: 2; margin-bottom: 0;">
+                        <label>DEFEITO LE</label>
+                        <input list="lista-defeitos" id="lis_le_nome" placeholder="SELECIONE..." oninput="gerarMsgLIS()">
+                    </div>
+                    <div class="form-group" style="flex: 1; margin-bottom: 0;">
+                        <label>POSIÇÃO</label>
+                        <select id="lis_le_pos" onchange="gerarMsgLIS()">
+                            <option value="INÍCIO">INÍCIO</option>
+                            <option value="MEIO">MEIO</option>
+                            <option value="FINAL">FINAL</option>
+                            <option value="ESPARSO">ESPARSO</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <h2 style="margin-top: 25px;">4. DESCARTES / INFORMAÇÕES EXTRAS</h2>
+            <div class="row" style="margin-bottom: 20px;">
+                <div class="form-group" style="margin-bottom: 0;">
+                    <label>MOTIVO DO DESCARTE OU OBSERVAÇÃO</label>
+                    <input type="text" id="lis_descarte_txt" placeholder="Ex: Descartado final devido FB(+), com registro no Gráfico LTF." oninput="gerarMsgLIS()">
+                    <div style="margin-top: 8px; display: flex; gap: 8px;">
+                        <button class="btn-info-sobre" style="width: auto; height: auto; padding: 4px 10px; border-radius: 4px;" onclick="preencherDescarteLIS('Descartado início e final conforme padrão.')">Padrão Início/Fim</button>
+                        <button class="btn-info-sobre" style="width: auto; height: auto; padding: 4px 10px; border-radius: 4px;" onclick="preencherDescarteLIS('Descartado final devido FB(+), com registro no Gráfico LTF.')">Descarte FB(+)</button>
+                        <button class="btn-info-sobre" style="width: auto; height: auto; padding: 4px 10px; border-radius: 4px;" onclick="preencherDescarteLIS('')">Limpar</button>
+                    </div>
+                </div>
+            </div>
+
+            <h2 style="margin-top: 25px;">5. TESTES EXTRAS (SAÍDA)</h2>
+            <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 25px;">
+                <div class="format-container" style="margin-bottom: 0;">
+                    <input type="checkbox" id="lis_chk_limpeza" onchange="gerarMsgLIS()">
+                    <label for="lis_chk_limpeza" style="font-weight: 600;">Teste limpeza superficial - ok</label>
+                </div>
+                <div class="format-container" style="margin-bottom: 0;">
+                    <input type="checkbox" id="lis_chk_tape" onchange="gerarMsgLIS()">
+                    <label for="lis_chk_tape" style="font-weight: 600;">Retirado Tape test</label>
+                </div>
+            </div>
+
+            <div id="lis_resultado_mensagens" style="margin-top: 20px; border-top: 2px solid var(--border-color); padding-top: 20px;">
+                <div class="format-container" style="margin-bottom: 15px;">
+                    <input type="checkbox" id="lis_check_formatar" onchange="gerarMsgLIS()">
+                    <label for="lis_check_formatar">Formatar Texto</label>
+                </div>
+                
+                <div class="message-card purple-msg">
+                    <h4 style="color: var(--purple); margin-bottom: 10px;">MENSAGEM FINAL LI'S</h4>
+                    <div class="message-content" id="lis_txt_final">PREENCHA OS DADOS ACIMA...</div>
+                    <button class="btn" style="background-color: var(--purple); color: #fff;" onclick="copiarTexto('lis_txt_final', this)">📋 COPIAR MENSAGEM LI'S</button>
                 </div>
             </div>
         </div>
@@ -669,102 +705,6 @@
             </div>
         </div>
 
-        <!-- ========================================================
-             NOVA ABA: CÁLCULO GERAÇÃO DE MIOLO LI's (CLONE EXCEL)
-             ======================================================== -->
-        <div id="aba_lis" class="calc-section">
-            
-            <div class="excel-grid">
-                <!-- LINHA 1: Mercado, Espessura, Largura -->
-                <div class="excel-box">
-                    <div class="excel-header">Mercado</div>
-                    <select class="excel-input" id="ex_mercado" onchange="calcularLIsExcel()" style="font-size: 1.2rem; cursor: pointer;">
-                        <option value="" disabled selected>SELECIONE...</option>
-                        <option value="Interno">Interno</option>
-                        <option value="Externo">Externo</option>
-                    </select>
-                </div>
-                <div class="excel-box">
-                    <div class="excel-header">Espessura</div>
-                    <input type="number" step="0.01" class="excel-input" id="ex_espessura" placeholder="0,60" oninput="calcularLIsExcel()">
-                </div>
-                <div class="excel-box">
-                    <div class="excel-header">Largura</div>
-                    <input type="number" class="excel-input" id="ex_largura" placeholder="1200" oninput="calcularLIsExcel()">
-                </div>
-
-                <!-- BLOCOS COLUNA DIREITA: Resultado Esperado e % Defeito -->
-                <div class="excel-box box-row-2">
-                    <div class="excel-header-yellow">Resultado Esperado</div>
-                    <div class="excel-result" id="ex_res_esperado" style="font-size: 2.5rem; text-transform: uppercase;">---</div>
-                </div>
-
-                <div class="excel-box box-row-2">
-                    <div class="excel-header-yellow">% do defeito a<br>registrar</div>
-                    <div class="excel-result excel-result-white" id="ex_pct_defeito" style="font-size: 2.5rem; font-weight: normal;">---</div>
-                </div>
-
-                <!-- LINHA 2: Aplicação, Descarte, Peso Entrada -->
-                <div class="excel-box">
-                    <div class="excel-header">Aplicação</div>
-                    <select class="excel-input" id="ex_aplicacao" onchange="calcularLIsExcel()" style="font-size: 1.2rem; cursor: pointer;">
-                        <option value="" disabled selected>SELECIONE...</option>
-                        <option value="AGRICOLA">AGRICOLA</option>
-                        <option value="COMERCIAL">COMERCIAL</option>
-                        <option value="ESTAMPAGEM">ESTAMPAGEM</option>
-                        <option value="ESTAMPAGEM-CR3 CRÍTICA">ESTAMPAGEM-CR3 CRÍTICA</option>
-                        <option value="ESTRUTURAL HC300LA">ESTRUTURAL HC300LA</option>
-                        <option value="FINS ELÉTRICOS">FINS ELÉTRICOS</option>
-                        <option value="FOGÕES">FOGÕES</option>
-                        <option value="HSLA 400T">HSLA 400T</option>
-                        <option value="IF - TF - ENQUAD.SU">IF - TF - ENQUAD.SU</option>
-                        <option value="TUBOS">TUBOS</option>
-                        <option value="USO GERAL">USO GERAL</option>
-                        <option value="MOVEIS DE AÇO">MOVEIS DE AÇO</option>
-                    </select>
-                </div>
-                <div class="excel-box">
-                    <div class="excel-header" style="line-height: 1.2;">Descarte<br>Solicitado<br>(metros)</div>
-                    <input type="number" class="excel-input" id="ex_descarte" placeholder="140" oninput="calcularLIsExcel()">
-                </div>
-                <div class="excel-box">
-                    <div class="excel-header" style="line-height: 1.2;">Peso de Entrada<br>(Kg)</div>
-                    <input type="number" class="excel-input" id="ex_peso" placeholder="16000" oninput="calcularLIsExcel()">
-                </div>
-
-                <!-- LINHA 3: Orientação e Metros a Completar -->
-                <div class="excel-box box-col-2" style="flex-direction: row;">
-                    <div style="flex: 1; display: flex; flex-direction: column; border-right: 2px solid var(--excel-border);">
-                        <div class="excel-header-yellow">Orientação</div>
-                        <div class="excel-result excel-result-white" id="ex_orientacao" style="font-size: 1.2rem; font-weight: 500; text-align: center; padding: 10px; line-height: 1.3;">
-                            Complete com a<br>metragem informada
-                        </div>
-                    </div>
-                    <div style="flex: 1; display: flex; flex-direction: column;">
-                        <div class="excel-header-yellow" style="line-height: 1.2; font-size: 0.8rem;">Metros a Completar<br>para gerar BI</div>
-                        <div class="excel-result excel-result-white" id="ex_metros_completar" style="font-size: 2.2rem; font-weight: normal;">---</div>
-                    </div>
-                </div>
-
-                <!-- BLOCOS INFERIORES: Valor % e Peso Teórico -->
-                <div class="excel-box">
-                    <div class="excel-header-yellow">Valor %</div>
-                    <div class="excel-result" id="ex_valor_pct" style="font-size: 3.5rem;">---</div>
-                </div>
-
-                <div class="excel-box">
-                    <div class="excel-header-yellow" style="line-height: 1.2; font-size: 0.8rem;">Peso Teórico para 80<br>mm de coroa (kg)</div>
-                    <div class="excel-result excel-result-white" id="ex_peso_teorico" style="font-size: 2.2rem; font-weight: normal;">---</div>
-                </div>
-            </div>
-
-            <div class="obs-text">
-                <p>Observação:</p>
-                <p>* Preencher apenas as células destacadas em CINZA.</p>
-                <p>* Material Mercado Externo, só tem permissão de Aplicação COMERCIAL, ESTAMPAGEM, ESTRUTURAL HC300LA, HSLA 400T, MOVEIS DE AÇO E TUBOS.</p>
-            </div>
-        </div>
-
         <div id="aba_codigos" class="calc-section active">
             <h2>1. DICIONÁRIO DE DEFEITOS LAMINADOS</h2>
             <div class="form-group" style="margin-bottom: 20px;">
@@ -798,14 +738,12 @@
                     <tbody id="tbody_equipamentos"></tbody>
                 </table>
             </div>
-
             <div id="apoio_localizacao" style="display: none; max-height: 350px; overflow-y: auto; border: 1px solid var(--border-color); border-radius: 12px; margin-bottom: 20px;">
                 <table class="table-custom">
                     <thead><tr><th>CÓDIGO</th><th>POSIÇÃO</th><th>FACE</th></tr></thead>
                     <tbody id="tbody_localizacao"></tbody>
                 </table>
             </div>
-
             <div id="apoio_intensidade" style="display: none; max-height: 350px; overflow-y: auto; border: 1px solid var(--border-color); border-radius: 12px; margin-bottom: 20px;">
                 <table class="table-custom">
                     <thead><tr><th>INTENSIDADE</th><th>CARACTERÍSTICA</th><th>DESCRIÇÃO</th></tr></thead>
@@ -816,7 +754,105 @@
 
     </div>
 
-    <!-- MODAL: 3 PARADAS 550D -->
+    <!-- MODAIS E RODAPÉ -->
+    
+    <!-- MODAL: CÁLCULO GERAÇÃO DE MIOLO LI'S -->
+    <div class="modal-overlay" id="modalCalcLI" onclick="if(event.target===this)fecharModalCalcLI()">
+        <div class="modal-content" style="max-width: 1150px; border-top-color: var(--success);">
+            <button class="modal-close" onclick="fecharModalCalcLI()">✕</button>
+            <h3 style="color: var(--success); font-size: 1.3rem; margin-bottom: 20px;">🔄 CÁLCULO GERAÇÃO DE MIOLO LI'S</h3>
+            
+            <div class="excel-grid">
+                <!-- LINHA 1 -->
+                <div class="excel-box">
+                    <div class="excel-header">Mercado</div>
+                    <select class="excel-input" id="ex_mercado" onchange="calcularLIsExcel()" style="font-size: 1.2rem; cursor: pointer;">
+                        <option value="" disabled selected>SELECIONE...</option>
+                        <option value="Interno">Interno</option>
+                        <option value="Externo">Externo</option>
+                    </select>
+                </div>
+                <div class="excel-box">
+                    <div class="excel-header">Espessura</div>
+                    <input type="number" step="0.01" class="excel-input" id="ex_espessura" placeholder="0,60" oninput="calcularLIsExcel()">
+                </div>
+                <div class="excel-box">
+                    <div class="excel-header">Largura</div>
+                    <input type="number" class="excel-input" id="ex_largura" placeholder="1200" oninput="calcularLIsExcel()">
+                </div>
+
+                <!-- BLOCOS COLUNA DIREITA -->
+                <div class="excel-box box-row-2">
+                    <div class="excel-header-yellow">Resultado Esperado</div>
+                    <div class="excel-result" id="ex_res_esperado" style="font-size: 2.5rem; text-transform: uppercase;">---</div>
+                </div>
+                <div class="excel-box box-row-2">
+                    <div class="excel-header-yellow">% do defeito a<br>registrar</div>
+                    <div class="excel-result excel-result-white" id="ex_pct_defeito" style="font-size: 2.5rem; font-weight: normal;">---</div>
+                </div>
+
+                <!-- LINHA 2 -->
+                <div class="excel-box">
+                    <div class="excel-header">Aplicação</div>
+                    <select class="excel-input" id="ex_aplicacao" onchange="calcularLIsExcel()" style="font-size: 1.2rem; cursor: pointer;">
+                        <option value="" disabled selected>SELECIONE...</option>
+                        <option value="AGRICOLA">AGRICOLA</option>
+                        <option value="COMERCIAL">COMERCIAL</option>
+                        <option value="ESTAMPAGEM">ESTAMPAGEM</option>
+                        <option value="ESTAMPAGEM-CR3 CRÍTICA">ESTAMPAGEM-CR3 CRÍTICA</option>
+                        <option value="ESTRUTURAL HC300LA">ESTRUTURAL HC300LA</option>
+                        <option value="FINS ELÉTRICOS">FINS ELÉTRICOS</option>
+                        <option value="FOGÕES">FOGÕES</option>
+                        <option value="HSLA 400T">HSLA 400T</option>
+                        <option value="IF - TF - ENQUAD.SU">IF - TF - ENQUAD.SU</option>
+                        <option value="TUBOS">TUBOS</option>
+                        <option value="USO GERAL">USO GERAL</option>
+                        <option value="MOVEIS DE AÇO">MOVEIS DE AÇO</option>
+                    </select>
+                </div>
+                <div class="excel-box">
+                    <div class="excel-header" style="line-height: 1.2;">Descarte<br>Solicitado<br>(metros)</div>
+                    <input type="number" class="excel-input" id="ex_descarte" placeholder="140" oninput="calcularLIsExcel()">
+                </div>
+                <div class="excel-box">
+                    <div class="excel-header" style="line-height: 1.2;">Peso de Entrada<br>(Kg)</div>
+                    <input type="number" class="excel-input" id="ex_peso" placeholder="16000" oninput="calcularLIsExcel()">
+                </div>
+
+                <!-- LINHA 3 -->
+                <div class="excel-box box-col-2" style="flex-direction: row;">
+                    <div style="flex: 1; display: flex; flex-direction: column; border-right: 2px solid var(--excel-border);">
+                        <div class="excel-header-yellow">Orientação</div>
+                        <div class="excel-result excel-result-white" id="ex_orientacao" style="font-size: 1.2rem; font-weight: 500; text-align: center; padding: 10px; line-height: 1.3;">
+                            Complete com a<br>metragem informada
+                        </div>
+                    </div>
+                    <div style="flex: 1; display: flex; flex-direction: column;">
+                        <div class="excel-header-yellow" style="line-height: 1.2; font-size: 0.8rem;">Metros a Completar<br>para gerar BI</div>
+                        <div class="excel-result excel-result-white" id="ex_metros_completar" style="font-size: 2.2rem; font-weight: normal;">---</div>
+                    </div>
+                </div>
+
+                <!-- BLOCOS INFERIORES -->
+                <div class="excel-box">
+                    <div class="excel-header-yellow">Valor %</div>
+                    <div class="excel-result" id="ex_valor_pct" style="font-size: 3.5rem;">---</div>
+                </div>
+                <div class="excel-box">
+                    <div class="excel-header-yellow" style="line-height: 1.2; font-size: 0.8rem;">Peso Teórico para 80<br>mm de coroa (kg)</div>
+                    <div class="excel-result excel-result-white" id="ex_peso_teorico" style="font-size: 2.2rem; font-weight: normal;">---</div>
+                </div>
+            </div>
+            
+            <div class="obs-text">
+                <p>Observação:</p>
+                <p>* Preencher apenas as células destacadas em CINZA.</p>
+                <p>* Material Mercado Externo, só tem permissão de Aplicação COMERCIAL, ESTAMPAGEM, ESTRUTURAL HC300LA, HSLA 400T, MOVEIS DE AÇO E TUBOS.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- OUTROS MODAIS -->
     <div class="modal-overlay" id="modal_3paradas" onclick="if(event.target===this)fecharModal('modal_3paradas')">
         <div class="modal-content" style="border-top-color: var(--warning);">
             <button class="modal-close" onclick="fecharModal('modal_3paradas')">✕</button>
@@ -828,8 +864,6 @@
             </p>
         </div>
     </div>
-
-    <!-- MODAL: INSPEÇÃO PEDRA SABÃO -->
     <div class="modal-overlay" id="modal_pedra_sabao" onclick="if(event.target===this)fecharModal('modal_pedra_sabao')">
         <div class="modal-content" style="border-top-color: var(--success);">
             <button class="modal-close" onclick="fecharModal('modal_pedra_sabao')">✕</button>
@@ -843,8 +877,7 @@
             </p>
         </div>
     </div>
-
-    <div class="modal-overlay" id="modalBQD">
+    <div class="modal-overlay" id="modalBQD" onclick="if(event.target===this)fecharModalBQD()">
         <div class="modal-content">
             <button class="modal-close" onclick="fecharModalBQD()" title="Fechar">✖</button>
             <h2 style="color: var(--primary); margin-bottom: 20px; border-bottom: 2px solid var(--border-color); padding-bottom: 12px; font-weight: 800;">📋 INFORMATIVOS BQD</h2>
@@ -1169,99 +1202,28 @@
             { cod: "MV", abrev: "MAVEPA", desc: "MATERIAL VENCIDO NO PA" }
         ];
 
-        const dbEquipamentos = [
-            { cod: "16", equip: "Laminador de Tiras a Quente 2" },
-            { cod: "17", equip: "Decapagem 3" },
-            { cod: "22", equip: "Laminador de Tiras a Frio" },
-            { cod: "23", equip: "Recozimento 1" },
-            { cod: "24", equip: "Recozimento 2" },
-            { cod: "25", equip: "Laminador de Encruamento 1" },
-            { cod: "27", equip: "Tesouras a Frio 2" },
-            { cod: "28", equip: "Linha de Inspeção 1" },
-            { cod: "29", equip: "Linha de Inspeção 2" },
-            { cod: "31", equip: "Recozimento 5" },
-            { cod: "32", equip: "Seleção de Chapas a Frio" },
-            { cod: "33", equip: "Linha Preparadora de BQ" },
-            { cod: "34", equip: "Laminador de Acabamento - 2" },
-            { cod: "35", equip: "Linha Divisora" },
-            { cod: "65", equip: "Preparadora" },
-            { cod: "68", equip: "Laboratório" },
-            { cod: "71", equip: "Laminador de Encruamento 2" },
-            { cod: "75", equip: "Porto" },
-            { cod: "76", equip: "Logística Interna" },
-            { cod: "77", equip: "Logística externa" },
-            { cod: "93", equip: "Programação" },
-            { cod: "97", equip: "Embalagem" },
-            { cod: "98", equip: "Aciaria 2" },
-            { cod: "99", equip: "Diversos" }
-        ];
+        const dbEquipamentos = [ { cod: "16", equip: "Laminador de Tiras a Quente 2" }, { cod: "17", equip: "Decapagem 3" }, { cod: "22", equip: "Laminador de Tiras a Frio" }, { cod: "23", equip: "Recozimento 1" }, { cod: "24", equip: "Recozimento 2" }, { cod: "25", equip: "Laminador de Encruamento 1" }, { cod: "27", equip: "Tesouras a Frio 2" }, { cod: "28", equip: "Linha de Inspeção 1" }, { cod: "29", equip: "Linha de Inspeção 2" }, { cod: "31", equip: "Recozimento 5" }, { cod: "32", equip: "Seleção de Chapas a Frio" }, { cod: "33", equip: "Linha Preparadora de BQ" }, { cod: "34", equip: "Laminador de Acabamento - 2" }, { cod: "35", equip: "Linha Divisora" }, { cod: "65", equip: "Preparadora" }, { cod: "68", equip: "Laboratório" }, { cod: "71", equip: "Laminador de Encruamento 2" }, { cod: "75", equip: "Porto" }, { cod: "76", equip: "Logística Interna" }, { cod: "77", equip: "Logística externa" }, { cod: "93", equip: "Programação" }, { cod: "97", equip: "Embalagem" }, { cod: "98", equip: "Aciaria 2" }, { cod: "99", equip: "Diversos" } ];
+        const dbLocalizacao = [ { cod: "A", pos: "Início", face: "Inferior" }, { cod: "B", pos: "Início", face: "Superior" }, { cod: "C", pos: "Início", face: "Inferior e Superior" }, { cod: "D", pos: "Meio", face: "Inferior" }, { cod: "E", pos: "Meio", face: "Superior" }, { cod: "F", pos: "Meio", face: "Inferior e Superior" }, { cod: "G", pos: "Final", face: "Inferior" }, { cod: "H", pos: "Final", face: "Superior" }, { cod: "I", pos: "Final", face: "Inferior e Superior" }, { cod: "J", pos: "Início e Meio", face: "Inferior" }, { cod: "K", pos: "Início e Meio", face: "Superior" }, { cod: "L", pos: "Início e Meio", face: "Inferior e Superior" }, { cod: "M", pos: "Início e Final", face: "Inferior" }, { cod: "N", pos: "Início e Final", face: "Superior" }, { cod: "O", pos: "Início e Final", face: "Inferior e Superior" }, { cod: "P", pos: "Meio e Final", face: "Inferior" }, { cod: "Q", pos: "Meio e Final", face: "Superior" }, { cod: "R", pos: "Meio e Final", face: "Inferior e Superior" }, { cod: "S", pos: "Total", face: "Inferior" }, { cod: "T", pos: "Total", face: "Superior" }, { cod: "U", pos: "Total", face: "Inferior e Superior" }, { cod: "V", pos: "Esparso", face: "Inferior" }, { cod: "X", pos: "Esparso", face: "Superior" }, { cod: "Z", pos: "Esparso", face: "Inferior e Superior" } ];
+        const dbIntensidade = [ { int: "0", carac: "Sem intensidade", desc: "Só há sombra do defeito e não dá para senti-lo ao tato." }, { int: "1", carac: "Leve (Sup. A / 01)", desc: "São leves imperfeições na superfície que não prejudicam o uso e que são retirados por condicionamento mínimo." }, { int: "2", carac: "Média (Sup. B / 02)", desc: "São moderadas imperfeições na superfície que não prejudicam o uso e que são retirados por recondicionamento leve." }, { int: "3", carac: "Forte (Sup. C)", desc: "São fortes imperfeições na superfície que não prejudicam o uso e que são retirados por recondicionamento maior que a intensidade 2." }, { int: "4", carac: "Fortíssima (2ª Qualidade)", desc: "São fortíssimas imperfeições na superfície que podem prejudicar o uso e não são retirados por recondicionamento." } ];
 
-        const dbLocalizacao = [
-            { cod: "A", pos: "Início", face: "Inferior" },
-            { cod: "B", pos: "Início", face: "Superior" },
-            { cod: "C", pos: "Início", face: "Inferior e Superior" },
-            { cod: "D", pos: "Meio", face: "Inferior" },
-            { cod: "E", pos: "Meio", face: "Superior" },
-            { cod: "F", pos: "Meio", face: "Inferior e Superior" },
-            { cod: "G", pos: "Final", face: "Inferior" },
-            { cod: "H", pos: "Final", face: "Superior" },
-            { cod: "I", pos: "Final", face: "Inferior e Superior" },
-            { cod: "J", pos: "Início e Meio", face: "Inferior" },
-            { cod: "K", pos: "Início e Meio", face: "Superior" },
-            { cod: "L", pos: "Início e Meio", face: "Inferior e Superior" },
-            { cod: "M", pos: "Início e Final", face: "Inferior" },
-            { cod: "N", pos: "Início e Final", face: "Superior" },
-            { cod: "O", pos: "Início e Final", face: "Inferior e Superior" },
-            { cod: "P", pos: "Meio e Final", face: "Inferior" },
-            { cod: "Q", pos: "Meio e Final", face: "Superior" },
-            { cod: "R", pos: "Meio e Final", face: "Inferior e Superior" },
-            { cod: "S", pos: "Total", face: "Inferior" },
-            { cod: "T", pos: "Total", face: "Superior" },
-            { cod: "U", pos: "Total", face: "Inferior e Superior" },
-            { cod: "V", pos: "Esparso", face: "Inferior" },
-            { cod: "X", pos: "Esparso", face: "Superior" },
-            { cod: "Z", pos: "Esparso", face: "Inferior e Superior" }
-        ];
-
-        const dbIntensidade = [
-            { int: "0", carac: "Sem intensidade", desc: "Só há sombra do defeito e não dá para senti-lo ao tato." },
-            { int: "1", carac: "Leve (Sup. A / 01)", desc: "São leves imperfeições na superfície que não prejudicam o uso e que são retirados por condicionamento mínimo." },
-            { int: "2", carac: "Média (Sup. B / 02)", desc: "São moderadas imperfeições na superfície que não prejudicam o uso e que são retirados por recondicionamento leve." },
-            { int: "3", carac: "Forte (Sup. C)", desc: "São fortes imperfeições na superfície que não prejudicam o uso e que são retirados por recondicionamento maior que a intensidade 2." },
-            { int: "4", carac: "Fortíssima (2ª Qualidade)", desc: "São fortíssimas imperfeições na superfície que podem prejudicar o uso e não são retirados por recondicionamento." }
-        ];
-
-        // Tabela de Preços (extraída do Excel "Cálculo geração de miolo")
         const tbPrecos = {
-            "INTERNO": {
-                "AGRICOLA": { pProd: 3297.62, pSucata: 1137.44 },
-                "COMERCIAL": { pProd: 2829.69, pSucata: 1137.44 },
-                "ESTAMPAGEM": { pProd: 2527.57, pSucata: 1137.44, p2Qual: 2148.44 },
-                "ESTAMPAGEM-CR3 CRÍTICA": { pProd: 3779.10, pSucata: 1137.44 },
-                "ESTRUTURAL HC300LA": { pProd: 2797.24, pSucata: 1137.44 },
-                "FINS ELÉTRICOS": { pProd: 2445.03, pSucata: 1137.44 },
-                "FOGÕES": { pProd: 2541.95, pSucata: 1137.44 },
-                "HSLA 400T": { pProd: 2565.88, pSucata: 1137.44 },
-                "IF - TF - ENQUAD.SU": { pProd: 2913.85, pSucata: 1137.44 },
-                "TUBOS": { pProd: 2819.49, pSucata: 1137.44 },
-                "USO GERAL": { pProd: 3230.00, pSucata: 1137.44 }
-            },
-            "EXTERNO": {
-                "COMERCIAL": { pProd: 2690.12, pSucata: 1137.44 },
-                "ESTAMPAGEM": { pProd: 2445.20, pSucata: 1137.44 },
-                "ESTRUTURAL HC300LA": { pProd: 2319.92, pSucata: 1137.44 },
-                "HSLA 400T": { pProd: 2319.92, pSucata: 1137.44 },
-                "TUBOS": { pProd: 2319.92, pSucata: 1137.44 },
-                "MOVEIS DE AÇO": { pProd: 2500.00, pSucata: 1137.44 }
-            }
+            "INTERNO": { "AGRICOLA": { pProd: 3297.62, pSucata: 1137.44 }, "COMERCIAL": { pProd: 2829.69, pSucata: 1137.44 }, "ESTAMPAGEM": { pProd: 2527.57, pSucata: 1137.44, p2Qual: 2148.44 }, "ESTAMPAGEM-CR3 CRÍTICA": { pProd: 3779.10, pSucata: 1137.44 }, "ESTRUTURAL HC300LA": { pProd: 2797.24, pSucata: 1137.44 }, "FINS ELÉTRICOS": { pProd: 2445.03, pSucata: 1137.44 }, "FOGÕES": { pProd: 2541.95, pSucata: 1137.44 }, "HSLA 400T": { pProd: 2565.88, pSucata: 1137.44 }, "IF - TF - ENQUAD.SU": { pProd: 2913.85, pSucata: 1137.44 }, "TUBOS": { pProd: 2819.49, pSucata: 1137.44 }, "USO GERAL": { pProd: 3230.00, pSucata: 1137.44 } },
+            "EXTERNO": { "COMERCIAL": { pProd: 2690.12, pSucata: 1137.44 }, "ESTAMPAGEM": { pProd: 2445.20, pSucata: 1137.44 }, "ESTRUTURAL HC300LA": { pProd: 2319.92, pSucata: 1137.44 }, "HSLA 400T": { pProd: 2319.92, pSucata: 1137.44 }, "TUBOS": { pProd: 2319.92, pSucata: 1137.44 }, "MOVEIS DE AÇO": { pProd: 2500.00, pSucata: 1137.44 } }
         };
 
-        // ================= FUNÇÕES DE FORMATAÇÃO =================
+        // Helper para primeira letra maiúscula nos nomes
+        const toTitleCase = (str) => {
+            if (!str) return '';
+            return str.toLowerCase().split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+        };
+
+        // ================= FUNÇÕES GERAIS E FORMATAÇÃO =================
         function formatarTextoPadrao(texto) {
             if (!texto) return "";
             
             let formatado = texto.toLowerCase();
             
+            // Capitaliza primeira letra de cada frase
             let linhas = formatado.split('\n');
             linhas = linhas.map(linha => {
                 let l = linha.trim().replace(/\s+/g, ' ');
@@ -1272,6 +1234,7 @@
             });
             formatado = linhas.join('\n');
 
+            // Restaura siglas dos defeitos
             dbDefeitos.forEach(def => {
                 if (def.abrev) {
                     let abrev = def.abrev.toLowerCase();
@@ -1281,10 +1244,11 @@
                 }
             });
 
+            // Restaura termos técnicos específicos
             const tecnicos = [
-                "BF-N", "BQD", "LTF", "LI", "LI'S", "DEC3", "MPM", 
+                "BF-N", "BQD", "LTF", "LI", "LI'S", "DEC3", "MPM", "LE",
                 "RAIO GAMA", "SIDE TRIMMER", "NQ:", "OK",
-                "LFINSOT0005", "LFINSPO0078" 
+                "LFINSOT0005", "LFINSPO0078", "FB(+)"
             ];
 
             tecnicos.forEach(palavra => {
@@ -1294,6 +1258,25 @@
             });
 
             return formatado;
+        }
+
+        // Lógica para exibir os inspetores com formatação (Title Case)
+        function formatarInspetorParaMensagem(idPrincipal, idTreinamento, isFormatado = false) {
+            let principal = document.getElementById(idPrincipal).value || '___';
+            let inputTrein = document.getElementById(idTreinamento);
+            
+            if (isFormatado) {
+                principal = toTitleCase(principal);
+            } else {
+                principal = principal.toUpperCase();
+            }
+
+            if (inputTrein && inputTrein.style.display !== 'none' && inputTrein.value.trim() !== '') {
+                let trein = isFormatado ? toTitleCase(inputTrein.value) : inputTrein.value.toUpperCase();
+                let txtTrein = isFormatado ? "(Trein)" : "(TREIN)";
+                return `${principal} - ${trein} ${txtTrein}`;
+            }
+            return principal;
         }
 
         function popularListaDefeitos() {
@@ -1308,21 +1291,12 @@
 
         function renderTabelasApoio() {
             filtrarTabelaDefeitos();
-            
             const tbEq = document.getElementById('tbody_equipamentos');
-            dbEquipamentos.forEach(e => {
-                tbEq.innerHTML += `<tr><td>${e.cod}</td><td>${e.equip}</td></tr>`;
-            });
-            
+            dbEquipamentos.forEach(e => tbEq.innerHTML += `<tr><td>${e.cod}</td><td>${e.equip}</td></tr>`);
             const tbLoc = document.getElementById('tbody_localizacao');
-            dbLocalizacao.forEach(l => {
-                tbLoc.innerHTML += `<tr><td>${l.cod}</td><td>${l.pos}</td><td>${l.face}</td></tr>`;
-            });
-
+            dbLocalizacao.forEach(l => tbLoc.innerHTML += `<tr><td>${l.cod}</td><td>${l.pos}</td><td>${l.face}</td></tr>`);
             const tbInt = document.getElementById('tbody_intensidade');
-            dbIntensidade.forEach(i => {
-                tbInt.innerHTML += `<tr><td>${i.int}</td><td>${i.carac}</td><td style="text-transform:none; font-weight:normal;">${i.desc}</td></tr>`;
-            });
+            dbIntensidade.forEach(i => tbInt.innerHTML += `<tr><td>${i.int}</td><td>${i.carac}</td><td style="text-transform:none; font-weight:normal;">${i.desc}</td></tr>`);
         }
 
         function filtrarTabelaDefeitos() {
@@ -1330,7 +1304,6 @@
             const tbody = document.getElementById('tbody_defeitos');
             if(!tbody) return;
             tbody.innerHTML = '';
-            
             dbDefeitos.forEach(d => {
                 if (d.cod.includes(termo) || d.abrev.includes(termo) || d.desc.includes(termo)) {
                     tbody.innerHTML += `<tr><td>${d.cod}</td><td>${d.abrev}</td><td>${d.desc}</td></tr>`;
@@ -1340,11 +1313,7 @@
 
         function toggleTabelaApoio(tabela) {
             const div = document.getElementById(`apoio_${tabela}`);
-            if(div.style.display === 'none' || div.style.display === '') {
-                div.style.display = 'block';
-            } else {
-                div.style.display = 'none';
-            }
+            div.style.display = (div.style.display === 'none' || div.style.display === '') ? 'block' : 'none';
         }
 
         function toggleTheme() {
@@ -1362,29 +1331,25 @@
         function mudarAba(abaId, buttonElement) {
             document.querySelectorAll('.calc-section').forEach(s => s.classList.remove('active'));
             document.getElementById('aba_' + abaId).classList.add('active');
-
             if(buttonElement) {
                 document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
                 buttonElement.classList.add('active');
             }
         }
 
+        // ================= CONTROLE DE MODAIS =================
         function abrirModalBQD() { document.getElementById('modalBQD').style.display = 'flex'; }
         function fecharModalBQD() { document.getElementById('modalBQD').style.display = 'none'; }
+        
+        function abrirModalCalcLI() { document.getElementById('modalCalcLI').style.display = 'flex'; }
+        function fecharModalCalcLI() { document.getElementById('modalCalcLI').style.display = 'none'; }
+
         function abrirModal(id) { document.getElementById(id).style.display = 'flex'; }
         function fecharModal(id) { document.getElementById(id).style.display = 'none'; }
+        
         window.onclick = function(event) {
-            const modal = document.getElementById('modalBQD');
-            if (event.target === modal) {
-                modal.style.display = "none";
-            }
-        }
-
-        function toggleMensagens(prefix) {
-            const isChecked = document.getElementById(`${prefix}_check_abrir_msg`).checked;
-            const blocoMsg = document.getElementById(`${prefix}_bloco_mensagens`);
-            blocoMsg.style.display = isChecked ? 'block' : 'none';
-            if(isChecked) gerarMsg(prefix);
+            if (event.target === document.getElementById('modalBQD')) fecharModalBQD();
+            if (event.target === document.getElementById('modalCalcLI')) fecharModalCalcLI();
         }
 
         function toggleTreinamento(tipo, prefixo_aba) {
@@ -1400,82 +1365,229 @@
             }
             if(prefixo_aba === 'bfn') gerarMsgBFN();
             else if(prefixo_aba === 'bqd') gerarMsgBQD();
+            else if(prefixo_aba === 'lis') gerarMsgLIS();
         }
 
-        function formatarInspetorParaMensagem(idPrincipal, idTreinamento) {
-            let principal = document.getElementById(idPrincipal).value.toUpperCase() || '___';
-            let inputTrein = document.getElementById(idTreinamento);
-            
-            if (inputTrein.style.display !== 'none' && inputTrein.value.trim() !== '') {
-                return `${principal} - ${inputTrein.value.toUpperCase()} (TREIN)`;
-            }
-            return principal;
-        }
-
-        function verificarLado(prefix) {
-            const lado = document.getElementById(`${prefix}_msg_lado`).value.toUpperCase();
-            const grupoDistancia = document.getElementById(`${prefix}_grupo_distancia`);
-            
-            if (lado === 'MOTOR' || lado === 'OPERAÇÃO' || lado === 'BORDAS') {
-                grupoDistancia.style.display = 'block';
-            } else {
-                grupoDistancia.style.display = 'none';
-                document.getElementById(`${prefix}_msg_mm`).value = ''; 
-            }
-            gerarMsg(prefix);
-        }
-
+        // ================= FUNÇÕES BF-N =================
         let bfnContadorDefeitos = 0;
-
         function toggleMedicoesBFN() {
-            const check = document.getElementById('bfn_check_medicoes').checked;
-            const container = document.getElementById('bfn_medicoes_container');
-            container.style.display = check ? 'block' : 'none';
+            document.getElementById('bfn_medicoes_container').style.display = document.getElementById('bfn_check_medicoes').checked ? 'block' : 'none';
             gerarMsgBFN();
         }
-
         function toggleUniversalBFN() {
-            const check = document.getElementById('bfn_check_universal').checked;
-            const container = document.getElementById('bfn_universal_container');
-            container.style.display = check ? 'block' : 'none';
+            document.getElementById('bfn_universal_container').style.display = document.getElementById('bfn_check_universal').checked ? 'block' : 'none';
             gerarMsgBFN();
         }
-
+        function toggleAparamentoBFN() {
+            document.getElementById('bfn_aparamento_container').style.display = document.getElementById('bfn_check_aparamento').checked ? 'block' : 'none';
+            gerarMsgBFN();
+        }
         function adicionarDefeitoBFN() {
             bfnContadorDefeitos++;
             const id = bfnContadorDefeitos;
             const container = document.getElementById('bfn_defeitos_container');
-            
             const div = document.createElement('div');
-            div.className = 'bfn-defect-row';
-            div.id = `bfn_row_${id}`;
+            div.className = 'bfn-defect-row'; div.id = `bfn_row_${id}`;
             div.innerHTML = getHTMLDefeito('bfn', id);
             container.appendChild(div);
             gerarMsgBFN();
         }
 
-        let bqdContadorDefeitos = 0;
+        function gerarMsgBFN() {
+            let isFormatado = document.getElementById('bfn_check_formatar').checked;
+            let msg = `BF-N // Medições conforme LFINSPO0078.\n`;
 
-        function toggleMedicoesBQD() {
-            const check = document.getElementById('bqd_check_medicoes').checked;
-            const container = document.getElementById('bqd_medicoes_container');
-            container.style.display = check ? 'block' : 'none';
-            gerarMsgBQD();
+            if (document.getElementById('bfn_check_1turno').checked) msg += `Efetuado teste de bloqueio, inspeção do Parsytec e checklist dos equipamentos.\n`;
+
+            if (document.getElementById('bfn_check_aparamento').checked) {
+                const plan = document.getElementById('bfn_apar_planejado').value || '___';
+                const apar = document.getElementById('bfn_apar_aparado').value || '___';
+                const trena = document.getElementById('bfn_apar_trena').value;
+                let msgApar = `Material com aparamento planejado para ${plan}mm e ajustado automaticamente pela operação para ${apar}mm`;
+                if (trena !== '') msgApar += `, medição na trena ${trena}mm`;
+                msg += msgApar + `.\n`;
+            }
+            if (document.getElementById('bfn_check_medicoes').checked) {
+                msg += `Raio Gama:  ${document.getElementById('bfn_raio').value || '____'}mm // Side trimmer:  ${document.getElementById('bfn_trimmer').value || '____'}mm.\n`;
+            }
+            if (document.getElementById('bfn_check_universal').checked) {
+                msg += `Medição Universal: Mínima ${document.getElementById('bfn_uni_ini').value || '____'}mm / Media ${document.getElementById('bfn_uni_meio').value || '____'}mm / Maxima${document.getElementById('bfn_uni_fim').value || '____'} mm.\n`;
+            }
+
+            document.querySelectorAll('.bfn-defect-row').forEach(linha => {
+                const is100 = linha.querySelector('.bfn_def_100pct').checked;
+                const pct = linha.querySelector('.bfn_def_pct').value || '___';
+                let nome = linha.querySelector('.bfn_def_nome').value.toUpperCase() || '_____';
+                if (nome.includes(" - ")) nome = nome.split(" - ").length > 1 ? nome.split(" - ")[1].trim() : nome.split(" - ")[0].trim();
+                const int = linha.querySelector('.bfn_def_int').value.toUpperCase() || '___';
+                const face = linha.querySelector('.bfn_def_face').value;
+                let posText = !is100 ? ` ${linha.querySelector('.bfn_def_pos').value}` : "";
+                let textoFace = face === "AMBAS AS FACES" ? "EM AMBAS AS FACES" : `FACE ${face}`;
+                
+                let msgDefeito = `${pct}% ${nome} INTENSIDADE (${int})${posText} ${textoFace}`;
+                const lado = linha.querySelector('.bfn_def_lado').value;
+                const mm = linha.querySelector('.bfn_def_mm').value;
+
+                if (lado !== "") {
+                    if (lado === "BORDAS") msgDefeito += ", NAS BORDAS";
+                    else if (lado === "CENTRO") msgDefeito += ", NO CENTRO";
+                    else if (lado === "C/B") msgDefeito += ", C/B";
+                    else msgDefeito += `, NO LADO ${lado}`;
+                    if (mm !== '' && ['MOTOR', 'OPERAÇÃO', 'BORDAS'].includes(lado)) msgDefeito += ` A ${mm}mm`;
+                }
+                msg += `${msgDefeito}\n`;
+            });
+
+            const grafico = document.getElementById('bfn_grafico').value;
+            if (grafico === 'OK') msg += `Grafico de Perfil Avaliado (OK)\n`;
+            else if (grafico === 'AVALIAR') msg += `ATENÇÃO LE /LI´S, AVALIAR GRAFICO DE PLANICIDADE DO MATERIAL, SUJEITO A IRREGULARIDADE.\n`;
+            else if (grafico === 'IRREGULAR') msg += `ATENÇÃO LE. GRAFICO DE PERFIL DO MATERIAL ESTÁ IRREGULAR.\n`;
+
+            if(isFormatado) msg = formatarTextoPadrao(msg);
+            else msg = msg.toUpperCase();
+
+            const txtInspSup = formatarInspetorParaMensagem('bfn_insp_sup', 'bfn_insp_sup_trein', isFormatado);
+            const txtInspPar = formatarInspetorParaMensagem('bfn_insp_par', 'bfn_insp_par_trein', isFormatado);
+            const txtInspInf = formatarInspetorParaMensagem('bfn_insp_inf', 'bfn_insp_inf_trein', isFormatado);
+            
+            let labelInsp = isFormatado ? "Insp" : "INSP";
+            msg += `\n${labelInsp}. Superior: ${txtInspSup}  // ${labelInsp}. Parsytec: ${txtInspPar}  // ${labelInsp}. Inferior + sistema: ${txtInspInf}\n`;
+
+            document.getElementById('bfn_txt_final').innerText = msg;
         }
 
+        // ================= FUNÇÕES BQD =================
+        let bqdContadorDefeitos = 0;
+        function toggleMedicoesBQD() {
+            document.getElementById('bqd_medicoes_container').style.display = document.getElementById('bqd_check_medicoes').checked ? 'block' : 'none';
+            gerarMsgBQD();
+        }
+        function toggle3ParadasBQD() {
+            document.getElementById('bqd_3paradas_container').style.display = document.getElementById('bqd_check_3paradas').checked ? 'block' : 'none';
+            gerarMsgBQD();
+        }
         function adicionarDefeitoBQD() {
             bqdContadorDefeitos++;
             const id = bqdContadorDefeitos;
             const container = document.getElementById('bqd_defeitos_container');
-            
             const div = document.createElement('div');
-            div.className = 'bqd-defect-row';
-            div.id = `bqd_row_${id}`;
+            div.className = 'bqd-defect-row'; div.id = `bqd_row_${id}`;
             div.innerHTML = getHTMLDefeito('bqd', id);
             container.appendChild(div);
             gerarMsgBQD();
         }
 
+        function gerarMsgBQD() {
+            let isFormatado = document.getElementById('bqd_check_formatar').checked;
+            let msg = `MEDIÇÕES CONFORME NORMA LFINSOT0005 BQD // Gráfico do LTQ / DEC OK // BOBINAMENTO OK.\n`;
+
+            if (document.getElementById('bqd_check_1turno').checked) msg += `Efetuado teste de bloqueio, inspeção do Parsytec e checklist dos equipamentos.\n`;
+            if (document.getElementById('bqd_check_pedra_sabao').checked) msg += `Efetuado inspeção com pedra sabão nos 10 metros iniciais conforme norma.\n`;
+            if (document.getElementById('bqd_check_3paradas').checked) {
+                msg += `Efetuado 3 parada para inspeção de ambas as faces durante o processo.\n`;
+                if (document.getElementById('bqd_check_550d_lixa').checked) msg += `Foi feito inspeção com lixa.\n`;
+            }
+            if (document.getElementById('bqd_check_medicoes').checked) {
+                msg += `Raio Gama:  ${document.getElementById('bqd_raio').value || '____'}mm // Side trimmer:  ${document.getElementById('bqd_trimmer').value || '____'}mm.\n`;
+            }
+
+            document.querySelectorAll('.bqd-defect-row').forEach(linha => {
+                const is100 = linha.querySelector('.bqd_def_100pct').checked;
+                const pct = linha.querySelector('.bqd_def_pct').value || '___';
+                let nome = linha.querySelector('.bqd_def_nome').value.toUpperCase() || '_____';
+                if (nome.includes(" - ")) nome = nome.split(" - ").length > 1 ? nome.split(" - ")[1].trim() : nome.split(" - ")[0].trim();
+                const int = linha.querySelector('.bqd_def_int').value.toUpperCase() || '___';
+                const face = linha.querySelector('.bqd_def_face').value;
+                let posText = !is100 ? ` ${linha.querySelector('.bqd_def_pos').value}` : "";
+                let textoFace = face === "AMBAS AS FACES" ? "EM AMBAS AS FACES" : `FACE ${face}`;
+                
+                let msgDefeito = `${pct}% ${nome} INTENSIDADE (${int})${posText} ${textoFace}`;
+                const lado = linha.querySelector('.bqd_def_lado').value;
+                const mm = linha.querySelector('.bqd_def_mm').value;
+
+                if (lado !== "") {
+                    if (lado === "BORDAS") msgDefeito += ", NAS BORDAS";
+                    else if (lado === "CENTRO") msgDefeito += ", NO CENTRO";
+                    else if (lado === "C/B") msgDefeito += ", C/B";
+                    else msgDefeito += `, NO LADO ${lado}`;
+                    if (mm !== '' && ['MOTOR', 'OPERAÇÃO', 'BORDAS'].includes(lado)) msgDefeito += ` A ${mm}mm`;
+                }
+                msg += `NQ: ${msgDefeito}\n`;
+            });
+
+            if(isFormatado) msg = formatarTextoPadrao(msg);
+            else msg = msg.toUpperCase();
+
+            const txtInspSup = formatarInspetorParaMensagem('bqd_insp_sup', 'bqd_insp_sup_trein', isFormatado);
+            const txtInspPar = formatarInspetorParaMensagem('bqd_insp_par', 'bqd_insp_par_trein', isFormatado);
+            const txtInspInf = formatarInspetorParaMensagem('bqd_insp_inf', 'bqd_insp_inf_trein', isFormatado);
+
+            let labelInsp = isFormatado ? "Insp" : "INSP";
+            msg += `\n${labelInsp}. Superior: ${txtInspSup}  // ${labelInsp}. Parsytec: ${txtInspPar}  // ${labelInsp}. Inferior + sistema: ${txtInspInf}\n`;
+
+            document.getElementById('bqd_txt_final').innerText = msg;
+        }
+
+        // ================= ABA: MENSAGEM LI'S =================
+        function toggleDefeitoLE_LIS() {
+            document.getElementById('lis_defeito_le_container').style.display = document.getElementById('lis_chk_le').checked ? 'block' : 'none';
+            gerarMsgLIS();
+        }
+
+        function preencherDescarteLIS(texto) {
+            document.getElementById('lis_descarte_txt').value = texto;
+            gerarMsgLIS();
+        }
+
+        function gerarMsgLIS() {
+            let isFormatado = document.getElementById('lis_check_formatar').checked;
+            let partesMsg = [];
+
+            // 1. Opções da Linha
+            if (document.getElementById('lis_chk_retorno').checked) partesMsg.push("Efetuado retorno na linha, oleamento e planicidade ok");
+            if (document.getElementById('lis_chk_face_inf').checked) partesMsg.push("Face inferior avaliada pelo operador de saída - ok");
+
+            // 2. Defeito LE
+            if (document.getElementById('lis_chk_le').checked) {
+                let pct = document.getElementById('lis_le_pct').value || '___';
+                let nomeDef = document.getElementById('lis_le_nome').value.toUpperCase() || '___';
+                if (nomeDef.includes(" - ")) nomeDef = nomeDef.split(" - ").length > 1 ? nomeDef.split(" - ")[1].trim() : nomeDef.split(" - ")[0].trim();
+                let pos = document.getElementById('lis_le_pos').value.toLowerCase();
+                partesMsg.push(`${pct}% ${nomeDef} LE, ${pos}`);
+            }
+
+            // 3. Descartes (livre)
+            let desc = document.getElementById('lis_descarte_txt').value.trim();
+            if (desc !== "") {
+                partesMsg.push(desc);
+            }
+
+            // 4. Fechamento Fixo (Auditoria) e Testes
+            let tempPartesFinal = ["Auditado na esteira de saída - ok"];
+            if (document.getElementById('lis_chk_limpeza').checked) tempPartesFinal.push("Teste limpeza superficial - ok");
+            if (document.getElementById('lis_chk_tape').checked) tempPartesFinal.push("Retirado Tape test");
+            
+            partesMsg = partesMsg.concat(tempPartesFinal);
+
+            // Junta tudo com "//"
+            let msgCore = partesMsg.join(" // ");
+
+            // Aplica a formatação APENAS no texto base
+            if (isFormatado) {
+                msgCore = formatarTextoPadrao(msgCore);
+            } else {
+                msgCore = msgCore.toUpperCase();
+            }
+
+            // 5. Inspetor (Processado isoladamente para manter a formatação segura)
+            let txtInsp = formatarInspetorParaMensagem('lis_insp_sup', 'lis_insp_sup_trein', isFormatado);
+            let labelInsp = isFormatado ? "Insp.:" : "INSP.:";
+            
+            // Monta a string final
+            document.getElementById('lis_txt_final').innerText = msgCore + " // " + labelInsp + " " + txtInsp;
+        }
+
+        // ================= COMPONENTES COMUNS (GERAR LINHA DE DEFEITO) =================
         function getHTMLDefeito(prefix, id) {
             return `
                 <div class="row" style="width: 100%; margin-bottom: 15px;">
@@ -1502,6 +1614,7 @@
                             <option value="INÍCIO">INÍCIO</option>
                             <option value="MEIO">MEIO</option>
                             <option value="FINAL">FINAL</option>
+                            <option value="ESPARSO">ESPARSO</option>
                         </select>
                     </div>
                     <div class="form-group" style="flex: 1; min-width: 150px; margin-bottom: 0;">
@@ -1543,12 +1656,9 @@
             const lado = row.querySelector(`.${prefix}_def_lado`).value;
             const mmContainer = document.getElementById(`${prefix}_mm_container_${id}`);
 
-            if (lado === 'MOTOR' || lado === 'OPERAÇÃO' || lado === 'BORDAS') {
-                mmContainer.style.display = 'block';
-            } else {
-                mmContainer.style.display = 'none';
-                row.querySelector(`.${prefix}_def_mm`).value = '';
-            }
+            if (['MOTOR', 'OPERAÇÃO', 'BORDAS'].includes(lado)) mmContainer.style.display = 'block';
+            else { mmContainer.style.display = 'none'; row.querySelector(`.${prefix}_def_mm`).value = ''; }
+            
             if(prefix === 'bfn') gerarMsgBFN();
             else if(prefix === 'bqd') gerarMsgBQD();
         }
@@ -1559,15 +1669,9 @@
             const pctInput = row.querySelector(`.${prefix}_def_pct`);
             const posContainer = document.getElementById(`${prefix}_pos_container_${id}`);
 
-            if (is100) {
-                pctInput.value = 100;
-                pctInput.setAttribute('readonly', true);
-                posContainer.style.display = 'none';
-            } else {
-                pctInput.value = '';
-                pctInput.removeAttribute('readonly');
-                posContainer.style.display = 'block';
-            }
+            if (is100) { pctInput.value = 100; pctInput.setAttribute('readonly', true); posContainer.style.display = 'none'; } 
+            else { pctInput.value = ''; pctInput.removeAttribute('readonly'); posContainer.style.display = 'block'; }
+            
             if(prefix === 'bfn') gerarMsgBFN();
             else if(prefix === 'bqd') gerarMsgBQD();
         }
@@ -1579,204 +1683,21 @@
             else if(prefix === 'bqd') gerarMsgBQD();
         }
 
-        function toggleAparamentoBFN() {
-            const checked = document.getElementById('bfn_check_aparamento').checked;
-            document.getElementById('bfn_aparamento_container').style.display = checked ? 'block' : 'none';
-            gerarMsgBFN();
-        }
-
-        function gerarMsgBFN() {
-            let msg = `BF-N // Medições conforme LFINSPO0078.\n`;
-
-            if (document.getElementById('bfn_check_1turno').checked) {
-                msg += `Efetuado teste de bloqueio, inspeção do Parsytec e checklist dos equipamentos.\n`;
-            }
-
-            if (document.getElementById('bfn_check_aparamento').checked) {
-                const plan = document.getElementById('bfn_apar_planejado').value || '___';
-                const apar = document.getElementById('bfn_apar_aparado').value || '___';
-                const trena = document.getElementById('bfn_apar_trena').value;
-                let msgApar = `Material com aparamento planejado para ${plan}mm e ajustado automaticamente pela operação para ${apar}mm`;
-                if (trena !== '') msgApar += `, medição na trena ${trena}mm`;
-                msg += msgApar + `.\n`;
-            }
-            
-            if (document.getElementById('bfn_check_medicoes').checked) {
-                const raio = document.getElementById('bfn_raio').value || '____';
-                const trimmer = document.getElementById('bfn_trimmer').value || '____';
-                msg += `Raio Gama:  ${raio}mm // Side trimmer:  ${trimmer}mm.\n`;
-            }
-
-            if (document.getElementById('bfn_check_universal').checked) {
-                const ini = document.getElementById('bfn_uni_ini').value || '____';
-                const meio = document.getElementById('bfn_uni_meio').value || '____';
-                const fim = document.getElementById('bfn_uni_fim').value || '____';
-                msg += `Medição Universal: Mínima ${ini}mm / Media ${meio}mm / Maxima${fim} mm.\n`;
-            }
-
-            const linhasDefeitos = document.querySelectorAll('.bfn-defect-row');
-            linhasDefeitos.forEach(linha => {
-                const is100 = linha.querySelector('.bfn_def_100pct').checked;
-                const pct = linha.querySelector('.bfn_def_pct').value || '___';
-                
-                let nome = linha.querySelector('.bfn_def_nome').value.toUpperCase() || '_____';
-                if (nome.includes(" - ")) {
-                    let partes = nome.split(" - ");
-                    nome = partes.length > 1 ? partes[1].trim() : partes[0].trim(); 
-                }
-
-                const int = linha.querySelector('.bfn_def_int').value.toUpperCase() || '___';
-                const face = linha.querySelector('.bfn_def_face').value;
-
-                let posText = "";
-                if (!is100) {
-                    const pos = linha.querySelector('.bfn_def_pos').value;
-                    posText = ` ${pos}`;
-                }
-
-                let textoFace = face === "AMBAS AS FACES" ? "EM AMBAS AS FACES" : `FACE ${face}`;
-                let msgDefeito = `${pct}% ${nome} INTENSIDADE (${int})${posText} ${textoFace}`;
-
-                const lado = linha.querySelector('.bfn_def_lado').value;
-                const mm = linha.querySelector('.bfn_def_mm').value;
-
-                if (lado !== "") {
-                    let textoLado = "";
-                    if (lado === "BORDAS") textoLado = "NAS BORDAS";
-                    else if (lado === "CENTRO") textoLado = "NO CENTRO";
-                    else if (lado === "C/B") textoLado = "C/B";
-                    else textoLado = `NO LADO ${lado}`;
-
-                    msgDefeito += `, ${textoLado}`;
-
-                    if (mm !== '' && (lado === 'MOTOR' || lado === 'OPERAÇÃO' || lado === 'BORDAS')) {
-                        msgDefeito += ` A ${mm}mm`;
-                    }
-                }
-                msg += `${msgDefeito}\n`;
-            });
-
-            const grafico = document.getElementById('bfn_grafico').value;
-            if (grafico === 'OK') msg += `Grafico de Perfil Avaliado (OK)\n`;
-            else if (grafico === 'AVALIAR') msg += `ATENÇÃO LE /LI´S, AVALIAR GRAFICO DE PLANICIDADE DO MATERIAL, SUJEITO A IRREGULARIDADE.\n`;
-            else if (grafico === 'IRREGULAR') msg += `ATENÇÃO LE. GRAFICO DE PERFIL DO MATERIAL ESTÁ IRREGULAR.\n`;
-
-            const txtInspSup = formatarInspetorParaMensagem('bfn_insp_sup', 'bfn_insp_sup_trein');
-            const txtInspPar = formatarInspetorParaMensagem('bfn_insp_par', 'bfn_insp_par_trein');
-            const txtInspInf = formatarInspetorParaMensagem('bfn_insp_inf', 'bfn_insp_inf_trein');
-
-            msg += `\nInsp. Superior: ${txtInspSup}  // Insp. Parsytec: ${txtInspPar}  // Insp. Inferior + sistema: ${txtInspInf}\n`;
-            
-            if(document.getElementById('bfn_check_formatar').checked) {
-                document.getElementById('bfn_txt_final').innerText = formatarTextoPadrao(msg);
-            } else {
-                document.getElementById('bfn_txt_final').innerText = msg.toUpperCase();
-            }
-        }
-
-        function toggle3ParadasBQD() {
-            const checked = document.getElementById('bqd_check_3paradas').checked;
-            document.getElementById('bqd_3paradas_container').style.display = checked ? 'block' : 'none';
-            gerarMsgBQD();
-        }
-
-        function gerarMsgBQD() {
-            let msg = `MEDIÇÕES CONFORME NORMA LFINSOT0005 BQD // Gráfico do LTQ / DEC OK // BOBINAMENTO OK.\n`;
-
-            if (document.getElementById('bqd_check_1turno').checked) {
-                msg += `Efetuado teste de bloqueio, inspeção do Parsytec e checklist dos equipamentos.\n`;
-            }
-
-            if (document.getElementById('bqd_check_pedra_sabao').checked) {
-                msg += `Efetuado inspeção com pedra sabão nos 10 metros iniciais conforme norma.\n`;
-            }
-
-            if (document.getElementById('bqd_check_3paradas').checked) {
-                msg += `Efetuado 3 parada para inspeção de ambas as faces durante o processo.\n`;
-                if (document.getElementById('bqd_check_550d_lixa').checked) {
-                    msg += `Foi feito inspeção com lixa.\n`;
-                }
-            }
-
-            if (document.getElementById('bqd_check_medicoes').checked) {
-                const raio = document.getElementById('bqd_raio').value || '____';
-                const trimmer = document.getElementById('bqd_trimmer').value || '____';
-                msg += `Raio Gama:  ${raio}mm // Side trimmer:  ${trimmer}mm.\n`;
-            }
-
-            const linhasDefeitos = document.querySelectorAll('.bqd-defect-row');
-            linhasDefeitos.forEach(linha => {
-                const is100 = linha.querySelector('.bqd_def_100pct').checked;
-                const pct = linha.querySelector('.bqd_def_pct').value || '___';
-                
-                let nome = linha.querySelector('.bqd_def_nome').value.toUpperCase() || '_____';
-                if (nome.includes(" - ")) {
-                    let partes = nome.split(" - ");
-                    nome = partes.length > 1 ? partes[1].trim() : partes[0].trim(); 
-                }
-
-                const int = linha.querySelector('.bqd_def_int').value.toUpperCase() || '___';
-                const face = linha.querySelector('.bqd_def_face').value;
-
-                let posText = "";
-                if (!is100) {
-                    const pos = linha.querySelector('.bqd_def_pos').value;
-                    posText = ` ${pos}`;
-                }
-
-                let textoFace = face === "AMBAS AS FACES" ? "EM AMBAS AS FACES" : `FACE ${face}`;
-                let msgDefeito = `${pct}% ${nome} INTENSIDADE (${int})${posText} ${textoFace}`;
-
-                const lado = linha.querySelector('.bqd_def_lado').value;
-                const mm = linha.querySelector('.bqd_def_mm').value;
-
-                if (lado !== "") {
-                    let textoLado = "";
-                    if (lado === "BORDAS") textoLado = "NAS BORDAS";
-                    else if (lado === "CENTRO") textoLado = "NO CENTRO";
-                    else if (lado === "C/B") textoLado = "C/B";
-                    else textoLado = `NO LADO ${lado}`;
-
-                    msgDefeito += `, ${textoLado}`;
-
-                    if (mm !== '' && (lado === 'MOTOR' || lado === 'OPERAÇÃO' || lado === 'BORDAS')) {
-                        msgDefeito += ` A ${mm}mm`;
-                    }
-                }
-                msg += `NQ: ${msgDefeito}\n`;
-            });
-
-            const txtInspSup = formatarInspetorParaMensagem('bqd_insp_sup', 'bqd_insp_sup_trein');
-            const txtInspPar = formatarInspetorParaMensagem('bqd_insp_par', 'bqd_insp_par_trein');
-            const txtInspInf = formatarInspetorParaMensagem('bqd_insp_inf', 'bqd_insp_inf_trein');
-
-            msg += `\nInsp. Superior: ${txtInspSup}  // Insp. Parsytec: ${txtInspPar}  // Insp. Inferior + sistema: ${txtInspInf}\n`;
-            
-            if(document.getElementById('bqd_check_formatar').checked) {
-                document.getElementById('bqd_txt_final').innerText = formatarTextoPadrao(msg);
-            } else {
-                document.getElementById('bqd_txt_final').innerText = msg.toUpperCase();
-            }
-        }
-
         // ================= LÓGICAS ABA METRAGEM =================
         function atualizarPorMetragem() {
             const metragem = parseFloat(document.getElementById('m_metragem').value) || 0;
             const largura = parseFloat(document.getElementById('m_largura').value) || 0;
             const esp = parseFloat(document.getElementById('m_esp').value) || 0;
-
             if (metragem > 0 && largura > 0 && esp > 0) {
                 const peso = metragem * (largura / 1000) * esp * 7.85;
                 document.getElementById('m_peso').value = peso.toFixed(2);
             }
             forcarCoroaMetragem();
         }
-
         function forcarCoroaMetragem() {
             const peso = parseFloat(document.getElementById('m_peso').value) || 0;
             const largura = parseFloat(document.getElementById('m_largura').value) || 0;
             const campoCoroa = document.getElementById('m_msg_coroa');
-
             if (peso > 0 && largura > 0) {
                 const constante = 0.00000785 * largura * (3.1416 / 4);
                 const termo1 = peso / constante;
@@ -1795,7 +1716,6 @@
             const peso = parseFloat(document.getElementById('p_peso').value) || 0;
             const largura = parseFloat(document.getElementById('p_largura').value) || 0;
             const esp = parseFloat(document.getElementById('p_esp').value) || 0;
-
             if (peso > 0 && largura > 0 && esp > 0) {
                 const metragem = peso / ((largura / 1000) * esp * 7.85);
                 document.getElementById('p_metragem').value = metragem.toFixed(2);
@@ -1804,12 +1724,10 @@
             }
             forcarCoroaPeso();
         }
-
         function forcarCoroaPeso() {
             const peso = parseFloat(document.getElementById('p_peso').value) || 0;
             const largura = parseFloat(document.getElementById('p_largura').value) || 0;
             const campoCoroa = document.getElementById('p_msg_coroa');
-
             if (peso > 0 && largura > 0) {
                 const constante = 0.00000785 * largura * (3.1416 / 4);
                 const termo1 = peso / constante;
@@ -1823,15 +1741,24 @@
             gerarMsg('p');
         }
 
+        // ================= GERAÇÃO LTF E LI'S (ALERTAS) =================
+        function toggleMensagens(prefix) {
+            const isChecked = document.getElementById(`${prefix}_check_abrir_msg`).checked;
+            document.getElementById(`${prefix}_bloco_mensagens`).style.display = isChecked ? 'block' : 'none';
+            if(isChecked) gerarMsg(prefix);
+        }
+        function verificarLado(prefix) {
+            const lado = document.getElementById(`${prefix}_msg_lado`).value.toUpperCase();
+            const grupoDistancia = document.getElementById(`${prefix}_grupo_distancia`);
+            if (['MOTOR', 'OPERAÇÃO', 'BORDAS'].includes(lado)) grupoDistancia.style.display = 'block';
+            else { grupoDistancia.style.display = 'none'; document.getElementById(`${prefix}_msg_mm`).value = ''; }
+            gerarMsg(prefix);
+        }
         function gerarMsg(prefix) {
             if(!document.getElementById(`${prefix}_check_abrir_msg`).checked) return;
 
             let defeitoInput = document.getElementById(`${prefix}_msg_defeito`).value.trim().toUpperCase() || "_____";
-            
-            if (defeitoInput.includes(" - ")) {
-                let partes = defeitoInput.split(" - ");
-                defeitoInput = partes.length > 1 ? partes[1].trim() : partes[0].trim();
-            }
+            if (defeitoInput.includes(" - ")) defeitoInput = defeitoInput.split(" - ").length > 1 ? defeitoInput.split(" - ")[1].trim() : defeitoInput.split(" - ")[0].trim();
 
             const posicao = document.getElementById(`${prefix}_msg_posicao`).value.toUpperCase();
             const lado = document.getElementById(`${prefix}_msg_lado`).value.toUpperCase();
@@ -1842,7 +1769,6 @@
             if (coroa === "DADOS INSUF." || coroa === "") coroa = "___";
 
             let textoFace = posicao === "AMBAS AS FACES" ? "EM AMBAS AS FACES" : `NA FACE ${posicao}`; 
-
             let textoLado = "";
             if (lado === "BORDAS") textoLado = "NAS BORDAS";
             else if (lado === "CENTRO") textoLado = "NO CENTRO";
@@ -1850,9 +1776,7 @@
             else textoLado = `NO LADO ${lado}`; 
 
             let motivo = `${defeitoInput} ${textoFace}, ${textoLado}`;
-            if ((lado === 'MOTOR' || lado === 'OPERAÇÃO' || lado === 'BORDAS') && mm !== '') {
-                motivo += ` A ${mm}mm`; 
-            }
+            if (['MOTOR', 'OPERAÇÃO', 'BORDAS'].includes(lado) && mm !== '') motivo += ` A ${mm}mm`; 
 
             const textoLTF = `ATENÇÃO LTF: REDUZIR VELOCIDADE PARA ${velocidade} MPM NA POSIÇÃO DE COROA DE ${coroa}mm. (FAZER MARCAÇÃO COM GIZ NA POSIÇÃO DE COROA INFORMADA).\n\nMOTIVO: ${motivo}`;
             document.getElementById(`${prefix}_txt_ltf`).innerText = textoLTF;
@@ -1863,128 +1787,85 @@
             if (gerarLI) {
                 const peso = parseFloat(document.getElementById(`${prefix}_peso`).value) || 0;
                 const ton = peso > 0 ? (peso / 1000).toFixed(1) : "___";
-                const textoLI = `ATENÇÃO LI'S SUJEITO A FURO A ${ton} TON. A PARTIR DO INÍCIO DECAPAGEM DEVIDO ${motivo}`;
-                
-                document.getElementById(`${prefix}_txt_li`).innerText = textoLI;
+                document.getElementById(`${prefix}_txt_li`).innerText = `ATENÇÃO LI'S SUJEITO A FURO A ${ton} TON. A PARTIR DO INÍCIO DECAPAGEM DEVIDO ${motivo}`;
                 cardLI.style.display = 'block';
             } else {
                 cardLI.style.display = 'none';
             }
         }
 
-        // ================= CÁLCULO GERAÇÃO DE MIOLO LI's (NOVO EXCEL CLONE) =================
+        // ================= CÁLCULO EXCEL CLONE =================
         function calcularLIsExcel() {
             let mercado = document.getElementById('ex_mercado').value.toUpperCase();
             let aplicacao = document.getElementById('ex_aplicacao').value.toUpperCase();
-            let espessuraStr = document.getElementById('ex_espessura').value.replace(',', '.');
-            let espessura = parseFloat(espessuraStr);
+            let espessura = parseFloat(document.getElementById('ex_espessura').value.replace(',', '.'));
             let largura = parseFloat(document.getElementById('ex_largura').value);
             let descarteMetros = parseFloat(document.getElementById('ex_descarte').value);
             let pesoEntrada = parseFloat(document.getElementById('ex_peso').value);
 
-            const elResEsperado = document.getElementById('ex_res_esperado');
-            const elPctDefeito = document.getElementById('ex_pct_defeito');
-            const elValorPct = document.getElementById('ex_valor_pct');
-            const elMetrosComp = document.getElementById('ex_metros_completar');
-            const elPesoTeorico = document.getElementById('ex_peso_teorico');
-            const elOrientacao = document.getElementById('ex_orientacao');
+            const els = {
+                resEsperado: document.getElementById('ex_res_esperado'),
+                pctDefeito: document.getElementById('ex_pct_defeito'),
+                valorPct: document.getElementById('ex_valor_pct'),
+                metrosComp: document.getElementById('ex_metros_completar'),
+                pesoTeorico: document.getElementById('ex_peso_teorico'),
+                orientacao: document.getElementById('ex_orientacao')
+            };
 
             if (!mercado || !aplicacao || isNaN(espessura) || isNaN(largura) || isNaN(descarteMetros) || isNaN(pesoEntrada)) {
-                elResEsperado.innerText = "---"; elResEsperado.className = "excel-result excel-result-white";
-                elPctDefeito.innerText = "---";
-                elValorPct.innerText = "---";
-                elMetrosComp.innerText = "---";
-                elPesoTeorico.innerText = "---";
-                elOrientacao.innerHTML = "Complete com a<br>metragem informada";
+                els.resEsperado.innerText = "---"; els.resEsperado.className = "excel-result excel-result-white";
+                els.pctDefeito.innerText = "---"; els.valorPct.innerText = "---"; els.metrosComp.innerText = "---"; els.pesoTeorico.innerText = "---";
+                els.orientacao.innerHTML = "Complete com a<br>metragem informada";
                 return;
             }
 
-            // 1. Peso de Saída Fisico e Preços
             const pesoDescarte = descarteMetros * largura * espessura * 0.00000785 * 1000;
             const pesoSaida = pesoEntrada - pesoDescarte;
 
             let pProd = 2800, pSucata = 1137.44, p2Qual = 2200;
             if (tbPrecos[mercado] && tbPrecos[mercado][aplicacao]) {
-                pProd = tbPrecos[mercado][aplicacao].pProd;
-                pSucata = tbPrecos[mercado][aplicacao].pSucata;
-                p2Qual = tbPrecos[mercado][aplicacao].p2Qual || (pProd * 0.85); 
+                pProd = tbPrecos[mercado][aplicacao].pProd; pSucata = tbPrecos[mercado][aplicacao].pSucata; p2Qual = tbPrecos[mercado][aplicacao].p2Qual || (pProd * 0.85); 
             }
 
-            // 2. Cálculos Teóricos e Defeito
             const pi = 3.14; 
             const G2 = descarteMetros * 1000;
             const H2 = (pi * (Math.pow(770/2, 2) - Math.pow(610/2, 2))) / espessura;
             const I2 = H2 - G2;
             const J2 = I2 * espessura * largura * 0.00000785;
             
-            // Peso Teórico L2
             const L2 = (G2 * espessura * largura * 0.00000785) + J2;
-            elPesoTeorico.innerText = L2.toLocaleString('pt-BR', {minimumFractionDigits: 3, maximumFractionDigits: 3});
+            els.pesoTeorico.innerText = L2.toLocaleString('pt-BR', {minimumFractionDigits: 3, maximumFractionDigits: 3});
 
-            // Lucros
             const K2 = pesoSaida - L2; 
-            const ganhoSucata = ((G2 * espessura * largura * 0.00000785) / 1000) * pSucata;
-            const ganhoProd = ((pesoSaida - (G2 * espessura * largura * 0.00000785)) / 1000) * pProd;
-            const lucro1_W2 = ganhoSucata + ganhoProd;
+            const lucro1_W2 = (((G2 * espessura * largura * 0.00000785) / 1000) * pSucata) + (((pesoSaida - (G2 * espessura * largura * 0.00000785)) / 1000) * pProd);
+            const lucro2_AB2 = ((L2 / 1000) * p2Qual) + ((K2 / 1000) * pProd); 
 
-            const ganho2Qual_Z2 = (L2 / 1000) * p2Qual;
-            const ganhoProdNovo_AA2 = (K2 / 1000) * pProd;
-            const lucro2_AB2 = ganho2Qual_Z2 + ganhoProdNovo_AA2; 
-
-            // Resultado (GANHO/PERDA)
             if (J2 > 0) {
-                if (lucro2_AB2 >= lucro1_W2) {
-                    elResEsperado.innerText = "GANHO";
-                    elResEsperado.className = "excel-result excel-result-green";
-                } else {
-                    elResEsperado.innerText = "PERDA";
-                    elResEsperado.className = "excel-result excel-result-red";
-                }
-            } else {
-                elResEsperado.innerText = "N/A";
-                elResEsperado.className = "excel-result excel-result-white";
-            }
+                if (lucro2_AB2 >= lucro1_W2) { els.resEsperado.innerText = "GANHO"; els.resEsperado.className = "excel-result excel-result-green"; } 
+                else { els.resEsperado.innerText = "PERDA"; els.resEsperado.className = "excel-result excel-result-red"; }
+            } else { els.resEsperado.innerText = "N/A"; els.resEsperado.className = "excel-result excel-result-white"; }
 
-            // Porcentagem do Defeito (Formatado com 1 casa decimal para maior precisão)
             const G23 = I2 / 1000;
-            const pctDefeito = descarteMetros / (G23 + descarteMetros);
-            elPctDefeito.innerText = (pctDefeito * 100).toLocaleString('pt-BR', {minimumFractionDigits: 1, maximumFractionDigits: 1}) + "%";
+            els.pctDefeito.innerText = ((descarteMetros / (G23 + descarteMetros)) * 100).toLocaleString('pt-BR', {minimumFractionDigits: 1, maximumFractionDigits: 1}) + "%";
 
-            // VALOR % (Cálculo Físico Exato Ajustado -> ((Lucro2 / Lucro1) - 1) * 100 )
-            const AE2_multiplicador = (lucro2_AB2 / lucro1_W2) - 1;
-            let valorPct = AE2_multiplicador * 100;
-            if(isNaN(valorPct)) valorPct = 0;
-            
-            // Formatado com 2 casas decimais para evitar arredondamento brusco
-            elValorPct.innerText = valorPct.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+            let valorPct = ((lucro2_AB2 / lucro1_W2) - 1) * 100;
+            els.valorPct.innerText = (isNaN(valorPct) ? 0 : valorPct).toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2});
 
-            // Metros a Completar
-            elMetrosComp.innerText = G23.toLocaleString('pt-BR', {minimumFractionDigits: 1, maximumFractionDigits: 1});
-
-            if (G23 <= 0) {
-                 elMetrosComp.innerText = "0,0";
-                 elOrientacao.innerHTML = "PRODUTO<br>GARANTIDO";
-            } else {
-                 elOrientacao.innerHTML = "Complete com a<br>metragem informada";
-            }
+            els.metrosComp.innerText = G23.toLocaleString('pt-BR', {minimumFractionDigits: 1, maximumFractionDigits: 1});
+            els.orientacao.innerHTML = G23 <= 0 ? "PRODUTO<br>GARANTIDO" : "Complete com a<br>metragem informada";
         }
 
         // --- BOTÃO COPIAR ---
         function copiarTexto(id, btn) {
-            const txt = document.getElementById(id).innerText;
-            navigator.clipboard.writeText(txt).then(() => {
-                const original = btn.innerText;
-                btn.innerText = "✅ COPIADO COM SUCESSO!";
-                setTimeout(() => btn.innerText = original, 2000);
+            navigator.clipboard.writeText(document.getElementById(id).innerText).then(() => {
+                const original = btn.innerText; btn.innerText = "✅ COPIADO COM SUCESSO!"; setTimeout(() => btn.innerText = original, 2000);
             });
         }
         
         window.onload = function() {
             popularListaDefeitos(); 
-            verificarLado('m');
-            verificarLado('p');
-            gerarMsgBFN();
-            gerarMsgBQD();
+            verificarLado('m'); verificarLado('p');
+            gerarMsgBFN(); gerarMsgBQD(); gerarMsgLIS();
             renderTabelasApoio(); 
         };
     </script>
