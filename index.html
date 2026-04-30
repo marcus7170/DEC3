@@ -350,6 +350,27 @@
             box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
         }
 
+        .btn-info-sobre {
+            background: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-muted);
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 0.7rem;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            flex-shrink: 0;
+            text-transform: none;
+            padding: 0;
+            line-height: 1;
+            transition: all 0.2s ease;
+        }
+        .btn-info-sobre:hover { background: var(--info); border-color: var(--info); color: white; }
+
         /* MODAL STYLES */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -421,6 +442,33 @@
         [data-theme="dark"] .table-custom tr:nth-child(even) td { background-color: rgba(255, 255, 255, 0.02); }
         
         .table-custom tr:hover td { background-color: rgba(37, 99, 235, 0.1); }
+
+        /* ESTILO PARA O CHECKBOX DE FORMATAÇÃO */
+        .format-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            background: var(--input-bg);
+            padding: 10px 15px;
+            border-radius: 8px;
+            border: 1px dashed var(--warning);
+            width: fit-content;
+        }
+
+        .format-container label {
+            text-transform: none;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--text-main);
+            cursor: pointer;
+        }
+
+        .format-container input {
+            transform: scale(1.3);
+            accent-color: var(--warning);
+            cursor: pointer;
+        }
     </style>
 </head>
 <body data-theme="dark">
@@ -457,49 +505,9 @@
         </div>
 
         <div id="aba_bfn" class="calc-section">
-            <h2>1. MEDIÇÕES E INSPETORES (BF-N)</h2>
+            <h2>1. INSPETORES (BF-N)</h2>
             
-            <div class="toggle-msg-container theme-secondary" style="margin-bottom: 20px; margin-top: 0;">
-                <input type="checkbox" id="bfn_check_medicoes" onchange="toggleMedicoesBFN()">
-                <label for="bfn_check_medicoes">Informar medições (Raio Gama / Side Trimmer)?</label>
-            </div>
-
-            <div id="bfn_medicoes_container" style="display: none;">
-                <div class="row">
-                    <div class="form-group">
-                        <label>RAIO GAMA (mm)</label>
-                        <input type="number" step="0.01" id="bfn_raio" placeholder="EX: 4.5" oninput="gerarMsgBFN()">
-                    </div>
-                    <div class="form-group">
-                        <label>SIDE TRIMMER (mm)</label>
-                        <input type="number" id="bfn_trimmer" placeholder="EX: 1210" oninput="gerarMsgBFN()">
-                    </div>
-                </div>
-            </div>
-
-            <div class="toggle-msg-container theme-purple" style="margin-bottom: 20px; margin-top: 0;">
-                <input type="checkbox" id="bfn_check_universal" onchange="toggleUniversalBFN()">
-                <label for="bfn_check_universal">Informar medição universal?</label>
-            </div>
-
-            <div id="bfn_universal_container" style="display: none;">
-                <div class="row" style="background: var(--input-bg); padding: 20px; border-radius: 12px; border: 1px dashed var(--purple);">
-                    <div class="form-group" style="margin-bottom: 0;">
-                        <label>Mínimo (mm)</label>
-                        <input type="number" id="bfn_uni_ini" placeholder="EX: 1205" oninput="gerarMsgBFN()">
-                    </div>
-                    <div class="form-group" style="margin-bottom: 0;">
-                        <label>Media (mm)</label>
-                        <input type="number" id="bfn_uni_meio" placeholder="EX: 1206" oninput="gerarMsgBFN()">
-                    </div>
-                    <div class="form-group" style="margin-bottom: 0;">
-                        <label>Maxima (mm)</label>
-                        <input type="number" id="bfn_uni_fim" placeholder="EX: 1205" oninput="gerarMsgBFN()">
-                    </div>
-                </div>
-            </div>
-            
-            <div class="row" style="margin-top: 25px;">
+            <div class="row" style="margin-top: 15px;">
                 <div class="form-group">
                     <div class="label-flex">
                         <label>INSP. SUPERIOR</label>
@@ -540,7 +548,7 @@
                 </div>
             </div>
 
-            <h2 style="margin-top: 30px;">2. DEFEITOS REGISTRADOS</h2>
+            <h2 style="margin-top: 25px;">2. DEFEITOS REGISTRADOS</h2>
             <div id="bfn_defeitos_container"></div>
             <button class="btn" style="background-color: var(--success); width: auto; font-size: 0.9rem;" onclick="adicionarDefeitoBFN()">➕ ADICIONAR DEFEITOS</button>
 
@@ -557,6 +565,72 @@
             </div>
 
             <div id="bfn_resultado_mensagens" style="margin-top: 20px;">
+                <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 5px;">
+                    <div class="format-container" style="margin-bottom: 0;">
+                        <input type="checkbox" id="bfn_check_formatar" onchange="gerarMsgBFN()">
+                        <label for="bfn_check_formatar">Formatar Texto</label>
+                    </div>
+                    <div class="format-container" style="margin-bottom: 0;">
+                        <input type="checkbox" id="bfn_check_medicoes" onchange="toggleMedicoesBFN()">
+                        <label for="bfn_check_medicoes">Raio Gama / Side Trimmer</label>
+                    </div>
+                    <div class="format-container" style="margin-bottom: 0;">
+                        <input type="checkbox" id="bfn_check_universal" onchange="toggleUniversalBFN()">
+                        <label for="bfn_check_universal">Medição Universal</label>
+                    </div>
+                    <div class="format-container" style="margin-bottom: 0;">
+                        <input type="checkbox" id="bfn_check_1turno" onchange="gerarMsgBFN()">
+                        <label for="bfn_check_1turno">1º DO TURNO</label>
+                    </div>
+                    <div class="format-container" style="margin-bottom: 0;">
+                        <input type="checkbox" id="bfn_check_aparamento" onchange="toggleAparamentoBFN()">
+                        <label for="bfn_check_aparamento">APARAMENTO ABAIXO DO PLANEJADO</label>
+                    </div>
+                </div>
+                <div id="bfn_medicoes_container" style="display: none; padding: 20px; background: var(--input-bg); border-radius: 10px; margin-top: 10px; margin-bottom: 10px; border: 1px dashed var(--border-color);">
+                    <div class="row">
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <label>RAIO GAMA (mm)</label>
+                            <input type="number" step="0.01" id="bfn_raio" placeholder="EX: 4.5" oninput="gerarMsgBFN()">
+                        </div>
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <label>SIDE TRIMMER (mm)</label>
+                            <input type="number" id="bfn_trimmer" placeholder="EX: 1210" oninput="gerarMsgBFN()">
+                        </div>
+                    </div>
+                </div>
+                <div id="bfn_universal_container" style="display: none; padding: 20px; background: var(--input-bg); border-radius: 10px; margin-top: 10px; margin-bottom: 10px; border: 1px dashed var(--border-color);">
+                    <div class="row">
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <label>MÍNIMO (mm)</label>
+                            <input type="number" id="bfn_uni_ini" placeholder="EX: 1205" oninput="gerarMsgBFN()">
+                        </div>
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <label>MÉDIA (mm)</label>
+                            <input type="number" id="bfn_uni_meio" placeholder="EX: 1206" oninput="gerarMsgBFN()">
+                        </div>
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <label>MÁXIMA (mm)</label>
+                            <input type="number" id="bfn_uni_fim" placeholder="EX: 1205" oninput="gerarMsgBFN()">
+                        </div>
+                    </div>
+                </div>
+                <div id="bfn_aparamento_container" style="display: none; padding: 20px; background: var(--input-bg); border-radius: 10px; margin-top: 10px; margin-bottom: 10px; border: 1px dashed var(--border-color);">
+                    <div class="row">
+                        <div class="form-group" style="flex: 1; min-width: 180px;">
+                            <label>PLANEJADO (MM)</label>
+                            <input type="number" step="0.01" id="bfn_apar_planejado" placeholder="EX: 1210" oninput="gerarMsgBFN()">
+                        </div>
+                        <div class="form-group" style="flex: 1; min-width: 180px;">
+                            <label>APARADO (MM)</label>
+                            <input type="number" step="0.01" id="bfn_apar_aparado" placeholder="EX: 1205" oninput="gerarMsgBFN()">
+                        </div>
+                        <div class="form-group" style="flex: 1; min-width: 180px;">
+                            <label>TRENA (MM) — OPCIONAL</label>
+                            <input type="number" step="0.01" id="bfn_apar_trena" placeholder="EX: 1206" oninput="gerarMsgBFN()">
+                        </div>
+                    </div>
+                </div>
                 <div class="message-card">
                     <h4 style="color: var(--warning); margin-bottom: 10px;">MENSAGEM FINAL BF - N</h4>
                     <div class="message-content" id="bfn_txt_final">PREENCHA OS DADOS ACIMA...</div>
@@ -568,27 +642,9 @@
         <div id="aba_bqd" class="calc-section">
             <button class="btn" style="background-color: var(--info); margin-bottom: 30px; padding: 16px;" onclick="abrirModalBQD()">📖 ABRIR INFORMATIVOS BQD</button>
 
-            <h2>1. MEDIÇÕES E INSPETORES (BQD)</h2>
+            <h2>1. INSPETORES (BQD)</h2>
 
-            <div class="toggle-msg-container theme-secondary" style="margin-bottom: 20px; margin-top: 0;">
-                <input type="checkbox" id="bqd_check_medicoes" onchange="toggleMedicoesBQD()">
-                <label for="bqd_check_medicoes">Informar medições (Raio Gama / Side Trimmer)?</label>
-            </div>
-
-            <div id="bqd_medicoes_container" style="display: none;">
-                <div class="row">
-                    <div class="form-group">
-                        <label>RAIO GAMA (mm)</label>
-                        <input type="number" step="0.01" id="bqd_raio" placeholder="EX: 4.5" oninput="gerarMsgBQD()">
-                    </div>
-                    <div class="form-group">
-                        <label>SIDE TRIMMER (mm)</label>
-                        <input type="number" id="bqd_trimmer" placeholder="EX: 1210" oninput="gerarMsgBQD()">
-                    </div>
-                </div>
-            </div>
-            
-            <div class="row">
+            <div class="row" style="margin-top: 15px;">
                 <div class="form-group">
                     <div class="label-flex">
                         <label>INSP. SUPERIOR</label>
@@ -629,11 +685,53 @@
                 </div>
             </div>
 
-            <h2 style="margin-top: 30px;">2. DEFEITOS REGISTRADOS (BQD)</h2>
+            <h2 style="margin-top: 25px;">2. DEFEITOS REGISTRADOS (BQD)</h2>
             <div id="bqd_defeitos_container"></div>
             <button class="btn" style="background-color: var(--success); width: auto; font-size: 0.9rem;" onclick="adicionarDefeitoBQD()">➕ ADICIONAR DEFEITOS</button>
 
             <div id="bqd_resultado_mensagens" style="margin-top: 35px;">
+                <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 5px;">
+                    <div class="format-container" style="margin-bottom: 0;">
+                        <input type="checkbox" id="bqd_check_formatar" onchange="gerarMsgBQD()">
+                        <label for="bqd_check_formatar">Formatar Texto</label>
+                    </div>
+                    <div class="format-container" style="margin-bottom: 0;">
+                        <input type="checkbox" id="bqd_check_medicoes" onchange="toggleMedicoesBQD()">
+                        <label for="bqd_check_medicoes">Raio Gama / Side Trimmer</label>
+                    </div>
+                    <div class="format-container" style="margin-bottom: 0;">
+                        <input type="checkbox" id="bqd_check_1turno" onchange="gerarMsgBQD()">
+                        <label for="bqd_check_1turno">1º DO TURNO</label>
+                    </div>
+                    <div class="format-container" style="margin-bottom: 0;">
+                        <input type="checkbox" id="bqd_check_pedra_sabao" onchange="gerarMsgBQD()">
+                        <label for="bqd_check_pedra_sabao">INSPEÇÃO PEDRA SABÃO</label>
+                        <button class="btn-info-sobre" onclick="abrirModal('modal_pedra_sabao')" title="Sobre">ℹ</button>
+                    </div>
+                    <div class="format-container" style="margin-bottom: 0;">
+                        <input type="checkbox" id="bqd_check_3paradas" onchange="toggle3ParadasBQD()">
+                        <label for="bqd_check_3paradas">3 PARADAS 550D</label>
+                        <button class="btn-info-sobre" onclick="abrirModal('modal_3paradas')" title="Sobre">ℹ</button>
+                    </div>
+                </div>
+                <div id="bqd_medicoes_container" style="display: none; padding: 20px; background: var(--input-bg); border-radius: 10px; margin-top: 10px; margin-bottom: 10px; border: 1px dashed var(--border-color);">
+                    <div class="row">
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <label>RAIO GAMA (mm)</label>
+                            <input type="number" step="0.01" id="bqd_raio" placeholder="EX: 4.5" oninput="gerarMsgBQD()">
+                        </div>
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <label>SIDE TRIMMER (mm)</label>
+                            <input type="number" id="bqd_trimmer" placeholder="EX: 1210" oninput="gerarMsgBQD()">
+                        </div>
+                    </div>
+                </div>
+                <div id="bqd_3paradas_container" style="display: none; margin-top: 5px; margin-bottom: 5px;">
+                    <div class="format-container" style="margin-bottom: 0;">
+                        <input type="checkbox" id="bqd_check_550d_lixa" onchange="gerarMsgBQD()">
+                        <label for="bqd_check_550d_lixa">ESPESSURA &gt; 2,25MM? (INSPEÇÃO COM LIXA)</label>
+                    </div>
+                </div>
                 <div class="message-card info-msg">
                     <h4 style="color: var(--info); margin-bottom: 10px;">MENSAGEM FINAL BQD</h4>
                     <div class="message-content" id="bqd_txt_final">PREENCHA OS DADOS ACIMA...</div>
@@ -932,6 +1030,34 @@
                 </ul>
 
             </div>
+        </div>
+    </div>
+
+    <!-- MODAL: 3 PARADAS 550D -->
+    <div class="modal-overlay" id="modal_3paradas" onclick="if(event.target===this)fecharModal('modal_3paradas')">
+        <div class="modal-content" style="border-top-color: var(--warning);">
+            <button class="modal-close" onclick="fecharModal('modal_3paradas')">✕</button>
+            <h3 style="color: var(--warning); font-size: 1.1rem; margin-bottom: 18px; padding-right: 30px;">📋 NOTA 4 — 3 PARADAS 550D</h3>
+            <p style="line-height: 1.8; font-size: 0.92rem; color: var(--text-main); text-transform: none; font-weight: 500;">
+                Material destinado aos clientes <strong>MAXWHEELSLMS</strong> e <strong>MAXWHEELSSLP</strong> qualidade <strong>USIRW550D</strong> com espessura ≥ 2,25mm efetuar três paradas ao longo do volume de saída para teste de lixa. As três paradas poderão ser otimizadas de forma a fazer o teste com lixa numa região onde a Parsytec sinalizar maior concentração do defeito <strong>CACA</strong>.
+                <br><br>
+                Demais qualidades deverão ser realizado parada no <strong>início, meio e fim da BQ</strong>, seguindo o mesmo critério de concentração de defeitos detectados na Parsytec para análise dos defeitos <strong>Cavidade de Carepa, CAVPÓ, Marol, MC</strong> e etc.
+            </p>
+        </div>
+    </div>
+
+    <!-- MODAL: INSPEÇÃO PEDRA SABÃO -->
+    <div class="modal-overlay" id="modal_pedra_sabao" onclick="if(event.target===this)fecharModal('modal_pedra_sabao')">
+        <div class="modal-content" style="border-top-color: var(--success);">
+            <button class="modal-close" onclick="fecharModal('modal_pedra_sabao')">✕</button>
+            <h3 style="color: var(--success); font-size: 1.1rem; margin-bottom: 18px; padding-right: 30px;">📋 NOTA 6 — INSPEÇÃO PEDRA SABÃO</h3>
+            <p style="line-height: 1.8; font-size: 0.92rem; color: var(--text-main); text-transform: none; font-weight: 500;">
+                Realizar inspeção com pedra sabão entre <strong>5 e 10m do início</strong> para produtos <strong>BQD/BGD</strong> do cliente <strong>TOYOTA</strong> e para a qualidade <strong>USI-RW-600CRDP</strong> dos clientes <strong>MAXWHEELSLMS</strong> e <strong>MAXWHEELSSLP</strong>.
+                <br><br>
+                Caso o início apresente defeitos que precisem de acompanhamento, o Inspetor deverá realizar também inspeção no <strong>meio e final</strong> com uso da pedra sabão.
+                <br><br>
+                Deve-se inserir mensagem operacional quanto ao resultado da inspeção.
+            </p>
         </div>
     </div>
 
@@ -1275,6 +1401,45 @@
             { int: "4", carac: "Fortíssima (2ª Qualidade)", desc: "São fortíssimas imperfeições na superfície que podem prejudicar o uso e não são retirados por recondicionamento." }
         ];
 
+        // ================= FUNÇÕES DE FORMATAÇÃO =================
+        function formatarTextoPadrao(texto) {
+            if (!texto) return "";
+            
+            let formatado = texto.toLowerCase();
+            
+            // Mantém as quebras de linha e formata cada linha com a primeira letra maiúscula
+            let linhas = formatado.split('\n');
+            linhas = linhas.map(linha => {
+                let l = linha.trim().replace(/\s+/g, ' ');
+                if (l.length > 0) {
+                    l = l.charAt(0).toUpperCase() + l.slice(1);
+                }
+                return l;
+            });
+            formatado = linhas.join('\n');
+
+            // Mantém as Abreviações dos Defeitos em Maiúsculo
+            dbDefeitos.forEach(def => {
+                if (def.abrev) {
+                    let abrev = def.abrev.toLowerCase();
+                    // Escapa caracteres especiais para a regex (evita erros com sinais de + ou - na abreviação)
+                    let escapedAbrev = abrev.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+                    let regex = new RegExp(`\\b${escapedAbrev}\\b`, 'gi');
+                    formatado = formatado.replace(regex, def.abrev.toUpperCase());
+                }
+            });
+
+            // Mantém palavras técnicas específicas em Maiúsculo
+            const tecnicos = ["BF-N", "BQD", "LTF", "LI", "LI'S", "DEC3", "MPM", "RAIO GAMA", "SIDE TRIMMER", "NQ:", "OK"];
+            tecnicos.forEach(palavra => {
+                let escaped = palavra.toLowerCase().replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+                let regex = new RegExp(`\\b${escaped}\\b`, 'gi');
+                formatado = formatado.replace(regex, palavra);
+            });
+
+            return formatado;
+        }
+
         // --- POPULAR LISTA DE DEFEITOS (DINÂMICA) - AGORA COM CÓDIGO ---
         function popularListaDefeitos() {
             const datalist = document.getElementById('lista-defeitos');
@@ -1362,6 +1527,12 @@
         }
         function fecharModalBQD() {
             document.getElementById('modalBQD').style.display = 'none';
+        }
+        function abrirModal(id) {
+            document.getElementById(id).style.display = 'flex';
+        }
+        function fecharModal(id) {
+            document.getElementById(id).style.display = 'none';
         }
         window.onclick = function(event) {
             const modal = document.getElementById('modalBQD');
@@ -1574,8 +1745,27 @@
         }
 
         // Funções de Geração de Mensagens Individuais (BFN e BQD)
+        function toggleAparamentoBFN() {
+            const checked = document.getElementById('bfn_check_aparamento').checked;
+            document.getElementById('bfn_aparamento_container').style.display = checked ? 'block' : 'none';
+            gerarMsgBFN();
+        }
+
         function gerarMsgBFN() {
             let msg = `BF-N // Medições conforme LFINSPO0078.\n`;
+
+            if (document.getElementById('bfn_check_1turno').checked) {
+                msg += `Efetuado teste de bloqueio, inspeção do Parsytec e checklist dos equipamentos.\n`;
+            }
+
+            if (document.getElementById('bfn_check_aparamento').checked) {
+                const plan = document.getElementById('bfn_apar_planejado').value || '___';
+                const apar = document.getElementById('bfn_apar_aparado').value || '___';
+                const trena = document.getElementById('bfn_apar_trena').value;
+                let msgApar = `Material com aparamento planejado para ${plan}mm e ajustado automaticamente pela operação para ${apar}mm`;
+                if (trena !== '') msgApar += `, medição na trena ${trena}mm`;
+                msg += msgApar + `.\n`;
+            }
             
             if (document.getElementById('bfn_check_medicoes').checked) {
                 const raio = document.getElementById('bfn_raio').value || '____';
@@ -1642,11 +1832,38 @@
             const txtInspInf = formatarInspetorParaMensagem('bfn_insp_inf', 'bfn_insp_inf_trein');
 
             msg += `\nInsp. Superior: ${txtInspSup}  // Insp. Parsytec: ${txtInspPar}  // Insp. Inferior + sistema: ${txtInspInf}\n`;
-            document.getElementById('bfn_txt_final').innerText = msg.toUpperCase();
+            
+            // VERIFICA SE DEVE FORMATAR
+            if(document.getElementById('bfn_check_formatar').checked) {
+                document.getElementById('bfn_txt_final').innerText = formatarTextoPadrao(msg);
+            } else {
+                document.getElementById('bfn_txt_final').innerText = msg.toUpperCase();
+            }
+        }
+
+        function toggle3ParadasBQD() {
+            const checked = document.getElementById('bqd_check_3paradas').checked;
+            document.getElementById('bqd_3paradas_container').style.display = checked ? 'block' : 'none';
+            gerarMsgBQD();
         }
 
         function gerarMsgBQD() {
             let msg = `MEDIÇÕES CONFORME NORMA LFINSOT0005 BQD // Gráfico do LTQ / DEC OK // BOBINAMENTO OK.\n`;
+
+            if (document.getElementById('bqd_check_1turno').checked) {
+                msg += `Efetuado teste de bloqueio, inspeção do Parsytec e checklist dos equipamentos.\n`;
+            }
+
+            if (document.getElementById('bqd_check_pedra_sabao').checked) {
+                msg += `Efetuado inspeção com pedra sabão nos 10 metros iniciais conforme norma.\n`;
+            }
+
+            if (document.getElementById('bqd_check_3paradas').checked) {
+                msg += `Efetuado 3 parada para inspeção de ambas as faces durante o processo.\n`;
+                if (document.getElementById('bqd_check_550d_lixa').checked) {
+                    msg += `Foi feito inspeção com lixa.\n`;
+                }
+            }
 
             if (document.getElementById('bqd_check_medicoes').checked) {
                 const raio = document.getElementById('bqd_raio').value || '____';
@@ -1701,7 +1918,13 @@
             const txtInspInf = formatarInspetorParaMensagem('bqd_insp_inf', 'bqd_insp_inf_trein');
 
             msg += `\nInsp. Superior: ${txtInspSup}  // Insp. Parsytec: ${txtInspPar}  // Insp. Inferior + sistema: ${txtInspInf}\n`;
-            document.getElementById('bqd_txt_final').innerText = msg.toUpperCase();
+            
+            // VERIFICA SE DEVE FORMATAR
+            if(document.getElementById('bqd_check_formatar').checked) {
+                document.getElementById('bqd_txt_final').innerText = formatarTextoPadrao(msg);
+            } else {
+                document.getElementById('bqd_txt_final').innerText = msg.toUpperCase();
+            }
         }
 
         // ================= LÓGICAS ABA METRAGEM =================
