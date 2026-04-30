@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>INSPEÇÃO DEC3 - LE/LI's</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
     
@@ -55,7 +55,7 @@
         header { position: relative; text-align: center; padding: 70px 20px; margin-bottom: 40px; background-image: linear-gradient(to bottom, rgba(15, 23, 42, 0.85), rgba(15, 23, 42, 0.95)), url('https://www.revistadoaco.com.br/wp-content/uploads/2020/03/PatiodeBobinas_IanLopes_Divulg.jpg'); background-size: cover; background-position: center; background-attachment: fixed; color: white; box-shadow: 0 4px 20px rgba(0,0,0,0.2); border-bottom: 5px solid var(--primary); }
         header h1 { font-family: 'Rajdhani', sans-serif; font-size: 2.8rem; font-weight: 700; letter-spacing: 1px; text-shadow: 0px 4px 10px rgba(0,0,0,0.5); margin-bottom: 15px; }
         header p { font-size: 1.1rem; color: #94a3b8; font-weight: 500; letter-spacing: 0.5px; text-transform: none; }
-        .theme-toggle { position: absolute; top: 20px; right: 20px; background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2); color: white; padding: 10px 18px; border-radius: 50px; cursor: pointer; font-weight: 600; font-size: 0.85rem; display: flex; align-items: center; gap: 8px; text-transform: none; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .theme-toggle { position: absolute; top: 20px; right: 20px; background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2); color: white; padding: 10px 18px; border-radius: 50px; cursor: pointer; font-weight: 600; font-size: 0.85rem; display: flex; align-items: center; gap: 8px; text-transform: none; box-shadow: 0 4px 6px rgba(0,0,0,0.1); z-index: 10; }
         .theme-toggle:hover { background: rgba(255, 255, 255, 0.2); transform: translateY(-2px); }
 
         .container { max-width: 1300px; margin: 0 auto; padding: 0 20px; }
@@ -95,7 +95,7 @@
         .message-generator { display: none; margin-top: 25px; padding: 30px; background-color: var(--input-bg); border: 1px solid var(--border-color); border-radius: 16px; animation: fadeIn 0.4s ease; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        .btn { background-color: var(--primary); color: white; padding: 14px 24px; border: none; border-radius: 10px; cursor: pointer; font-weight: 700; width: 100%; margin-top: 10px; font-size: 0.95rem; letter-spacing: 1px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: all 0.2s ease; text-align: center; }
+        .btn { background-color: var(--primary); color: white; padding: 14px 24px; border: none; border-radius: 10px; cursor: pointer; font-weight: 700; width: 100%; margin-top: 10px; font-size: 0.95rem; letter-spacing: 1px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: all 0.2s ease; text-align: center; display: inline-block; }
         .btn:hover { background-color: var(--primary-hover); transform: translateY(-2px); box-shadow: 0 6px 12px rgba(0,0,0,0.15); }
         .btn:active { transform: translateY(0); }
         .btn-refresh { background-color: var(--success); color: white; padding: 14px; border: none; border-radius: 10px; cursor: pointer; font-size: 0.9rem; height: 52px; font-weight: 700; box-shadow: 0 4px 6px rgba(16, 185, 129, 0.2); }
@@ -106,12 +106,13 @@
         .message-card.info-msg { border-left-color: var(--info); }
         .message-card.purple-msg { border-left-color: var(--purple); }
         
-        .message-content { font-family: 'Consolas', 'Courier New', monospace; background: #1e293b; color: #f8fafc; padding: 20px; margin: 15px 0; border-radius: 8px; white-space: pre-wrap; font-weight: 400; font-size: 1.05rem; text-transform: none; border: 1px solid #0f172a; box-shadow: inset 0 2px 4px rgba(0,0,0,0.2); }
+        .message-content { font-family: 'Consolas', 'Courier New', monospace; background: #1e293b; color: #f8fafc; padding: 20px; margin: 15px 0; border-radius: 8px; white-space: pre-wrap; font-weight: 400; font-size: 1.05rem; text-transform: none; border: 1px solid #0f172a; box-shadow: inset 0 2px 4px rgba(0,0,0,0.2); overflow-x: auto; }
+        
         .btn-info-sobre { background: transparent; border: 1px solid var(--border-color); color: var(--text-muted); border-radius: 50%; width: 20px; height: 20px; font-size: 0.7rem; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; font-weight: 700; flex-shrink: 0; text-transform: none; padding: 0; line-height: 1; transition: all 0.2s ease; }
         .btn-info-sobre:hover { background: var(--info); border-color: var(--info); color: white; }
 
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(5px); display: none; justify-content: center; align-items: center; z-index: 9999; }
-        .modal-content { background: var(--card-bg); padding: 35px; border-radius: 16px; max-width: 650px; width: 90%; max-height: 90vh; overflow-y: auto; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5); position: relative; border-top: 6px solid var(--info); animation: slideUp 0.3s ease; }
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(5px); display: none; justify-content: center; align-items: center; z-index: 9999; padding: 20px; }
+        .modal-content { background: var(--card-bg); padding: 35px; border-radius: 16px; max-width: 650px; width: 100%; max-height: 90vh; overflow-y: auto; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5); position: relative; border-top: 6px solid var(--info); animation: slideUp 0.3s ease; }
         .modal-close { position: absolute; top: 15px; right: 20px; background: transparent; border: none; font-size: 1.5rem; color: var(--text-muted); cursor: pointer; }
         .modal-close:hover { color: var(--danger); }
 
@@ -129,7 +130,7 @@
         .table-custom tr:hover td { background-color: rgba(37, 99, 235, 0.1); }
 
         .format-container { display: flex; align-items: center; gap: 10px; margin-bottom: 15px; background: var(--input-bg); padding: 10px 15px; border-radius: 8px; border: 1px dashed var(--warning); width: fit-content; }
-        .format-container label { text-transform: none; font-size: 0.9rem; font-weight: 700; color: var(--text-main); cursor: pointer; }
+        .format-container label { text-transform: none; font-size: 0.9rem; font-weight: 700; color: var(--text-main); cursor: pointer; flex: 1; }
         .format-container input { transform: scale(1.3); accent-color: var(--warning); cursor: pointer; }
 
         /* CSS EXCEL CLONE */
@@ -148,6 +149,47 @@
         .box-col-2 { grid-column: span 2; }
         .box-row-2 { grid-row: span 2; }
         .obs-text { margin-top: 25px; font-size: 0.85rem; color: var(--text-muted); text-transform: none; line-height: 1.6; }
+
+        /* ================= RESPONSIVIDADE (MOBILE) ================= */
+        @media (max-width: 768px) {
+            header { padding: 50px 15px 30px; }
+            header h1 { font-size: 1.8rem; }
+            header p { font-size: 0.95rem; }
+            .theme-toggle { top: 10px; right: 10px; padding: 8px 12px; font-size: 0.75rem; }
+            
+            .calc-section { padding: 20px 15px; }
+            .form-group { flex: 1 1 100% !important; min-width: 100% !important; margin-bottom: 15px; }
+            .row { gap: 10px; }
+            
+            .tabs-container { padding: 10px; margin-bottom: 20px; }
+            .tab-btn { padding: 10px 16px; font-size: 0.85rem; }
+            
+            .format-container { width: 100%; margin-bottom: 10px; box-sizing: border-box; }
+            
+            /* DEFEITOS - ALINHAMENTO MOBILE */
+            .bfn-defect-row, .bqd-defect-row { padding: 15px; }
+            .bfn-defect-row .form-group:last-child, 
+            .bqd-defect-row .form-group:last-child { margin-top: 5px; }
+            
+            /* EXCEL GRID - MOBILE (EMPILHADO) */
+            .excel-grid { grid-template-columns: 1fr; gap: 8px; border-width: 1px; }
+            .box-col-2 { grid-column: span 1; }
+            .box-row-2 { grid-row: span 1; grid-column: span 1; }
+            
+            /* Ajuste fontes do Excel Clone para mobile */
+            .excel-input { font-size: 1.2rem; height: 50px; min-height: 50px; }
+            .excel-result { font-size: 1.6rem !important; height: 60px; min-height: 60px; }
+            .excel-header, .excel-header-yellow { height: auto; min-height: 40px; font-size: 0.85rem; padding: 6px; }
+            
+            /* MODAIS MOBILE */
+            .modal-overlay { padding: 10px; }
+            .modal-content { padding: 20px 15px; width: 100%; max-height: 95vh; }
+            .modal-close { top: 10px; right: 15px; font-size: 1.8rem; }
+            
+            /* TABELAS MOBILE */
+            .table-custom th, .table-custom td { padding: 10px; font-size: 0.8rem; }
+            .btn-info-sobre { width: auto !important; padding: 6px 12px !important; height: auto !important; border-radius: 6px !important; }
+        }
     </style>
 </head>
 <body data-theme="dark">
@@ -427,16 +469,16 @@
 
             <h2>1. INSPETOR (LI'S)</h2>
             <div class="row" style="margin-top: 15px;">
-                <div class="form-group" style="flex: none; width: 400px;">
+                <div class="form-group" style="flex: none; width: 100%;">
                     <div class="label-flex">
                         <label>INSPETOR RESPONSÁVEL</label>
                         <label class="checkbox-inline">
                             <input type="checkbox" id="lis_check_trein_sup" onchange="toggleTreinamento('sup', 'lis')"> + TREINANDO
                         </label>
                     </div>
-                    <div style="display: flex; gap: 10px;">
-                        <input list="lista-inspetores" id="lis_insp_sup" placeholder="TITULAR..." oninput="gerarMsgLIS()">
-                        <input list="lista-inspetores" id="lis_insp_sup_trein" placeholder="TREINANDO..." oninput="gerarMsgLIS()" style="display: none;">
+                    <div style="display: flex; gap: 10px; width: 100%;">
+                        <input list="lista-inspetores" id="lis_insp_sup" placeholder="TITULAR..." oninput="gerarMsgLIS()" style="flex: 1;">
+                        <input list="lista-inspetores" id="lis_insp_sup_trein" placeholder="TREINANDO..." oninput="gerarMsgLIS()" style="display: none; flex: 1;">
                     </div>
                 </div>
             </div>
@@ -489,10 +531,10 @@
                 <div class="form-group" style="margin-bottom: 0;">
                     <label>MOTIVO DO DESCARTE OU OBSERVAÇÃO</label>
                     <input type="text" id="lis_descarte_txt" placeholder="Ex: Descartado final devido FB(+), com registro no Gráfico LTF." oninput="gerarMsgLIS()">
-                    <div style="margin-top: 8px; display: flex; gap: 8px;">
-                        <button class="btn-info-sobre" style="width: auto; height: auto; padding: 4px 10px; border-radius: 4px;" onclick="preencherDescarteLIS('Descartado início e final conforme padrão.')">Padrão Início/Fim</button>
-                        <button class="btn-info-sobre" style="width: auto; height: auto; padding: 4px 10px; border-radius: 4px;" onclick="preencherDescarteLIS('Descartado final devido FB(+), com registro no Gráfico LTF.')">Descarte FB(+)</button>
-                        <button class="btn-info-sobre" style="width: auto; height: auto; padding: 4px 10px; border-radius: 4px;" onclick="preencherDescarteLIS('')">Limpar</button>
+                    <div style="margin-top: 8px; display: flex; flex-wrap: wrap; gap: 8px;">
+                        <button class="btn-info-sobre" style="width: auto; height: auto; padding: 6px 12px; border-radius: 4px;" onclick="preencherDescarteLIS('Descartado início e final conforme padrão.')">Padrão Início/Fim</button>
+                        <button class="btn-info-sobre" style="width: auto; height: auto; padding: 6px 12px; border-radius: 4px;" onclick="preencherDescarteLIS('Descartado final devido FB(+), com registro no Gráfico LTF.')">Descarte FB(+)</button>
+                        <button class="btn-info-sobre" style="width: auto; height: auto; padding: 6px 12px; border-radius: 4px;" onclick="preencherDescarteLIS('')">Limpar</button>
                     </div>
                 </div>
             </div>
