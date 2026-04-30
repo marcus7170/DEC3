@@ -451,6 +451,10 @@
                     <input type="checkbox" id="lis_chk_face_inf" onchange="gerarMsgLIS()">
                     <label for="lis_chk_face_inf" style="font-weight: 600;">Face inferior avaliada pelo operador de saída - ok</label>
                 </div>
+                <div class="format-container" style="margin-bottom: 0;">
+                    <input type="checkbox" id="lis_chk_pedra_sabao" onchange="gerarMsgLIS()">
+                    <label for="lis_chk_pedra_sabao" style="font-weight: 600;">Inspeção pedra sabão (LFINSPO0004)</label>
+                </div>
             </div>
             
             <h2 style="margin-top: 25px;">3. DEFEITO LE (OPCIONAL)</h2>
@@ -1248,7 +1252,7 @@
             const tecnicos = [
                 "BF-N", "BQD", "LTF", "LI", "LI'S", "DEC3", "MPM", "LE",
                 "RAIO GAMA", "SIDE TRIMMER", "NQ:", "OK",
-                "LFINSOT0005", "LFINSPO0078", "FB(+)"
+                "LFINSOT0005", "LFINSPO0078", "FB(+)", "LFINSPO0004"
             ];
 
             tecnicos.forEach(palavra => {
@@ -1546,6 +1550,7 @@
             // 1. Opções da Linha
             if (document.getElementById('lis_chk_retorno').checked) partesMsg.push("Efetuado retorno na linha, oleamento e planicidade ok");
             if (document.getElementById('lis_chk_face_inf').checked) partesMsg.push("Face inferior avaliada pelo operador de saída - ok");
+            if (document.getElementById('lis_chk_pedra_sabao').checked) partesMsg.push("Efetuado inspeção com pedra sabão conforme norma LFINSPO0004");
 
             // 2. Defeito LE
             if (document.getElementById('lis_chk_le').checked) {
