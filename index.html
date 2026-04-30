@@ -25,9 +25,11 @@
             --text-muted: #64748b;
             --border-color: #e2e8f0;
             --input-bg: #f8fafc;
-            --input-disabled: #f1f5f9;
+            --input-disabled: #e2e8f0;
             --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
             --focus-ring: rgba(37, 99, 235, 0.3);
+            --excel-bg-gray: #e0e0e0;
+            --excel-border: #000;
         }
 
         [data-theme="dark"] {
@@ -40,435 +42,178 @@
             --text-muted: #94a3b8;
             --border-color: #334155;
             --input-bg: #0f172a;
-            --input-disabled: #1e293b;
+            --input-disabled: #334155;
             --card-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
             --focus-ring: rgba(96, 165, 250, 0.3);
+            --excel-bg-gray: #334155;
+            --excel-border: #94a3b8;
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Inter', 'Segoe UI', sans-serif;
-            text-transform: uppercase; 
-            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.2s ease;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', 'Segoe UI', sans-serif; text-transform: uppercase; transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.2s ease; }
+        body { background-color: var(--bg-color); color: var(--text-main); padding-bottom: 60px; }
 
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            padding-bottom: 60px;
-        }
-
-        /* HEADER MODERNIZADO */
-        header {
-            position: relative;
-            text-align: center;
-            padding: 70px 20px;
-            margin-bottom: 40px;
-            background-image: linear-gradient(to bottom, rgba(15, 23, 42, 0.85), rgba(15, 23, 42, 0.95)), url('https://www.revistadoaco.com.br/wp-content/uploads/2020/03/PatiodeBobinas_IanLopes_Divulg.jpg');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            color: white;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
-            border-bottom: 5px solid var(--primary);
-        }
-
-        header h1 {
-            font-family: 'Rajdhani', sans-serif;
-            font-size: 2.8rem;
-            font-weight: 700;
-            letter-spacing: 1px;
-            text-shadow: 0px 4px 10px rgba(0,0,0,0.5);
-            margin-bottom: 15px;
-        }
-
-        header p {
-            font-size: 1.1rem;
-            color: #94a3b8;
-            font-weight: 500;
-            letter-spacing: 0.5px;
-            text-transform: none;
-        }
-
-        .theme-toggle {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255,255,255,0.2);
-            color: white;
-            padding: 10px 18px;
-            border-radius: 50px;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 0.85rem;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            text-transform: none;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
+        header { position: relative; text-align: center; padding: 70px 20px; margin-bottom: 40px; background-image: linear-gradient(to bottom, rgba(15, 23, 42, 0.85), rgba(15, 23, 42, 0.95)), url('https://www.revistadoaco.com.br/wp-content/uploads/2020/03/PatiodeBobinas_IanLopes_Divulg.jpg'); background-size: cover; background-position: center; background-attachment: fixed; color: white; box-shadow: 0 4px 20px rgba(0,0,0,0.2); border-bottom: 5px solid var(--primary); }
+        header h1 { font-family: 'Rajdhani', sans-serif; font-size: 2.8rem; font-weight: 700; letter-spacing: 1px; text-shadow: 0px 4px 10px rgba(0,0,0,0.5); margin-bottom: 15px; }
+        header p { font-size: 1.1rem; color: #94a3b8; font-weight: 500; letter-spacing: 0.5px; text-transform: none; }
+        .theme-toggle { position: absolute; top: 20px; right: 20px; background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2); color: white; padding: 10px 18px; border-radius: 50px; cursor: pointer; font-weight: 600; font-size: 0.85rem; display: flex; align-items: center; gap: 8px; text-transform: none; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
         .theme-toggle:hover { background: rgba(255, 255, 255, 0.2); transform: translateY(-2px); }
 
-        /* LARGURA DO CONTAINER AUMENTADA PARA 1300PX */
         .container { max-width: 1300px; margin: 0 auto; padding: 0 20px; }
 
-        /* NAVEGAÇÃO POR ABAS - EM UMA LINHA */
-        .tabs-container {
-            display: flex;
-            flex-wrap: nowrap; /* Força ficar na mesma linha */
-            overflow-x: auto; /* Adiciona scroll se a tela for pequena */
-            gap: 10px;
-            margin-bottom: 30px;
-            background-color: var(--card-bg);
-            padding: 15px;
-            border-radius: 16px;
-            box-shadow: var(--card-shadow);
-            justify-content: flex-start;
-            /* Scrollbar suave */
-            scrollbar-width: thin;
-            scrollbar-color: var(--primary) transparent;
-        }
-
+        .tabs-container { display: flex; flex-wrap: nowrap; overflow-x: auto; gap: 10px; margin-bottom: 30px; background-color: var(--card-bg); padding: 15px; border-radius: 16px; box-shadow: var(--card-shadow); justify-content: flex-start; scrollbar-width: thin; scrollbar-color: var(--primary) transparent; }
         .tabs-container::-webkit-scrollbar { height: 6px; }
         .tabs-container::-webkit-scrollbar-thumb { background-color: var(--primary); border-radius: 10px; }
+        .tab-btn { background-color: transparent; color: var(--text-muted); border: 2px solid transparent; padding: 12px 24px; font-size: 0.95rem; font-weight: 700; border-radius: 12px; cursor: pointer; transition: all 0.3s ease; text-transform: uppercase; letter-spacing: 0.5px; white-space: nowrap; flex-shrink: 0; }
+        .tab-btn:hover { color: var(--primary); background-color: var(--input-bg); }
+        .tab-btn.active { background-color: var(--primary); color: white; border-color: var(--primary); box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3); }
 
-        .tab-btn {
-            background-color: transparent;
-            color: var(--text-muted);
-            border: 2px solid transparent;
-            padding: 12px 24px;
-            font-size: 0.95rem;
-            font-weight: 700;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            white-space: nowrap; /* Impede quebra de linha no texto do botão */
-            flex-shrink: 0;
-        }
-
-        .tab-btn:hover {
-            color: var(--primary);
-            background-color: var(--input-bg);
-        }
-
-        .tab-btn.active {
-            background-color: var(--primary);
-            color: white;
-            border-color: var(--primary);
-            box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3);
-        }
-
-        /* SEÇÕES DE CONTEÚDO */
-        .calc-section {
-            display: none; 
-            background-color: var(--card-bg);
-            padding: 35px;
-            border-radius: 16px;
-            box-shadow: var(--card-shadow);
-            margin-bottom: 25px;
-            border: 1px solid var(--border-color);
-        }
-
+        .calc-section { display: none; background-color: var(--card-bg); padding: 35px; border-radius: 16px; box-shadow: var(--card-shadow); margin-bottom: 25px; border: 1px solid var(--border-color); }
         .calc-section.active { display: block; animation: slideUp 0.4s ease; }
         @keyframes slideUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 
-        .calc-section h2 {
-            font-size: 1.3rem;
-            color: var(--primary);
-            margin-bottom: 25px;
-            border-bottom: 2px solid var(--border-color);
-            padding-bottom: 12px;
-            font-weight: 800;
-        }
+        .calc-section h2 { font-size: 1.3rem; color: var(--primary); margin-bottom: 25px; border-bottom: 2px solid var(--border-color); padding-bottom: 12px; font-weight: 800; }
 
         .row { display: flex; gap: 20px; flex-wrap: wrap; align-items: flex-end; }
         .form-group { margin-bottom: 20px; flex: 1; min-width: 220px; }
-
-        .form-group label {
-            display: block;
-            font-weight: 700;
-            font-size: 0.8rem;
-            margin-bottom: 8px;
-            color: var(--text-muted);
-            letter-spacing: 0.5px;
-        }
-
+        .form-group label { display: block; font-weight: 700; font-size: 0.8rem; margin-bottom: 8px; color: var(--text-muted); letter-spacing: 0.5px; }
         .label-flex { display: flex; justify-content: space-between; align-items: center; }
         
-        .checkbox-inline {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            cursor: pointer;
-            font-size: 0.75rem;
-            color: var(--text-main);
-            font-weight: 700;
-            margin-bottom: 0 !important;
-            padding: 4px 8px;
-            background: var(--input-bg);
-            border-radius: 6px;
-            border: 1px solid var(--border-color);
-        }
+        .checkbox-inline { display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 0.75rem; color: var(--text-main); font-weight: 700; margin-bottom: 0 !important; padding: 4px 8px; background: var(--input-bg); border-radius: 6px; border: 1px solid var(--border-color); }
         .checkbox-inline:hover { border-color: var(--primary); }
         .checkbox-inline input { transform: scale(1.2); cursor: pointer; margin: 0; width: auto; accent-color: var(--primary); }
 
-        /* ESTILO DOS INPUTS */
-        .form-group input, .form-group select {
-            width: 100%;
-            padding: 14px 16px;
-            border: 2px solid var(--border-color);
-            border-radius: 10px;
-            font-size: 1rem;
-            font-weight: 600;
-            background-color: var(--input-bg);
-            color: var(--text-main);
-            outline: none;
-            transition: all 0.2s ease;
-        }
+        .form-group input, .form-group select { width: 100%; padding: 14px 16px; border: 2px solid var(--border-color); border-radius: 10px; font-size: 1rem; font-weight: 600; background-color: var(--input-bg); color: var(--text-main); outline: none; transition: all 0.2s ease; }
+        .form-group input:focus, .form-group select:focus { border-color: var(--primary); box-shadow: 0 0 0 4px var(--focus-ring); }
+        .form-group input[readonly] { background-color: var(--input-disabled); color: var(--text-muted); cursor: not-allowed; border-style: dashed; }
 
-        .form-group input:focus, .form-group select:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 0 4px var(--focus-ring);
-        }
-        
-        .form-group input[readonly] {
-            background-color: var(--input-disabled);
-            color: var(--text-muted);
-            cursor: not-allowed;
-            border-style: dashed;
-        }
-
-        /* TOGGLE CONTAINERS COLORIDOS */
-        .toggle-msg-container {
-            margin-top: 20px; 
-            padding: 18px 20px; 
-            border-radius: 10px; 
-            display: flex;
-            align-items: center;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-            transition: transform 0.2s ease;
-        }
+        .toggle-msg-container { margin-top: 20px; padding: 18px 20px; border-radius: 10px; display: flex; align-items: center; box-shadow: 0 4px 6px rgba(0,0,0,0.05); transition: transform 0.2s ease; }
         .toggle-msg-container:hover { transform: translateY(-2px); }
-
         .toggle-msg-container.theme-primary { background: linear-gradient(135deg, var(--primary), var(--primary-hover)); }
-        .toggle-msg-container.theme-secondary { background: linear-gradient(135deg, var(--info), #0284c7); }
-        .toggle-msg-container.theme-purple { background: linear-gradient(135deg, var(--purple), #7c3aed); }
+        .toggle-msg-container label { font-weight: 700; cursor: pointer; font-size: 1rem; color: white; margin-left: 15px; letter-spacing: 0.5px; }
+        .toggle-msg-container input { transform: scale(1.6); cursor: pointer; accent-color: #fff; }
 
-        .toggle-msg-container label {
-            font-weight: 700; 
-            cursor: pointer; 
-            font-size: 1rem; 
-            color: white; 
-            margin-left: 15px;
-            letter-spacing: 0.5px;
-        }
-
-        .toggle-msg-container input {
-            transform: scale(1.6); 
-            cursor: pointer;
-            accent-color: #fff;
-        }
-
-        .message-generator {
-            display: none; 
-            margin-top: 25px;
-            padding: 30px;
-            background-color: var(--input-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            animation: fadeIn 0.4s ease;
-        }
+        .message-generator { display: none; margin-top: 25px; padding: 30px; background-color: var(--input-bg); border: 1px solid var(--border-color); border-radius: 16px; animation: fadeIn 0.4s ease; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        /* BOTÕES */
-        .btn {
-            background-color: var(--primary);
-            color: white;
-            padding: 14px 24px;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            font-weight: 700;
-            width: 100%;
-            margin-top: 10px;
-            font-size: 0.95rem;
-            letter-spacing: 1px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            transition: all 0.2s ease;
-            text-align: center;
-        }
+        .btn { background-color: var(--primary); color: white; padding: 14px 24px; border: none; border-radius: 10px; cursor: pointer; font-weight: 700; width: 100%; margin-top: 10px; font-size: 0.95rem; letter-spacing: 1px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: all 0.2s ease; text-align: center; }
         .btn:hover { background-color: var(--primary-hover); transform: translateY(-2px); box-shadow: 0 6px 12px rgba(0,0,0,0.15); }
         .btn:active { transform: translateY(0); }
-
-        .btn-refresh {
-            background-color: var(--success);
-            color: white;
-            padding: 14px;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            height: 52px; 
-            font-weight: 700;
-            box-shadow: 0 4px 6px rgba(16, 185, 129, 0.2);
-        }
+        .btn-refresh { background-color: var(--success); color: white; padding: 14px; border: none; border-radius: 10px; cursor: pointer; font-size: 0.9rem; height: 52px; font-weight: 700; box-shadow: 0 4px 6px rgba(16, 185, 129, 0.2); }
         .btn-refresh:hover { background-color: var(--success-hover); transform: translateY(-2px); }
 
-        /* CARDS DE MENSAGENS FINAIS */
-        .message-card {
-            background-color: var(--card-bg);
-            border-left: 6px solid var(--warning);
-            padding: 25px;
-            margin-top: 25px;
-            border-radius: 12px;
-            box-shadow: var(--card-shadow);
-            border-top: 1px solid var(--border-color);
-            border-right: 1px solid var(--border-color);
-            border-bottom: 1px solid var(--border-color);
-        }
+        .message-card { background-color: var(--card-bg); border-left: 6px solid var(--warning); padding: 25px; margin-top: 25px; border-radius: 12px; box-shadow: var(--card-shadow); border-top: 1px solid var(--border-color); border-right: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); }
         .message-card.li-msg { border-left-color: var(--danger); }
         .message-card.info-msg { border-left-color: var(--info); }
-        
-        .message-content {
-            font-family: 'Consolas', 'Courier New', monospace;
-            background: #1e293b;
-            color: #f8fafc;
-            padding: 20px;
-            margin: 15px 0;
-            border-radius: 8px;
-            white-space: pre-wrap;
-            font-weight: 400;
-            font-size: 1.05rem;
-            text-transform: none; 
-            border: 1px solid #0f172a;
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
-        }
-
-        .btn-info-sobre {
-            background: transparent;
-            border: 1px solid var(--border-color);
-            color: var(--text-muted);
-            border-radius: 50%;
-            width: 20px;
-            height: 20px;
-            font-size: 0.7rem;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            flex-shrink: 0;
-            text-transform: none;
-            padding: 0;
-            line-height: 1;
-            transition: all 0.2s ease;
-        }
+        .message-content { font-family: 'Consolas', 'Courier New', monospace; background: #1e293b; color: #f8fafc; padding: 20px; margin: 15px 0; border-radius: 8px; white-space: pre-wrap; font-weight: 400; font-size: 1.05rem; text-transform: none; border: 1px solid #0f172a; box-shadow: inset 0 2px 4px rgba(0,0,0,0.2); }
+        .btn-info-sobre { background: transparent; border: 1px solid var(--border-color); color: var(--text-muted); border-radius: 50%; width: 20px; height: 20px; font-size: 0.7rem; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; font-weight: 700; flex-shrink: 0; text-transform: none; padding: 0; line-height: 1; transition: all 0.2s ease; }
         .btn-info-sobre:hover { background: var(--info); border-color: var(--info); color: white; }
 
-        /* MODAL STYLES */
-        .modal-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(5px);
-            display: none; justify-content: center; align-items: center; z-index: 9999;
-        }
-        .modal-content {
-            background: var(--card-bg); padding: 35px; border-radius: 16px;
-            max-width: 650px; width: 90%; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
-            position: relative; border-top: 6px solid var(--info);
-            animation: slideUp 0.3s ease;
-        }
-        .modal-close {
-            position: absolute; top: 15px; right: 20px; background: transparent;
-            border: none; font-size: 1.5rem; color: var(--text-muted); cursor: pointer;
-        }
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(5px); display: none; justify-content: center; align-items: center; z-index: 9999; }
+        .modal-content { background: var(--card-bg); padding: 35px; border-radius: 16px; max-width: 650px; width: 90%; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5); position: relative; border-top: 6px solid var(--info); animation: slideUp 0.3s ease; }
+        .modal-close { position: absolute; top: 15px; right: 20px; background: transparent; border: none; font-size: 1.5rem; color: var(--text-muted); cursor: pointer; }
         .modal-close:hover { color: var(--danger); }
 
-        footer {
-            text-align: center;
-            margin-top: 60px;
-            padding: 30px;
-            color: var(--text-muted);
-            border-top: 1px solid var(--border-color);
-        }
-
-        footer p {
-            font-family: 'Rajdhani', sans-serif;
-            text-transform: none;
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin-bottom: 5px;
-        }
+        footer { text-align: center; margin-top: 60px; padding: 30px; color: var(--text-muted); border-top: 1px solid var(--border-color); }
+        footer p { font-family: 'Rajdhani', sans-serif; text-transform: none; font-size: 1.1rem; font-weight: 600; margin-bottom: 5px; }
         footer p.sub { font-size: 0.9rem; font-weight: 400; opacity: 0.8; }
 
-        .bfn-defect-row, .bqd-defect-row {
-            background-color: var(--input-bg);
-            padding: 20px;
-            border-radius: 12px;
-            border: 1px solid var(--border-color);
-            margin-bottom: 15px;
-            position: relative;
-        }
-
-        /* --- TABELAS --- */
-        .table-custom {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 0.9rem;
-        }
-        .table-custom th {
-            background-color: var(--primary);
-            color: white;
-            padding: 15px;
-            text-align: left;
-            position: sticky;
-            top: 0;
-            z-index: 10;
-            font-weight: 700;
-            letter-spacing: 0.5px;
-        }
-        .table-custom td {
-            padding: 12px 15px;
-            border-bottom: 1px solid var(--border-color);
-            color: var(--text-main);
-            font-weight: 600;
-        }
+        .bfn-defect-row, .bqd-defect-row { background-color: var(--input-bg); padding: 20px; border-radius: 12px; border: 1px solid var(--border-color); margin-bottom: 15px; position: relative; }
+        
+        .table-custom { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+        .table-custom th { background-color: var(--primary); color: white; padding: 15px; text-align: left; position: sticky; top: 0; z-index: 10; font-weight: 700; letter-spacing: 0.5px; }
+        .table-custom td { padding: 12px 15px; border-bottom: 1px solid var(--border-color); color: var(--text-main); font-weight: 600; }
         .table-custom tr:nth-child(even) td { background-color: rgba(0, 0, 0, 0.02); }
         [data-theme="dark"] .table-custom tr:nth-child(even) td { background-color: rgba(255, 255, 255, 0.02); }
-        
         .table-custom tr:hover td { background-color: rgba(37, 99, 235, 0.1); }
 
-        /* ESTILO PARA O CHECKBOX DE FORMATAÇÃO */
-        .format-container {
+        .format-container { display: flex; align-items: center; gap: 10px; margin-bottom: 15px; background: var(--input-bg); padding: 10px 15px; border-radius: 8px; border: 1px dashed var(--warning); width: fit-content; }
+        .format-container label { text-transform: none; font-size: 0.9rem; font-weight: 700; color: var(--text-main); cursor: pointer; }
+        .format-container input { transform: scale(1.3); accent-color: var(--warning); cursor: pointer; }
+
+        /* ========================================================
+           NOVO CSS PARA A ABA LI's (CLONE EXCEL - RESPONSIVO)
+           ======================================================== */
+        .excel-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 5px;
+            max-width: 1100px;
+            margin: 0 auto;
+            border: 2px solid var(--excel-border);
+            padding: 5px;
+            background-color: var(--excel-bg-gray);
+        }
+
+        .excel-box {
+            display: flex;
+            flex-direction: column;
+            border: 2px solid var(--excel-border);
+            background-color: var(--card-bg);
+            text-align: center;
+        }
+
+        .excel-header {
+            background-color: #bfdbfe;
+            color: #0f172a;
+            font-weight: 800;
+            font-size: 0.85rem;
+            padding: 8px 4px;
+            border-bottom: 2px solid var(--excel-border);
             display: flex;
             align-items: center;
-            gap: 10px;
-            margin-bottom: 15px;
-            background: var(--input-bg);
-            padding: 10px 15px;
-            border-radius: 8px;
-            border: 1px dashed var(--warning);
-            width: fit-content;
+            justify-content: center;
+            height: 60px;
         }
+        [data-theme="dark"] .excel-header { background-color: #1e3a8a; color: white; }
 
-        .format-container label {
-            text-transform: none;
+        .excel-header-yellow {
+            background-color: #d1b46b; 
+            color: #000;
+            font-weight: 800;
             font-size: 0.9rem;
-            font-weight: 700;
-            color: var(--text-main);
-            cursor: pointer;
+            padding: 8px 4px;
+            border-bottom: 2px solid var(--excel-border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 60px;
         }
 
-        .format-container input {
-            transform: scale(1.3);
-            accent-color: var(--warning);
-            cursor: pointer;
+        .excel-input {
+            width: 100%;
+            height: 80px;
+            border: none;
+            background-color: #e2e8f0; 
+            color: #000;
+            font-size: 1.8rem;
+            font-weight: 400;
+            text-align: center;
+            outline: none;
         }
+        [data-theme="dark"] .excel-input { background-color: #94a3b8; }
+        .excel-input:focus { background-color: #fff; }
+
+        .excel-result {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            min-height: 80px;
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: #000;
+            background-color: #fff;
+        }
+        
+        .excel-result-green { background-color: #84cc16; color: #000; } 
+        .excel-result-red { background-color: #ef4444; color: #fff; } 
+        .excel-result-white { background-color: #ffffff; color: #000; } 
+        
+        /* Grid Spannings para alinhar igual ao print */
+        .box-col-2 { grid-column: span 2; }
+        .box-row-2 { grid-row: span 2; }
+
+        .obs-text { margin-top: 25px; font-size: 0.85rem; color: var(--text-muted); text-transform: none; line-height: 1.6; }
     </style>
 </head>
 <body data-theme="dark">
@@ -487,9 +232,7 @@
     </datalist>
 
     <header>
-        <button class="theme-toggle" onclick="toggleTheme()" id="btnTheme">
-            ☀️ TEMA CLARO
-        </button>
+        <button class="theme-toggle" onclick="toggleTheme()" id="btnTheme">☀️ TEMA CLARO</button>
         <h1>Painel Operacional DEC3</h1>
         <p>Sistema Inteligente de Cálculo Dimensional, Consultas e Alertas</p>
     </header>
@@ -501,12 +244,12 @@
             <button class="tab-btn" onclick="mudarAba('bqd', this)">⭐ MENSAGEM BQD</button>
             <button class="tab-btn" onclick="mudarAba('metragem', this)">📏 PELA METRAGEM</button>
             <button class="tab-btn" onclick="mudarAba('peso', this)">⚖️ PELO PESO</button>
+            <button class="tab-btn" onclick="mudarAba('lis', this)">🔄 CÁLCULO GERAÇÃO DE MIOLO LI'S</button>
             <button class="tab-btn active" onclick="mudarAba('codigos', this)">📚 CÓDIGOS & TABELAS</button>
         </div>
 
         <div id="aba_bfn" class="calc-section">
             <h2>1. INSPETORES (BF-N)</h2>
-            
             <div class="row" style="margin-top: 15px;">
                 <div class="form-group">
                     <div class="label-flex">
@@ -926,6 +669,102 @@
             </div>
         </div>
 
+        <!-- ========================================================
+             NOVA ABA: CÁLCULO GERAÇÃO DE MIOLO LI's (CLONE EXCEL)
+             ======================================================== -->
+        <div id="aba_lis" class="calc-section">
+            
+            <div class="excel-grid">
+                <!-- LINHA 1: Mercado, Espessura, Largura -->
+                <div class="excel-box">
+                    <div class="excel-header">Mercado</div>
+                    <select class="excel-input" id="ex_mercado" onchange="calcularLIsExcel()" style="font-size: 1.2rem; cursor: pointer;">
+                        <option value="" disabled selected>SELECIONE...</option>
+                        <option value="Interno">Interno</option>
+                        <option value="Externo">Externo</option>
+                    </select>
+                </div>
+                <div class="excel-box">
+                    <div class="excel-header">Espessura</div>
+                    <input type="number" step="0.01" class="excel-input" id="ex_espessura" placeholder="0,60" oninput="calcularLIsExcel()">
+                </div>
+                <div class="excel-box">
+                    <div class="excel-header">Largura</div>
+                    <input type="number" class="excel-input" id="ex_largura" placeholder="1200" oninput="calcularLIsExcel()">
+                </div>
+
+                <!-- BLOCOS COLUNA DIREITA: Resultado Esperado e % Defeito -->
+                <div class="excel-box box-row-2">
+                    <div class="excel-header-yellow">Resultado Esperado</div>
+                    <div class="excel-result" id="ex_res_esperado" style="font-size: 2.5rem; text-transform: uppercase;">---</div>
+                </div>
+
+                <div class="excel-box box-row-2">
+                    <div class="excel-header-yellow">% do defeito a<br>registrar</div>
+                    <div class="excel-result excel-result-white" id="ex_pct_defeito" style="font-size: 2.5rem; font-weight: normal;">---</div>
+                </div>
+
+                <!-- LINHA 2: Aplicação, Descarte, Peso Entrada -->
+                <div class="excel-box">
+                    <div class="excel-header">Aplicação</div>
+                    <select class="excel-input" id="ex_aplicacao" onchange="calcularLIsExcel()" style="font-size: 1.2rem; cursor: pointer;">
+                        <option value="" disabled selected>SELECIONE...</option>
+                        <option value="AGRICOLA">AGRICOLA</option>
+                        <option value="COMERCIAL">COMERCIAL</option>
+                        <option value="ESTAMPAGEM">ESTAMPAGEM</option>
+                        <option value="ESTAMPAGEM-CR3 CRÍTICA">ESTAMPAGEM-CR3 CRÍTICA</option>
+                        <option value="ESTRUTURAL HC300LA">ESTRUTURAL HC300LA</option>
+                        <option value="FINS ELÉTRICOS">FINS ELÉTRICOS</option>
+                        <option value="FOGÕES">FOGÕES</option>
+                        <option value="HSLA 400T">HSLA 400T</option>
+                        <option value="IF - TF - ENQUAD.SU">IF - TF - ENQUAD.SU</option>
+                        <option value="TUBOS">TUBOS</option>
+                        <option value="USO GERAL">USO GERAL</option>
+                        <option value="MOVEIS DE AÇO">MOVEIS DE AÇO</option>
+                    </select>
+                </div>
+                <div class="excel-box">
+                    <div class="excel-header" style="line-height: 1.2;">Descarte<br>Solicitado<br>(metros)</div>
+                    <input type="number" class="excel-input" id="ex_descarte" placeholder="140" oninput="calcularLIsExcel()">
+                </div>
+                <div class="excel-box">
+                    <div class="excel-header" style="line-height: 1.2;">Peso de Entrada<br>(Kg)</div>
+                    <input type="number" class="excel-input" id="ex_peso" placeholder="16000" oninput="calcularLIsExcel()">
+                </div>
+
+                <!-- LINHA 3: Orientação e Metros a Completar -->
+                <div class="excel-box box-col-2" style="flex-direction: row;">
+                    <div style="flex: 1; display: flex; flex-direction: column; border-right: 2px solid var(--excel-border);">
+                        <div class="excel-header-yellow">Orientação</div>
+                        <div class="excel-result excel-result-white" id="ex_orientacao" style="font-size: 1.2rem; font-weight: 500; text-align: center; padding: 10px; line-height: 1.3;">
+                            Complete com a<br>metragem informada
+                        </div>
+                    </div>
+                    <div style="flex: 1; display: flex; flex-direction: column;">
+                        <div class="excel-header-yellow" style="line-height: 1.2; font-size: 0.8rem;">Metros a Completar<br>para gerar BI</div>
+                        <div class="excel-result excel-result-white" id="ex_metros_completar" style="font-size: 2.2rem; font-weight: normal;">---</div>
+                    </div>
+                </div>
+
+                <!-- BLOCOS INFERIORES: Valor % e Peso Teórico -->
+                <div class="excel-box">
+                    <div class="excel-header-yellow">Valor %</div>
+                    <div class="excel-result" id="ex_valor_pct" style="font-size: 3.5rem;">---</div>
+                </div>
+
+                <div class="excel-box">
+                    <div class="excel-header-yellow" style="line-height: 1.2; font-size: 0.8rem;">Peso Teórico para 80<br>mm de coroa (kg)</div>
+                    <div class="excel-result excel-result-white" id="ex_peso_teorico" style="font-size: 2.2rem; font-weight: normal;">---</div>
+                </div>
+            </div>
+
+            <div class="obs-text">
+                <p>Observação:</p>
+                <p>* Preencher apenas as células destacadas em CINZA.</p>
+                <p>* Material Mercado Externo, só tem permissão de Aplicação COMERCIAL, ESTAMPAGEM, ESTRUTURAL HC300LA, HSLA 400T, MOVEIS DE AÇO E TUBOS.</p>
+            </div>
+        </div>
+
         <div id="aba_codigos" class="calc-section active">
             <h2>1. DICIONÁRIO DE DEFEITOS LAMINADOS</h2>
             <div class="form-group" style="margin-bottom: 20px;">
@@ -977,62 +816,6 @@
 
     </div>
 
-    <div class="modal-overlay" id="modalBQD">
-        <div class="modal-content">
-            <button class="modal-close" onclick="fecharModalBQD()" title="Fechar">✖</button>
-            <h2 style="color: var(--primary); margin-bottom: 20px; border-bottom: 2px solid var(--border-color); padding-bottom: 12px; font-weight: 800;">📋 INFORMATIVOS BQD</h2>
-            
-            <div class="message-content" style="font-weight: 500; font-size: 1rem; color: var(--text-main); text-transform: none; max-height: 60vh; overflow-y: auto; background: transparent; border: none; box-shadow: none; padding: 0;">
-                
-                <h3 style="text-align: center; margin-bottom: 20px; color: var(--text-main); font-weight: 800;">Rotinas Decapagem 3</h3>
-                
-                <h4 style="color: var(--info); margin-top: 20px; font-weight: 700;">BQD // BGD - RETORNOS DE LOTE BQD</h4>
-                <ul style="margin-left: 25px; margin-top: 8px; line-height: 1.6;">
-                    <li>ENR. 1 <= 4.75 >= 1200 Baixa Resistencia 30mts</li>
-                    <li>ENR. 2 <= 4.75 >= 1200 Baixa Resistencia 20mts</li>
-                </ul>
-
-                <h4 style="color: var(--info); margin-top: 20px; font-weight: 700;">RETORNOS 10mts</h4>
-                <ul style="margin-left: 25px; margin-top: 8px; line-height: 1.6;">
-                    <li>1º Turno <= 4,75</li>
-                    <li>1º Largura > 1250</li>
-                    <li>A cada 20 rolos de cada enroladeira, na metade desse intervalo deverá ser feito a inspeção visual na saída com velocidade <= 120m/min.</li>
-                    <li>Suspeita de anormalidade.</li>
-                    <li>> 4,75 Realizar na saída a velocidade <= 120m/min.</li>
-                </ul>
-
-                <h4 style="color: var(--info); margin-top: 20px; font-weight: 700;">OLEAMENTO</h4>
-                <ul style="margin-left: 25px; margin-top: 8px; line-height: 1.6;">
-                    <li>BQD / BGD de 5 em 5 rolos processados.</li>
-                    <li>BF / BFH a cada 10 rolos.</li>
-                </ul>
-
-                <h4 style="color: var(--info); margin-top: 20px; font-weight: 700;">BOBINAMENTO</h4>
-                <ul style="margin-left: 25px; margin-top: 8px; line-height: 1.6;">
-                    <li>BQD / BGD: Todos os rolos</li>
-                    <li>BF / BFH: 1º Rolo do turno e a cada 10 rolos</li>
-                </ul>
-
-                <h4 style="color: var(--info); margin-top: 20px; font-weight: 700;">BF / BFH - INSPEÇÃO FORA DA CABINE</h4>
-                <ul style="margin-left: 25px; margin-top: 8px; line-height: 1.6;">
-                    <li>1º Rolo do Turno</li>
-                    <li>1º Rolo Largura > 1250</li>
-                    <li>A cada 20 bobinas</li>
-                    <li>Suspeita de anormalidade</li>
-                    <li>Material com espessura nominal > 4,75 ou aparado, não realizar o retorno parcial da tira, realizar inspeção visual na saída com vel 120 m/min.</li>
-                </ul>
-
-                <h4 style="color: var(--info); margin-top: 20px; font-weight: 700;">APARAMENTO (BQD, BGD, BF E BFH)</h4>
-                <ul style="margin-left: 25px; margin-top: 8px; line-height: 1.6;">
-                    <li>1º Rolo Aparado do turno e a cada 10 rolos (pátio LTF)</li>
-                    <li>Quando houver anormalidade (plataforma inspeção)</li>
-                    <li>Quando Virar ou Trocar Navalhas Circulares (Plataforma de inspeção)</li>
-                </ul>
-
-            </div>
-        </div>
-    </div>
-
     <!-- MODAL: 3 PARADAS 550D -->
     <div class="modal-overlay" id="modal_3paradas" onclick="if(event.target===this)fecharModal('modal_3paradas')">
         <div class="modal-content" style="border-top-color: var(--warning);">
@@ -1061,13 +844,60 @@
         </div>
     </div>
 
+    <div class="modal-overlay" id="modalBQD">
+        <div class="modal-content">
+            <button class="modal-close" onclick="fecharModalBQD()" title="Fechar">✖</button>
+            <h2 style="color: var(--primary); margin-bottom: 20px; border-bottom: 2px solid var(--border-color); padding-bottom: 12px; font-weight: 800;">📋 INFORMATIVOS BQD</h2>
+            <div class="message-content" style="font-weight: 500; font-size: 1rem; color: var(--text-main); text-transform: none; max-height: 60vh; overflow-y: auto; background: transparent; border: none; box-shadow: none; padding: 0;">
+                <h3 style="text-align: center; margin-bottom: 20px; color: var(--text-main); font-weight: 800;">Rotinas Decapagem 3</h3>
+                <h4 style="color: var(--info); margin-top: 20px; font-weight: 700;">BQD // BGD - RETORNOS DE LOTE BQD</h4>
+                <ul style="margin-left: 25px; margin-top: 8px; line-height: 1.6;">
+                    <li>ENR. 1 <= 4.75 >= 1200 Baixa Resistencia 30mts</li>
+                    <li>ENR. 2 <= 4.75 >= 1200 Baixa Resistencia 20mts</li>
+                </ul>
+                <h4 style="color: var(--info); margin-top: 20px; font-weight: 700;">RETORNOS 10mts</h4>
+                <ul style="margin-left: 25px; margin-top: 8px; line-height: 1.6;">
+                    <li>1º Turno <= 4,75</li>
+                    <li>1º Largura > 1250</li>
+                    <li>A cada 20 rolos de cada enroladeira, na metade desse intervalo deverá ser feito a inspeção visual na saída com velocidade <= 120m/min.</li>
+                    <li>Suspeita de anormalidade.</li>
+                    <li>> 4,75 Realizar na saída a velocidade <= 120m/min.</li>
+                </ul>
+                <h4 style="color: var(--info); margin-top: 20px; font-weight: 700;">OLEAMENTO</h4>
+                <ul style="margin-left: 25px; margin-top: 8px; line-height: 1.6;">
+                    <li>BQD / BGD de 5 em 5 rolos processados.</li>
+                    <li>BF / BFH a cada 10 rolos.</li>
+                </ul>
+                <h4 style="color: var(--info); margin-top: 20px; font-weight: 700;">BOBINAMENTO</h4>
+                <ul style="margin-left: 25px; margin-top: 8px; line-height: 1.6;">
+                    <li>BQD / BGD: Todos os rolos</li>
+                    <li>BF / BFH: 1º Rolo do turno e a cada 10 rolos</li>
+                </ul>
+                <h4 style="color: var(--info); margin-top: 20px; font-weight: 700;">BF / BFH - INSPEÇÃO FORA DA CABINE</h4>
+                <ul style="margin-left: 25px; margin-top: 8px; line-height: 1.6;">
+                    <li>1º Rolo do Turno</li>
+                    <li>1º Rolo Largura > 1250</li>
+                    <li>A cada 20 bobinas</li>
+                    <li>Suspeita de anormalidade</li>
+                    <li>Material com espessura nominal > 4,75 ou aparado, não realizar o retorno parcial da tira, realizar inspeção visual na saída com vel 120 m/min.</li>
+                </ul>
+                <h4 style="color: var(--info); margin-top: 20px; font-weight: 700;">APARAMENTO (BQD, BGD, BF E BFH)</h4>
+                <ul style="margin-left: 25px; margin-top: 8px; line-height: 1.6;">
+                    <li>1º Rolo Aparado do turno e a cada 10 rolos (pátio LTF)</li>
+                    <li>Quando houver anormalidade (plataforma inspeção)</li>
+                    <li>Quando Virar ou Trocar Navalhas Circulares (Plataforma de inspeção)</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
     <footer>
         <p>Criado por Marcus V. Soares da Silva. - U012697</p>
         <p class="sub">Experimental & Voluntário. Voltado para fins não lucrativos.</p>
     </footer>
 
     <script>
-        // ================= BANCO DE DADOS DAS TABELAS =================
+        // ================= BANCO DE DADOS =================
         const dbDefeitos = [
             { cod: "0", abrev: "TM", desc: "TROCA DE MATERIAL" },
             { cod: "1", abrev: "CIB", desc: "CAREPA INCRUSTADA BORDA" },
@@ -1401,63 +1231,81 @@
             { int: "4", carac: "Fortíssima (2ª Qualidade)", desc: "São fortíssimas imperfeições na superfície que podem prejudicar o uso e não são retirados por recondicionamento." }
         ];
 
-// ================= FUNÇÕES DE FORMATAÇÃO =================
-function formatarTextoPadrao(texto) {
-    if (!texto) return "";
-    
-    let formatado = texto.toLowerCase();
-    
-    // Mantém as quebras de linha e formata cada linha com a primeira letra maiúscula
-    let linhas = formatado.split('\n');
-    linhas = linhas.map(linha => {
-        let l = linha.trim().replace(/\s+/g, ' ');
-        if (l.length > 0) {
-            l = l.charAt(0).toUpperCase() + l.slice(1);
+        // Tabela de Preços (extraída do Excel "Cálculo geração de miolo")
+        const tbPrecos = {
+            "INTERNO": {
+                "AGRICOLA": { pProd: 3297.62, pSucata: 1137.44 },
+                "COMERCIAL": { pProd: 2829.69, pSucata: 1137.44 },
+                "ESTAMPAGEM": { pProd: 2527.57, pSucata: 1137.44, p2Qual: 2148.44 },
+                "ESTAMPAGEM-CR3 CRÍTICA": { pProd: 3779.10, pSucata: 1137.44 },
+                "ESTRUTURAL HC300LA": { pProd: 2797.24, pSucata: 1137.44 },
+                "FINS ELÉTRICOS": { pProd: 2445.03, pSucata: 1137.44 },
+                "FOGÕES": { pProd: 2541.95, pSucata: 1137.44 },
+                "HSLA 400T": { pProd: 2565.88, pSucata: 1137.44 },
+                "IF - TF - ENQUAD.SU": { pProd: 2913.85, pSucata: 1137.44 },
+                "TUBOS": { pProd: 2819.49, pSucata: 1137.44 },
+                "USO GERAL": { pProd: 3230.00, pSucata: 1137.44 }
+            },
+            "EXTERNO": {
+                "COMERCIAL": { pProd: 2690.12, pSucata: 1137.44 },
+                "ESTAMPAGEM": { pProd: 2445.20, pSucata: 1137.44 },
+                "ESTRUTURAL HC300LA": { pProd: 2319.92, pSucata: 1137.44 },
+                "HSLA 400T": { pProd: 2319.92, pSucata: 1137.44 },
+                "TUBOS": { pProd: 2319.92, pSucata: 1137.44 },
+                "MOVEIS DE AÇO": { pProd: 2500.00, pSucata: 1137.44 }
+            }
+        };
+
+        // ================= FUNÇÕES DE FORMATAÇÃO =================
+        function formatarTextoPadrao(texto) {
+            if (!texto) return "";
+            
+            let formatado = texto.toLowerCase();
+            
+            let linhas = formatado.split('\n');
+            linhas = linhas.map(linha => {
+                let l = linha.trim().replace(/\s+/g, ' ');
+                if (l.length > 0) {
+                    l = l.charAt(0).toUpperCase() + l.slice(1);
+                }
+                return l;
+            });
+            formatado = linhas.join('\n');
+
+            dbDefeitos.forEach(def => {
+                if (def.abrev) {
+                    let abrev = def.abrev.toLowerCase();
+                    let escapedAbrev = abrev.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+                    let regex = new RegExp(`\\b${escapedAbrev}\\b`, 'gi');
+                    formatado = formatado.replace(regex, def.abrev.toUpperCase());
+                }
+            });
+
+            const tecnicos = [
+                "BF-N", "BQD", "LTF", "LI", "LI'S", "DEC3", "MPM", 
+                "RAIO GAMA", "SIDE TRIMMER", "NQ:", "OK",
+                "LFINSOT0005", "LFINSPO0078" 
+            ];
+
+            tecnicos.forEach(palavra => {
+                let escaped = palavra.toLowerCase().replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+                let regex = new RegExp(`\\b${escaped}\\b`, 'gi');
+                formatado = formatado.replace(regex, palavra);
+            });
+
+            return formatado;
         }
-        return l;
-    });
-    formatado = linhas.join('\n');
 
-    // Mantém as Abreviações dos Defeitos em Maiúsculo
-    dbDefeitos.forEach(def => {
-        if (def.abrev) {
-            let abrev = def.abrev.toLowerCase();
-            let escapedAbrev = abrev.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
-            let regex = new RegExp(`\\b${escapedAbrev}\\b`, 'gi');
-            formatado = formatado.replace(regex, def.abrev.toUpperCase());
-        }
-    });
-
-    // --- EXCEÇÕES DE FORMATAÇÃO (SEMPRE MAIÚSCULAS) ---
-    // Adicionado LFINSOT0005 e LFINSPO0078 conforme solicitado[cite: 1]
-    const tecnicos = [
-        "BF-N", "BQD", "LTF", "LI", "LI'S", "DEC3", "MPM", 
-        "RAIO GAMA", "SIDE TRIMMER", "NQ:", "OK",
-        "LFINSOT0005", "LFINSPO0078" 
-    ];
-
-    tecnicos.forEach(palavra => {
-        let escaped = palavra.toLowerCase().replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
-        let regex = new RegExp(`\\b${escaped}\\b`, 'gi');
-        formatado = formatado.replace(regex, palavra);
-    });
-
-    return formatado;
-}
-
-        // --- POPULAR LISTA DE DEFEITOS (DINÂMICA) - AGORA COM CÓDIGO ---
         function popularListaDefeitos() {
             const datalist = document.getElementById('lista-defeitos');
-            datalist.innerHTML = ''; // Limpa a lista
+            datalist.innerHTML = ''; 
             dbDefeitos.forEach(d => {
                 const option = document.createElement('option');
-                // Adicionado o código na busca
                 option.value = `${d.cod} - ${d.abrev} - ${d.desc}`;
                 datalist.appendChild(option);
             });
         }
 
-        // --- FUNÇÕES DA ABA DE CÓDIGOS ---
         function renderTabelasApoio() {
             filtrarTabelaDefeitos();
             
@@ -1478,8 +1326,9 @@ function formatarTextoPadrao(texto) {
         }
 
         function filtrarTabelaDefeitos() {
-            const termo = document.getElementById('busca_defeito').value.toUpperCase();
+            const termo = document.getElementById('busca_defeito') ? document.getElementById('busca_defeito').value.toUpperCase() : '';
             const tbody = document.getElementById('tbody_defeitos');
+            if(!tbody) return;
             tbody.innerHTML = '';
             
             dbDefeitos.forEach(d => {
@@ -1498,24 +1347,18 @@ function formatarTextoPadrao(texto) {
             }
         }
 
-        // --- TEMA ---
         function toggleTheme() {
             const body = document.body;
             const btn = document.getElementById('btnTheme');
             if (body.getAttribute('data-theme') === 'dark') {
                 body.removeAttribute('data-theme');
                 btn.innerHTML = '🌙 TEMA ESCURO';
-                btn.style.color = '#0f172a';
-                btn.style.borderColor = 'rgba(0,0,0,0.2)';
             } else {
                 body.setAttribute('data-theme', 'dark');
                 btn.innerHTML = '☀️ TEMA CLARO';
-                btn.style.color = 'white';
-                btn.style.borderColor = 'rgba(255,255,255,0.2)';
             }
         }
 
-        // --- NAVEGAÇÃO ENTRE ABAS ---
         function mudarAba(abaId, buttonElement) {
             document.querySelectorAll('.calc-section').forEach(s => s.classList.remove('active'));
             document.getElementById('aba_' + abaId).classList.add('active');
@@ -1526,19 +1369,10 @@ function formatarTextoPadrao(texto) {
             }
         }
 
-        // --- MODAL BQD ---
-        function abrirModalBQD() {
-            document.getElementById('modalBQD').style.display = 'flex';
-        }
-        function fecharModalBQD() {
-            document.getElementById('modalBQD').style.display = 'none';
-        }
-        function abrirModal(id) {
-            document.getElementById(id).style.display = 'flex';
-        }
-        function fecharModal(id) {
-            document.getElementById(id).style.display = 'none';
-        }
+        function abrirModalBQD() { document.getElementById('modalBQD').style.display = 'flex'; }
+        function fecharModalBQD() { document.getElementById('modalBQD').style.display = 'none'; }
+        function abrirModal(id) { document.getElementById(id).style.display = 'flex'; }
+        function fecharModal(id) { document.getElementById(id).style.display = 'none'; }
         window.onclick = function(event) {
             const modal = document.getElementById('modalBQD');
             if (event.target === modal) {
@@ -1546,7 +1380,6 @@ function formatarTextoPadrao(texto) {
             }
         }
 
-        // --- MOSTRAR/OCULTAR GERADOR DE MENSAGENS E TREINAMENTOS ---
         function toggleMensagens(prefix) {
             const isChecked = document.getElementById(`${prefix}_check_abrir_msg`).checked;
             const blocoMsg = document.getElementById(`${prefix}_bloco_mensagens`);
@@ -1592,7 +1425,6 @@ function formatarTextoPadrao(texto) {
             gerarMsg(prefix);
         }
 
-        // ================= LÓGICA MENSAGEM BF - N =================
         let bfnContadorDefeitos = 0;
 
         function toggleMedicoesBFN() {
@@ -1622,7 +1454,6 @@ function formatarTextoPadrao(texto) {
             gerarMsgBFN();
         }
 
-        // ================= LÓGICA MENSAGEM BQD =================
         let bqdContadorDefeitos = 0;
 
         function toggleMedicoesBQD() {
@@ -1645,7 +1476,6 @@ function formatarTextoPadrao(texto) {
             gerarMsgBQD();
         }
 
-        // Template Compartilhado para Linha de Defeito (BFN e BQD)
         function getHTMLDefeito(prefix, id) {
             return `
                 <div class="row" style="width: 100%; margin-bottom: 15px;">
@@ -1749,7 +1579,6 @@ function formatarTextoPadrao(texto) {
             else if(prefix === 'bqd') gerarMsgBQD();
         }
 
-        // Funções de Geração de Mensagens Individuais (BFN e BQD)
         function toggleAparamentoBFN() {
             const checked = document.getElementById('bfn_check_aparamento').checked;
             document.getElementById('bfn_aparamento_container').style.display = checked ? 'block' : 'none';
@@ -1793,7 +1622,7 @@ function formatarTextoPadrao(texto) {
                 let nome = linha.querySelector('.bfn_def_nome').value.toUpperCase() || '_____';
                 if (nome.includes(" - ")) {
                     let partes = nome.split(" - ");
-                    nome = partes.length > 1 ? partes[1].trim() : partes[0].trim(); // Pega a Abreviação ignorando o código
+                    nome = partes.length > 1 ? partes[1].trim() : partes[0].trim(); 
                 }
 
                 const int = linha.querySelector('.bfn_def_int').value.toUpperCase() || '___';
@@ -1838,7 +1667,6 @@ function formatarTextoPadrao(texto) {
 
             msg += `\nInsp. Superior: ${txtInspSup}  // Insp. Parsytec: ${txtInspPar}  // Insp. Inferior + sistema: ${txtInspInf}\n`;
             
-            // VERIFICA SE DEVE FORMATAR
             if(document.getElementById('bfn_check_formatar').checked) {
                 document.getElementById('bfn_txt_final').innerText = formatarTextoPadrao(msg);
             } else {
@@ -1884,7 +1712,7 @@ function formatarTextoPadrao(texto) {
                 let nome = linha.querySelector('.bqd_def_nome').value.toUpperCase() || '_____';
                 if (nome.includes(" - ")) {
                     let partes = nome.split(" - ");
-                    nome = partes.length > 1 ? partes[1].trim() : partes[0].trim(); // Pega a Abreviação ignorando o código
+                    nome = partes.length > 1 ? partes[1].trim() : partes[0].trim(); 
                 }
 
                 const int = linha.querySelector('.bqd_def_int').value.toUpperCase() || '___';
@@ -1924,7 +1752,6 @@ function formatarTextoPadrao(texto) {
 
             msg += `\nInsp. Superior: ${txtInspSup}  // Insp. Parsytec: ${txtInspPar}  // Insp. Inferior + sistema: ${txtInspInf}\n`;
             
-            // VERIFICA SE DEVE FORMATAR
             if(document.getElementById('bqd_check_formatar').checked) {
                 document.getElementById('bqd_txt_final').innerText = formatarTextoPadrao(msg);
             } else {
@@ -1996,7 +1823,6 @@ function formatarTextoPadrao(texto) {
             gerarMsg('p');
         }
 
-        // ================= GERAÇÃO DE MENSAGENS (LTF/LI) =================
         function gerarMsg(prefix) {
             if(!document.getElementById(`${prefix}_check_abrir_msg`).checked) return;
 
@@ -2004,7 +1830,7 @@ function formatarTextoPadrao(texto) {
             
             if (defeitoInput.includes(" - ")) {
                 let partes = defeitoInput.split(" - ");
-                defeitoInput = partes.length > 1 ? partes[1].trim() : partes[0].trim(); // Pega a Abreviação ignorando o código
+                defeitoInput = partes.length > 1 ? partes[1].trim() : partes[0].trim();
             }
 
             const posicao = document.getElementById(`${prefix}_msg_posicao`).value.toUpperCase();
@@ -2046,6 +1872,103 @@ function formatarTextoPadrao(texto) {
             }
         }
 
+        // ================= CÁLCULO GERAÇÃO DE MIOLO LI's (NOVO EXCEL CLONE) =================
+        function calcularLIsExcel() {
+            let mercado = document.getElementById('ex_mercado').value.toUpperCase();
+            let aplicacao = document.getElementById('ex_aplicacao').value.toUpperCase();
+            let espessuraStr = document.getElementById('ex_espessura').value.replace(',', '.');
+            let espessura = parseFloat(espessuraStr);
+            let largura = parseFloat(document.getElementById('ex_largura').value);
+            let descarteMetros = parseFloat(document.getElementById('ex_descarte').value);
+            let pesoEntrada = parseFloat(document.getElementById('ex_peso').value);
+
+            const elResEsperado = document.getElementById('ex_res_esperado');
+            const elPctDefeito = document.getElementById('ex_pct_defeito');
+            const elValorPct = document.getElementById('ex_valor_pct');
+            const elMetrosComp = document.getElementById('ex_metros_completar');
+            const elPesoTeorico = document.getElementById('ex_peso_teorico');
+            const elOrientacao = document.getElementById('ex_orientacao');
+
+            if (!mercado || !aplicacao || isNaN(espessura) || isNaN(largura) || isNaN(descarteMetros) || isNaN(pesoEntrada)) {
+                elResEsperado.innerText = "---"; elResEsperado.className = "excel-result excel-result-white";
+                elPctDefeito.innerText = "---";
+                elValorPct.innerText = "---";
+                elMetrosComp.innerText = "---";
+                elPesoTeorico.innerText = "---";
+                elOrientacao.innerHTML = "Complete com a<br>metragem informada";
+                return;
+            }
+
+            // 1. Peso de Saída Fisico e Preços
+            const pesoDescarte = descarteMetros * largura * espessura * 0.00000785 * 1000;
+            const pesoSaida = pesoEntrada - pesoDescarte;
+
+            let pProd = 2800, pSucata = 1137.44, p2Qual = 2200;
+            if (tbPrecos[mercado] && tbPrecos[mercado][aplicacao]) {
+                pProd = tbPrecos[mercado][aplicacao].pProd;
+                pSucata = tbPrecos[mercado][aplicacao].pSucata;
+                p2Qual = tbPrecos[mercado][aplicacao].p2Qual || (pProd * 0.85); 
+            }
+
+            // 2. Cálculos Teóricos e Defeito
+            const pi = 3.14; 
+            const G2 = descarteMetros * 1000;
+            const H2 = (pi * (Math.pow(770/2, 2) - Math.pow(610/2, 2))) / espessura;
+            const I2 = H2 - G2;
+            const J2 = I2 * espessura * largura * 0.00000785;
+            
+            // Peso Teórico L2
+            const L2 = (G2 * espessura * largura * 0.00000785) + J2;
+            elPesoTeorico.innerText = L2.toLocaleString('pt-BR', {minimumFractionDigits: 3, maximumFractionDigits: 3});
+
+            // Lucros
+            const K2 = pesoSaida - L2; 
+            const ganhoSucata = ((G2 * espessura * largura * 0.00000785) / 1000) * pSucata;
+            const ganhoProd = ((pesoSaida - (G2 * espessura * largura * 0.00000785)) / 1000) * pProd;
+            const lucro1_W2 = ganhoSucata + ganhoProd;
+
+            const ganho2Qual_Z2 = (L2 / 1000) * p2Qual;
+            const ganhoProdNovo_AA2 = (K2 / 1000) * pProd;
+            const lucro2_AB2 = ganho2Qual_Z2 + ganhoProdNovo_AA2; 
+
+            // Resultado (GANHO/PERDA)
+            if (J2 > 0) {
+                if (lucro2_AB2 >= lucro1_W2) {
+                    elResEsperado.innerText = "GANHO";
+                    elResEsperado.className = "excel-result excel-result-green";
+                } else {
+                    elResEsperado.innerText = "PERDA";
+                    elResEsperado.className = "excel-result excel-result-red";
+                }
+            } else {
+                elResEsperado.innerText = "N/A";
+                elResEsperado.className = "excel-result excel-result-white";
+            }
+
+            // Porcentagem do Defeito (Formatado com 1 casa decimal para maior precisão)
+            const G23 = I2 / 1000;
+            const pctDefeito = descarteMetros / (G23 + descarteMetros);
+            elPctDefeito.innerText = (pctDefeito * 100).toLocaleString('pt-BR', {minimumFractionDigits: 1, maximumFractionDigits: 1}) + "%";
+
+            // VALOR % (Cálculo Físico Exato Ajustado -> ((Lucro2 / Lucro1) - 1) * 100 )
+            const AE2_multiplicador = (lucro2_AB2 / lucro1_W2) - 1;
+            let valorPct = AE2_multiplicador * 100;
+            if(isNaN(valorPct)) valorPct = 0;
+            
+            // Formatado com 2 casas decimais para evitar arredondamento brusco
+            elValorPct.innerText = valorPct.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+
+            // Metros a Completar
+            elMetrosComp.innerText = G23.toLocaleString('pt-BR', {minimumFractionDigits: 1, maximumFractionDigits: 1});
+
+            if (G23 <= 0) {
+                 elMetrosComp.innerText = "0,0";
+                 elOrientacao.innerHTML = "PRODUTO<br>GARANTIDO";
+            } else {
+                 elOrientacao.innerHTML = "Complete com a<br>metragem informada";
+            }
+        }
+
         // --- BOTÃO COPIAR ---
         function copiarTexto(id, btn) {
             const txt = document.getElementById(id).innerText;
@@ -2056,9 +1979,8 @@ function formatarTextoPadrao(texto) {
             });
         }
         
-        // --- INICIALIZAÇÃO ---
         window.onload = function() {
-            popularListaDefeitos(); // Popula a lista no input puxando de dbDefeitos
+            popularListaDefeitos(); 
             verificarLado('m');
             verificarLado('p');
             gerarMsgBFN();
