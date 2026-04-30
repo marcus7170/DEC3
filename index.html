@@ -1401,44 +1401,49 @@
             { int: "4", carac: "Fortíssima (2ª Qualidade)", desc: "São fortíssimas imperfeições na superfície que podem prejudicar o uso e não são retirados por recondicionamento." }
         ];
 
-        // ================= FUNÇÕES DE FORMATAÇÃO =================
-        function formatarTextoPadrao(texto) {
-            if (!texto) return "";
-            
-            let formatado = texto.toLowerCase();
-            
-            // Mantém as quebras de linha e formata cada linha com a primeira letra maiúscula
-            let linhas = formatado.split('\n');
-            linhas = linhas.map(linha => {
-                let l = linha.trim().replace(/\s+/g, ' ');
-                if (l.length > 0) {
-                    l = l.charAt(0).toUpperCase() + l.slice(1);
-                }
-                return l;
-            });
-            formatado = linhas.join('\n');
-
-            // Mantém as Abreviações dos Defeitos em Maiúsculo
-            dbDefeitos.forEach(def => {
-                if (def.abrev) {
-                    let abrev = def.abrev.toLowerCase();
-                    // Escapa caracteres especiais para a regex (evita erros com sinais de + ou - na abreviação)
-                    let escapedAbrev = abrev.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
-                    let regex = new RegExp(`\\b${escapedAbrev}\\b`, 'gi');
-                    formatado = formatado.replace(regex, def.abrev.toUpperCase());
-                }
-            });
-
-            // Mantém palavras técnicas específicas em Maiúsculo
-            const tecnicos = ["BF-N", "BQD", "LTF", "LI", "LI'S", "DEC3", "MPM", "RAIO GAMA", "SIDE TRIMMER", "NQ:", "OK"];
-            tecnicos.forEach(palavra => {
-                let escaped = palavra.toLowerCase().replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
-                let regex = new RegExp(`\\b${escaped}\\b`, 'gi');
-                formatado = formatado.replace(regex, palavra);
-            });
-
-            return formatado;
+// ================= FUNÇÕES DE FORMATAÇÃO =================
+function formatarTextoPadrao(texto) {
+    if (!texto) return "";
+    
+    let formatado = texto.toLowerCase();
+    
+    // Mantém as quebras de linha e formata cada linha com a primeira letra maiúscula
+    let linhas = formatado.split('\n');
+    linhas = linhas.map(linha => {
+        let l = linha.trim().replace(/\s+/g, ' ');
+        if (l.length > 0) {
+            l = l.charAt(0).toUpperCase() + l.slice(1);
         }
+        return l;
+    });
+    formatado = linhas.join('\n');
+
+    // Mantém as Abreviações dos Defeitos em Maiúsculo
+    dbDefeitos.forEach(def => {
+        if (def.abrev) {
+            let abrev = def.abrev.toLowerCase();
+            let escapedAbrev = abrev.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+            let regex = new RegExp(`\\b${escapedAbrev}\\b`, 'gi');
+            formatado = formatado.replace(regex, def.abrev.toUpperCase());
+        }
+    });
+
+    // --- EXCEÇÕES DE FORMATAÇÃO (SEMPRE MAIÚSCULAS) ---
+    // Adicionado LFINSOT0005 e LFINSPO0078 conforme solicitado[cite: 1]
+    const tecnicos = [
+        "BF-N", "BQD", "LTF", "LI", "LI'S", "DEC3", "MPM", 
+        "RAIO GAMA", "SIDE TRIMMER", "NQ:", "OK",
+        "LFINSOT0005", "LFINSPO0078" 
+    ];
+
+    tecnicos.forEach(palavra => {
+        let escaped = palavra.toLowerCase().replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+        let regex = new RegExp(`\\b${escaped}\\b`, 'gi');
+        formatado = formatado.replace(regex, palavra);
+    });
+
+    return formatado;
+}
 
         // --- POPULAR LISTA DE DEFEITOS (DINÂMICA) - AGORA COM CÓDIGO ---
         function popularListaDefeitos() {
